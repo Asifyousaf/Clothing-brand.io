@@ -1,0 +1,1134 @@
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html,body {
+        margin:0;
+        padding:0;
+    }
+    body{
+        background-color: #f2f2f2f2;
+    }
+
+    /* -- Annoncement bar -- */
+
+    .textscroll {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        background-color: #0000A8; 
+    }
+    @font-face {
+        font-family: 'PixelFont';
+        src: url('Font/w95fa.woff') format('woff');
+    }
+
+    .toptext {
+        display: flex;
+        font-weight: 100;
+        font-family: 'PixelFont', sans-serif;
+        font-size: 10px;
+        color: white;
+        gap: 80px; /* Adjust the gap as needed */
+        white-space: nowrap;
+        animation: marquee 20s linear  infinite; /* Continuous scrolling effect */
+    }
+
+    /* Animation for scrolling */
+    @keyframes marquee {
+        100% {
+            transform: translateX(10%); /* Start just outside the right of the container */
+        }
+        100% {
+            transform: translateX(-100%); /* End just outside the left of the container */
+        }
+    }
+
+
+/* -- Navigation Bar -- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: relative;
+    height: 60px;
+    background-color: transparent;
+}
+
+/* Navigation links - left and right */
+.nav-left, .nav-right {
+    display: flex;
+    list-style: none;
+}
+
+.nav-left li, .nav-right li {
+    padding-top: 10px;
+    margin: 0 15px;
+}
+
+.nav-left li a, .nav-right li a {
+    font-family: 'PixelFont', sans-serif;
+    background-color: #0000A8;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* Center the logo */
+.logo-center {
+    
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 61px;
+}
+
+.logo-center img {
+    height: 160px;
+    width: auto;
+}
+
+/* Hamburger Menu */
+/* Hamburger Menu */
+.ham-menu {
+    display: none;
+    height: 50px;
+    width: 40px;
+    position: absolute;
+    top: 20px; /* Adjusts distance from the top */
+    right: 27px; /* Adjusts distance from the right */
+    z-index: 1100; /* Keeps it on top */
+    cursor: pointer;
+}
+
+.ham-menu span {
+    height: 5px;
+    width: 100%;
+    background-color: black; /* Change to black lines */
+    border-radius: 25px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: .3s ease;
+}
+.ham-menu span:nth-child(1) {
+    top: 25%;
+}
+.ham-menu span:nth-child(3) {
+    top: 75%;
+}
+.ham-menu.active span {
+    background-color: black; /* Keep black color when active */
+}
+.ham-menu.active span:nth-child(1) {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+.ham-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+.ham-menu.active span:nth-child(3) {
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+/* Cart Button for Small Screens */
+.cart-button-small-screen {
+    display: none; /* Hide it by default */
+    position: absolute;
+    top: 40px;
+    left: 10px; /* Adjust this to place it next to the hamburger */
+    z-index: 1100; /* Keep it on top */
+}
+
+.cart-button-small-screen a {
+    font-family: 'PixelFont', sans-serif;
+    background-color: #0000A8;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    border-radius: 5px;
+}
+/* Off-screen menu */
+/* Off-screen Menu Styles */
+.off-screen-menu {
+    background-color: white; /* Set the background to white */
+    color: black; /* Set text color to black */
+    height: 100vh;
+    width: 100%;
+    max-width: 450px;
+    position: fixed;
+    top: 0;
+    right: -450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 3rem;
+    font-family: 'PixelFont', sans-serif;
+    transition: .3s ease;
+    z-index: 1000; /* Slightly lower than hamburger */
+}
+
+.off-screen-menu a {
+    color: black; /* Black text links */
+    text-decoration: none;
+    padding: 15px 0;
+    font-size: 2rem; /* Adjust font size as needed */
+}
+
+.off-screen-menu a:hover {
+    color: #6F86FF; /* Add hover effect for links */
+}
+
+.off-screen-menu.active {
+    right: 0;
+}
+/* Media Queries for Responsiveness */
+@media only screen and (max-width: 991px) and (min-width: 768px) {
+    .logo-center {
+        left: 0%;
+        transform: translateX(-10%);
+      
+    }
+    
+    .logo-center img {
+        height: 120px;
+        width: auto;
+    }
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .nav-left, .nav-right {
+        display: none;
+    }
+
+    .ham-menu {
+        display: block;
+    }
+    .cart-button-small-screen {
+        display: block;
+    }
+}
+
+
+
+    /* -- landing page -- */
+    .section-landing {
+        background-image: url('img/bg1.png'); /* Default background image */
+        background-size: cover;
+        background-position: center;
+        height: 100vh; /* Full viewport height */
+        color: #fff;
+        position: relative;
+        text-align: center; /* Center the text horizontally */
+    }
+    
+    /* Landing Content Styling */
+    .landing-content h1 {
+        position: absolute;
+        text-shadow: 2px 2px black;
+        top: 35%; /* Adjusts the position above the button */
+        left: 50%; /* Center horizontally */
+        font-family: sans-serif;
+        transform: translate(6%, -50%);
+        text-align: left; /* Center text */
+        font-size: 64px; /* Default font size */
+        margin: 0;
+        width: auto; /* Adjust width */
+    }
+    
+    .landing-content #btn1 {
+        color: white;
+        position: absolute;
+        background-color: #0000A8;
+        font-family: 'PixelFont', sans-serif;
+        top: 50%; /* Position button below the text */
+        left: 50%; /* Center button horizontally */
+        transform: translate(30%, -50%);
+        padding: 10px 20px;
+        font-size: 1.5em;
+        cursor: pointer;
+    }
+    
+    /* Media Query for Responsive Design */
+    @media (max-width: 768px) {
+        .section-landing {
+            background-image: url('img/bg2.png'); /* Change background image for smaller screens */
+            background-size: cover;
+            background-position: center;
+            text /* Center text */
+        }
+    
+        .landing-content h1 {
+            top: 70%; /* Move text a bit higher */
+            font-size: 48px; /* Reduce font size for smaller screens */
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center; /* Center-align content horizontally */
+            text-align: center; /* Center-align the text */
+        }
+    
+        .landing-content #btn1 {
+            transform: translate(-50%, -50%);
+            top: 79%; /* Adjust button position */
+            padding: 8px 16px; /* Slightly smaller padding */
+            font-size: 1.2em; /* Reduce font size for smaller screens */
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .landing-content h1 {
+            font-size: 36px; /* Further reduce font size for very small screens */
+            top: 25%; /* Adjust top position */
+        }
+    
+        .landing-content #btn1 {
+            top: 40%; /* Move button up */
+            padding: 6px 12px; /* Smaller padding */
+            font-size: 1em; /* Adjust font size */
+        }
+    }
+    
+
+
+
+    /* Announcement Bar 2  */
+
+    .textscroll2 {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        background-color: #0000A8; 
+    }
+
+
+    .toptext2 {
+        display: flex;
+        font-weight: 100;
+        font-family: 'PixelFont', sans-serif;
+        font-size: 20px;
+        color: white;
+        gap: 70px; /* Adjust the gap as needed */
+        white-space: nowrap;
+        animation: marquee2 20s linear  infinite; /* Continuous scrolling effect */
+    }
+
+    /* Animation for scrolling */
+    @keyframes marquee2 {
+        100% {
+            transform: translateX(10%); /* Start just outside the right of the container */
+        }
+        100% {
+            transform: translateX(-100%); /* End just outside the left of the container */
+        }
+    }
+
+
+
+
+
+    /* Media Query for smaller screens */
+    @media (max-width: 768px) {
+        .navbar {
+            flex-direction: column;
+            height: auto;
+        }
+
+        .nav-left, .nav-right {
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .logo-center {
+            position: relative;
+            left: auto;
+            transform: none;
+            margin-top: 10px;
+        }
+    }
+
+
+    /* section 2  */
+    .second-landing{
+        background-image: url('img/bg2.png'); /* BG1 Image */
+        background-size: cover;
+        background-position:center;
+        padding-bottom: 20px;
+        color: #fff;
+    }
+  /* Clothing container styling */
+  .clothing-container {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.clothing-container h1 {
+    font-family: 'PixelFont', sans-serif; /* Replace with your font */
+    font-size: 3em;
+    margin-bottom: 30px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Grid layout */
+.clothing-grid {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+/* Individual item styles */
+.clothing-grid .item {
+    position: relative;
+    width: 280px; /* Base width */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    overflow: hidden; /* Ensure children don't overflow */
+    z-index: 0;
+}
+
+/* White fade effect */
+.fade-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    filter: blur(55px);
+    border-radius: 4px;
+    z-index: -1;
+}
+
+/* Image container to hold both images */
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Adjust height as needed */
+    display: block; /* Ensure anchor behaves as block */
+}
+
+/* Image styles */
+.image-container img {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* Initially show the front image and hide the back */
+.image-container .back {
+    opacity: 0;
+}
+
+/* Hover effect */
+.item:hover .front {
+    opacity: 0; /* Hide front on hover */
+}
+
+.item:hover .back {
+    opacity: 1; /* Show back on hover */
+}
+
+/* Ensure text is above the fade effect */
+.item p,
+.item span {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-family: 'PixelFont', sans-serif;
+    font-size: 1.2em;
+    color: rgb(255, 255, 255);
+    z-index: 1; /* Higher than the fade-bg */
+}
+
+.item span {
+    padding-top: 10px;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+    .clothing-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .item {
+        width: 90%; /* Make items take up more width */
+    }
+}
+
+@media (max-width: 600px) {
+    .clothing-container h1 {
+        font-size: 2em; /* Smaller font size for heading */
+    }
+
+    .item {
+        width: 100%; /* Full width on very small screens */
+        padding: 10px; /* Less padding */
+    }
+
+    .image-container {
+        height: 250px; /* Adjust height for smaller screens */
+    }
+
+    .item p,
+    .item span {
+        font-size: 1em; /* Smaller font size for text */
+    }
+}
+
+
+    .featured-products {
+        text-align: center;
+        padding: 20px;
+        background-color: #0000A8;
+        
+    }
+
+    /* ----------------banner ------------------ */
+    .banner {
+        position: relative;
+        height: 60vh;
+        background-size: cover;
+        background-position: center;
+        background-image: url('img/cyberbanner.jpg');
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    /* Brightness filter only on the background */
+    .banner::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: inherit;
+        background-size: cover;
+        background-position: center;
+        filter: brightness(30%);
+        z-index: 0; /* Makes sure the text appears above */
+    }
+
+    /* Text Styling */
+    .banner-text {
+        position: relative;
+        z-index: 1; /* Puts the text above the background */
+        color: white;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    /* Text Styling */
+    .banner-text h1 {
+        font-size: 3vw; /* Responsive text size based on viewport width */
+        font-family: 'PixelFont', sans-serif;
+        text-shadow: 2px 2px black; /* Text shadow for contrast */
+        max-width: 90%; /* Ensures text does not overflow */
+        line-height: 1.2;
+    }
+    @media (max-width: 768px) {
+        .banner-text h1{
+            font-size: 40px;
+
+        }
+    }
+
+
+    /* ----------------category ------------------ */
+    /* Flexbox Container */
+    .category-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 10px;
+        gap: 10px;
+    }
+
+    /* Flex Items - Each Category */
+    .category-item {
+        position: relative;
+        flex: 1 1 calc(33.333% - 20px); /* 3 columns layout */
+        max-width:630px; /* Ensures items don't exceed 3 per row */
+        height: 400px; /* Default height for square items */
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        background: url('img/peakpx.jpg') center/cover no-repeat; /* Background image */
+    }
+
+    /* Make the first item larger */
+    .category-item:first-child {
+        flex: 2 1 calc(66.666% - 20px); /* Makes it span two columns */
+        max-width: calc(66.666% - 20px);
+        height: 400px; /* Make it rectangular */
+    }
+
+    /* Hover effect for scaling */
+    .category-item:hover {
+        transform: scale(1.01);
+    }
+
+    /* Product image on top of the background */
+    .category-item .product-img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50%; /* Adjust the size of the product image */
+        height: auto;
+        z-index: 1; /* Ensure the product image is on top */
+    }
+
+    /* Overlay content (Button and text) */
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.4); /* Semi-transparent dark overlay */
+        color: white;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 2; /* Overlay on top of everything */
+    }
+
+    .category-item:hover .overlay {
+        opacity: 1; /* Show overlay on hover */
+    }
+
+    /* Text and button in overlay */
+    .overlay h2 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    .overlay button {
+        padding: 10px 20px;
+        border: none;
+        background-color: white;
+        color: black;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .overlay button:hover {
+        background-color: #ddd;
+    }
+
+    /* Responsive Layout */
+    @media (max-width: 768px) {
+        .category-item {
+        flex: 1 1 calc(50% - 20px); /* 2 columns on tablets */
+        max-width: calc(50% - 20px);
+        height: 200px;
+        }
+
+        .category-item:first-child {
+        flex: 1 1 100%; /* Full-width on tablets for the first item */
+        max-width: 100%;
+        height: 300px; /* Adjust height */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .category-item {
+        flex: 1 1 100%; /* Full-width on mobile */
+        max-width: 100%;
+        height: 200px;
+        }
+
+        .category-item:first-child {
+        height: 250px; /* Adjust height for mobile */
+        }
+    }
+    
+    
+    /* ----------------FEATURED PRODUCTS------------------ */
+    /* Styling for the header text */
+    .featured-products h1 {
+        font-family: 'PixelFont', sans-serif;
+        font-size: 3em;
+        color: white;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px black;
+    }
+
+    /* Container holding both shirts */
+    .shirt-group {
+        position: relative;
+        width: 700px; /* Set the container width */
+        margin: 0 auto; /* Center horizontally */
+        z-index: 1; /* Keep shirts above the background */
+    }
+
+
+    /* Slightly offset the second shirt */
+    .shirt-group .shirt-bottom {
+        position: absolute;
+        top: 20px; /* Adjust this to control the overlap */
+        left: 10px;
+    }
+     /* Responsive styles for smaller devices */
+     @media (max-width: 768px) {
+        .shirt-group {
+            width: 300px; /* Adjust width for medium devices */
+        }
+
+        .shirt-group .shirt-bottom {
+            top: 15px; /* Adjust position for smaller screens */
+            left: 8px;
+        }
+        .shirt-top{
+            width: 200px;
+        }
+        .shirt-bottom{
+            width: 200px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .shirt-group {
+            width: 200px; /* Adjust width for small devices */
+        }
+
+        .shirt-top{
+            width: 200px;
+        }
+        .shirt-bottom{
+            width: 200px;
+        }
+        .shirt-group .shirt-bottom {
+            top: 10px; /* Adjust position for smaller screens */
+            left: 5px;
+        }
+    }
+
+    /* ----------------FEATURED PRODUCTS shirts------------------ */
+    /* Clothing container styling */
+    .clothing-container1 {
+        text-align: center;
+        padding: 40px 20px;
+        background: url('img/peakpx.jpg') center/cover no-repeat; /* Add your background image here */
+    }
+
+    .clothing-container1 h1 {
+        font-family: 'PixelFont', sans-serif; /* Replace with your font */
+        font-size: 3em;
+        margin-bottom: 30px;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Grid layout */
+    .clothing-grid1 {
+        display: flex;
+        justify-content: center;
+        gap: 60px;
+        flex-wrap: wrap;
+    }
+
+    /* Individual item styles */
+    .clothing-grid1 .item1 {
+        position: relative;
+        width: 280px;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        overflow: hidden; /* Ensure children don't overflow */
+        z-index: 0;
+    }
+
+    /* White fade effect */
+    .fade-bg1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        filter: blur(55px);
+        border-radius: 4px;
+        z-index: -1;
+    }
+
+    /* Make sure the image is placed correctly */
+    .item1 img {
+        width: 100%;
+        height: auto;
+        display: block; /* Ensure there's no extra space below the image */
+    }
+
+    /* Ensure text is above the fade effect */
+    .item1 p, .item1 span {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        font-family: 'PixelFont', sans-serif;
+        font-size: 1.2em;   
+        color: rgb(255, 255, 255);
+        z-index: 1; /* Higher than the fade-bg */
+    }
+    .item1 span {
+        padding-top: 10px;
+    }
+
+    /* Responsive styles for smaller screens */
+    @media (max-width: 768px) {
+        .clothing-grid1 {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .item1 {
+            width: 90%;
+        }
+    }
+
+    /* ----------------about us ------------------ */
+
+/* Container */
+.container {
+    font-family: 'PixelFont', sans-serif;
+    display: flex;
+    background-color: #0000A8;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    width: 100%;
+    padding: 50px 100px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Left Side */
+.left-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center text vertically */
+    align-items: center; /* Center text horizontally */
+    padding-left: 0; /* Remove left padding */
+    text-align: center; /* Center-align the text */
+}
+
+.title {
+    color: white;
+    font-family:cursive;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px #000000;
+}
+
+.main-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+    color: #fff;
+    text-shadow: 2px 2px #ff0000;
+}
+
+/* Right Side */
+.right-side {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Center-align content horizontally */
+    text-align: center; /* Center-align the text */
+    max-width: 800px;
+    padding-left: 0; /* Remove left padding */
+    box-sizing: border-box;
+}
+
+.description {
+    color: #fff;
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0;
+    margin-bottom: 20px; /* Add space between the description and the button */
+}
+
+.learn-more {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #000000;
+    color: rgb(255, 255, 255);
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 auto; /* Center the button */
+}
+
+.learn-more:hover {
+    background-color: #444;
+}
+
+/* Responsive Styles */
+
+/* For Tablets and Small Desktops */
+@media (max-width: 1024px) {
+    .container {
+        padding: 20px;
+    }
+
+    .left-side, .right-side {
+        width: 100%;
+        text-align: center; /* Ensure text stays centered */
+    }
+
+    .main-title {
+        font-size: 1.8rem;
+    }
+
+    .description {
+        font-size: 0.95rem;
+    }
+}
+
+/* For Large Phones and Small Tablets */
+@media (max-width: 768px) {
+    .container {
+        display: block;
+        padding: 20px;
+    }
+
+    .left-side, .right-side {
+        padding: 0;
+        width: 100%;
+        text-align: center; /* Keep text center-aligned */
+    }
+
+    .main-title {
+        font-size: 1.6rem;
+    }
+
+    .description {
+        font-size: 0.9rem;
+    }
+
+    .learn-more {
+        font-size: 0.9rem;
+    }
+}
+
+/* For Mobile Phones */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .left-side, .right-side {
+        width: 100%;
+        text-align: center; /* Center-align text on smaller screens */
+    }
+
+    .main-title {
+        font-size: 1.4rem;
+    }
+
+    .description {
+        font-size: 0.85rem;
+    }
+
+    .learn-more {
+        font-size: 0.85rem;
+    }
+}
+
+/* For Smallest Phones */
+@media (max-width: 360px) {
+    .main-title {
+        font-size: 1.3rem;
+    }
+
+    .description {
+        font-size: 0.75rem;
+    }
+
+    .learn-more {
+        font-size: 0.8rem;
+    }
+}
+
+
+/* Responsive Styles */
+
+/* For Tablets and Small Desktops */
+@media (max-width: 1024px) {
+    .container {
+        padding: 20px;
+    }
+
+    .left-side, .right-side {
+        padding-left: 20px;
+        width: 100%;
+    }
+
+    .main-title {
+        font-size: 1.8rem;
+    }
+
+    .description {
+        font-size: 0.95rem;
+    }
+}
+
+/* For Large Phones and Small Tablets */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    .left-side, .right-side {
+        padding: 0 20px;
+        width: 100%;
+        justify-content: center; /* Keep vertical alignment */
+    }
+
+    .left-side {
+        align-items: center; /* Center-align the text */
+        text-align: center; /* Center-align the text */
+    }
+
+    .right-side {
+        align-items: center; /* Center-align the text */
+        text-align: center; /* Center-align the text */
+    }
+
+    .main-title {
+        font-size: 1.6rem;
+    }
+
+    .description {
+        font-size: 0.9rem;
+    }
+}
+
+/* For Mobile Phones */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .left-side, .right-side {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .main-title {
+        font-size: 1.4rem;
+    }
+
+    .description {
+        font-size: 0.85rem;
+    }
+
+    .learn-more {
+        font-size: 0.9rem;
+    }
+}
+
+/* For Smallest Phones */
+@media (max-width: 360px) {
+    .main-title {
+        font-size: 1.3rem;
+    }
+
+    .description {
+        font-size: 0.75rem;
+    }
+
+    .learn-more {
+        font-size: 0.85rem;
+    }
+}
+
+
+    /* ----------------fOOTER ------------------ */
+    .footer-container {
+        background-color: #1a1a1a;
+        color: #cccccc;
+        font-family: 'Courier New', Courier, monospace; /* Mimics a retro, typewriter-like font */
+        padding: 20px 0;
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .footer-column {
+        flex: 1;
+        min-width: 150px;
+    }
+
+    .footer-column h3 {
+        font-size: 1.1em;
+        margin-bottom: 15px;
+        color: #fff;
+    }
+
+    .footer-column ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .footer-column ul li {
+        margin-bottom: 8px;
+    }
+
+    .footer-column ul li a {
+        color: #9d9d9d;
+        text-decoration: none;
+        font-size: 0.9em;
+    }
+
+    .footer-column ul li a:hover {
+        color: #ffffff;
+        text-decoration: underline;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        border-top: 1px solid #333;
+        padding-top: 15px;
+    }
+
+    @media (max-width: 768px) {
+        .footer-content {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-column {
+            text-align: center;
+            max-width: 90%;
+        }
+    }
