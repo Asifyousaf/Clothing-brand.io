@@ -3,8 +3,20 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
-   
+    position: relative;
 }
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Adjust the value for a darker or lighter overlay */
+    z-index: -1;
+}
+
 
 html, body {
     margin: 0;
@@ -231,15 +243,17 @@ html, body {
 
 
 .product-details-section h1 {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     margin-bottom: 20px;
     color: #FFFFFF; /* White color for contrast against dark backgrounds */
-    font-weight: bold;
     text-shadow: 6px 6px 14px rgba(0, 0, 0, 10); /* Add a subtle shadow for better readability */
 }
 
 .product-details-section p {
-    font-size: 1.2rem;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.4rem;
+    text-shadow: 6px 6px 14px rgba(0, 0, 0, 10);
     margin-bottom: 20px;
     color: #DDDDDD; /* Light grey to contrast against the dark background */
     line-height: 1.5; /* Improve readability with better spacing */
@@ -247,13 +261,13 @@ html, body {
 
 
 .product-options {
+    
     margin-bottom: 20px;
 }
 #stock-info {
-    font-weight: bold;
     margin-right: 10px;
     color: #ffffff; /* Gold color for a stylish look */
-    font-size: 1.1rem;
+    font-size: 1.3rem;
   }
   
  /* Clothing container styling */
@@ -274,7 +288,8 @@ html, body {
     margin: 10px; /* Margin between product cards */
   }
 .product-options label {
-    font-weight: bold;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: 6px 6px 14px rgba(0, 0, 0, 10);
     margin-right: 10px;
     color: #ffffff; /* Gold color for a stylish look */
     font-size: 1.1rem;
@@ -284,8 +299,7 @@ html, body {
     padding: 10px;
     font-size: 1rem;
     margin-left: 10px;
-    
-    border: none; /* Remove border */
+    border: wheat 1px solid;
     border-radius: 0; /* Remove rounded corners */
     background-color: transparent; /* Make the background transparent */
     color: #fff; /* Make text color white for better visibility */
@@ -328,9 +342,10 @@ html, body {
     background-color: #4F50FF;
 }
 .product-price p {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: 6px 6px 14px rgba(0, 0, 0, 10);
     font-size: 1.5rem;
     color: #ffffff; /* Bright green for positive emphasis */
-    font-weight: bold;
 }
 
 /* Footer Styles */
