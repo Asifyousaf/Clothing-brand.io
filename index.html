@@ -7,37 +7,62 @@
     <title>Document</title>
     
 </head>
+ <!-- Announcement Bar -->
+ <div class="textscroll">
+    <div class="toptext" id="scrollingText">
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+    </div>
+</div>
 <body>
-    <!-- Announcement Bar -->
-    <div class="textscroll">
-        <div class="toptext" id="scrollingText">
-            <h1>• Free shipping</h1>
-            <h1>• Best Quality</h1>
-            <H1>• Affordable Prices </H1>
-            <h1>• Free shipping</h1>
-            <h1>• Best Quality</h1>
-            <H1>• Affordable Prices </H1>
-            <h1>• Free shipping</h1>
-            <h1>• Best Quality</h1>
-            <H1>• Affordable Prices </H1>
-            <h1>• Free shipping</h1>
-            <h1>• Best Quality</h1>
-            <H1>• Affordable Prices </H1>
-            <h1>• Free shipping</h1>
-            <h1>• Best Quality</h1>
-            <H1>• Affordable Prices </H1>
-            <h1>• Free shipping</h1>
-            <h1>• Best Quality</h1>
-            <H1>• Affordable Prices </H1>
-            <h1>• Free shipping</h1>
-            <h1>• Best Quality</h1>
-            <H1>• Affordable Prices </H1>
-            <h1>• Free shipping</h1>
-            <h1>• Best Quality</h1>
-            <H1>• Affordable Prices </H1>
+
+    <div id="cart-popup-wrapper" class="cart-popup-wrapper" onclick="closeCartOnClickOutside(event)">
+    <div id="cart-popup" class="cart-popup">
+        <div class="cart-popup-content">
+            <span class="close-btn" onclick="closeCart()">×</span>
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <p>Total: <span id="cart-total-price">$0.00</span></p>
+            </div>
+            
+            <!-- Buy Now Button -->
+            <button class="checkout-btn" onclick="checkout()">Buy Now</button>
+    
+            <!-- Terms and Conditions Link and Content -->
+            <span class="terms-and-conditions-link" onclick="toggleTerms()">Terms and Conditions</span>
+            <div id="terms-conditions" class="terms-and-conditions">
+                <p>By proceeding, you agree to our <a href="policy.html">terms and conditions</a>.</p>
+            </div>
         </div>
     </div>
-
+    </div>
     
      <!-- Landing Page Section --> <!-- Navigation Bar -->
      
@@ -46,19 +71,22 @@
             <!-- Navigation Links on the Left -->
             <ul class="nav-left" id="nav-left">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="#">Clothing</a></li>
+                <li><a href="clothing.html">Clothing</a></li>
                 <li><a href="collection.html">Collection</a></li>
             </ul>
         
             <!-- Center Logo -->
-            <div class="logo-center">
-                <a href="#"><img src="img/company.png" alt="Logo"></a>
-            </div>
-        
+            <!-- Center Logo -->
+<div class="logo-center">
+    <a href="#" id="logo-container">
+        <img src="img/company.png" alt="Logo" id="logo-img">
+    </a>
+</div>
+
             <!-- Cart Button and About on the Right -->
             <ul class="nav-right" id="nav-right">
-                <li><a href="#">Cart</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="#" id="cart-button">Cart</a></li>
+                <li><a href="about.html">About</a></li>
             </ul>
         
             <!-- Hamburger Menu (on the top-right) -->
@@ -70,16 +98,15 @@
         
             <!-- Small Screen Cart Button -->
             <div class="cart-button-small-screen">
-                <a href="#">Cart</a>
+                <a href="#" id="cart-button-small" onclick="openCart()">Cart</a>
             </div>
         
             <!-- Off-screen Menu -->
             <div class="off-screen-menu">
                 <a href="index.html">Home</a>
-                <a href="#">Clothing</a>
+                <a href="clothing.html">Clothing</a>
                 <a href="collection.html">Collection</a>
-                <a href="#">Cart</a>
-                <a href="#">About</a>
+                <a href="about.html">About</a>
             </div>
         </div>
         
@@ -108,41 +135,45 @@
                 <h1>✦ FUTURISTIC COLLECTION</h1>
                 <h1>✦ FUTURISTIC COLLECTION</h1>
                 <h1>✦ FUTURISTIC COLLECTION</h1>
+                <h1>✦ FUTURISTIC COLLECTION</h1>
+                <h1>✦ FUTURISTIC COLLECTION</h1>
+                <h1>✦ FUTURISTIC COLLECTION</h1>
+                <h1>✦ FUTURISTIC COLLECTION</h1>
             </div>
         </div>
         <div class="clothing-container">
             <h1>New Arrival</h1>
             <div class="clothing-grid">
-                <div class="item">
+                <div class="item" data-product='{"name": "Shirt 2", "price": 10, "description": "Short description of Shirt 2.", "image": "img/f-shirt.png"}'>
                     <div class="fade-bg"></div>
-                    <a href="product-page-2.html" class="image-container"> <!-- Link to Product Page -->
+                    <a href="product.html" class="image-container"> <!-- Link to Product Page -->
                         <img src="img/f-shirt.png" alt="Shirt 2" class="front">
                         <img src="img/f-shirt2.png" alt="Shirt 2 Back" class="back">
                     </a>
                     <p>Shirt 2</p>
                     <span>$10</span>
                 </div>
-                <div class="item">
+                <div class="item" data-product='{"name": "Shirt 3", "price": 10, "description": "Short description of Shirt 3.", "image": "img/f-shirt.png"}'>
                     <div class="fade-bg"></div>
-                    <a href="product-page-3.html" class="image-container"> <!-- Link to Product Page -->
+                    <a href="Product2.html" class="image-container">
                         <img src="img/f-shirt.png" alt="Shirt 3" class="front">
                         <img src="img/f-shirt.png" alt="Shirt 3 Back" class="back">
                     </a>
                     <p>Shirt 3</p>
                     <span>$10</span>
                 </div>
-                <div class="item">
+                <div class="item" data-product='{"name": "Shirt 4", "price": 10, "description": "Short description of Shirt 4.", "image": "img/shirt1.png"}'>
                     <div class="fade-bg"></div>
-                    <a href="product-page-4.html" class="image-container"> <!-- Link to Product Page -->
+                    <a href="product.html" class="image-container">
                         <img src="img/shirt1.png" alt="Shirt 4" class="front">
                         <img src="img/shirt1.png" alt="Shirt 4 Back" class="back">
                     </a>
                     <p>Shirt 4</p>
                     <span>$10</span>
                 </div>
-                <div class="item">
+                <div class="item" data-product='{"name": "Shirt 5", "price": 10, "description": "Short description of Shirt 5.", "image": "img/shirt1.png"}'>
                     <div class="fade-bg"></div>
-                    <a href="product-page-5.html" class="image-container"> <!-- Link to Product Page -->
+                    <a href="product.html" class="image-container">
                         <img src="img/shirt1.png" alt="Shirt 5" class="front">
                         <img src="img/shirt1.png" alt="Shirt 5 Back" class="back">
                     </a>
@@ -261,6 +292,7 @@
     </div>
 
     <!-- Footer Section -->
+
     <footer class="footer-container">
         <div class="footer-content">
             <div class="footer-column">
@@ -300,10 +332,9 @@
             <p>© 2024 Cybertronic. All rights reserved.</p>
         </div>
     </footer>
+
     
-
+    <script src="product.js"></script>
     <script src="script.js"></script>
-
-
 </body>
 </html>

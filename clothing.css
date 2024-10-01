@@ -1,0 +1,116 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: url('img/peakpx.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+/* Clothing container styling */
+.clothing-container {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+/* Grid layout using CSS Grid */
+.clothing-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Fixed 5 items per row */
+    gap: 10px; /* Reduced gap for tighter spacing */
+    justify-items: center; /* Center items horizontally */
+    max-width: 1400px; /* Set a max width for the grid to avoid too much stretching */
+    margin: 0 auto; /* Center the grid container */
+}
+
+/* Individual item styles */
+.clothing-grid .item {
+    position: relative;
+    width: 250px; /* Fixed width for all items */
+    height: 350px; /* Fixed height for all items */
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    overflow: hidden;
+    z-index: 0;
+    background-color: rgba(255, 255, 255, 0.1); /* Background to make items stand out */
+}
+
+/* Ensure text is above the fade effect */
+.item p,
+.item span {
+    margin: 5px 0 0 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-family: 'PixelFont', sans-serif;
+    font-size: 1.1em;
+    color: rgb(255, 255, 255);
+    z-index: 1;
+    position: relative;
+}
+
+/* White fade effect */
+.fade-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    filter: blur(55px);
+    border-radius: 4px;
+    z-index: -1;
+}
+
+/* Image container */
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 250px; /* Fixed height for images */
+    display: block;
+}
+
+/* Image styles */
+.image-container img {
+    width: 100%; 
+    height: 100%; /* Fixed size */
+    object-fit: cover; /* Ensures the image maintains its aspect ratio */
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.5s ease; /* Removed scaling effect */
+}
+
+/* No scaling on hover */
+.image-container:hover img {
+    opacity: 0.8; /* Only change opacity, no zoom */
+}
+@media (max-width: 1296px) {
+    .clothing-grid {
+        grid-template-columns: repeat(4, 1fr); /* 3 items per row for tablets */
+    }
+}
+@media (max-width: 1024px) {
+    .clothing-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 items per row for tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .clothing-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 items per row for smaller screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .clothing-grid {
+        grid-template-columns: 1fr; /* 1 item per row for mobile */
+    }
+}
+/* ----------------fOOTER ------------------ */
+.footer-container {
+    background-color: rgba(0, 0, 0, 0.8); /* Dark color with 60% opacity */
+    color: #cccccc;
+    font-family: 'Courier New', Courier, monospace; /* Mimics a retro, typewriter-like font */
+    padding: 20px 0;
+    width: 100%; /* Ensure the footer takes up full width */
+    box-sizing: border-box;
+}

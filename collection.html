@@ -5,28 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clothing Page</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="stylesprod.css"> <!-- Your CSS file link -->
+    <link rel="stylesheet" href="stylescollec.css"> <!-- Your CSS file link -->
 </head>
 <body>
-
+ <!-- Announcement Bar -->
+ <div class="textscroll">
+    <div class="toptext" id="scrollingText">
+        <h1>• Free shipping</h1>
+        <h1>• Best Quality</h1>
+        <H1>• Affordable Prices </H1>
+        <h1>• Free shipping</h1>
+        <h1>• Best Quality</h1>
+        <H1>• Affordable Prices </H1>
+        <h1>• Free shipping</h1>
+        <h1>• Best Quality</h1>
+        <H1>• Affordable Prices </H1>
+        <h1>• Free shipping</h1>
+        <h1>• Best Quality</h1>
+        <H1>• Affordable Prices </H1>
+        <h1>• Free shipping</h1>
+        <h1>• Best Quality</h1>
+        <H1>• Affordable Prices </H1>
+        <h1>• Free shipping</h1>
+        <h1>• Best Quality</h1>
+        <H1>• Affordable Prices </H1>
+        <h1>• Free shipping</h1>
+        <h1>• Best Quality</h1>
+        <H1>• Affordable Prices </H1>
+        <h1>• Free shipping</h1>
+        <h1>• Best Quality</h1>
+        <H1>• Affordable Prices </H1>
+    </div>
+</div>
+<div id="cart-popup-wrapper" class="cart-popup-wrapper" onclick="closeCartOnClickOutside(event)"></div>
+    <div id="cart-popup" class="cart-popup">
+        <div class="cart-popup-content">
+            <span class="close-btn" onclick="closeCart()">×</span>
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <p>Total: <span id="cart-total-price">$0.00</span></p>
+            </div>
+            
+            <!-- Buy Now Button -->
+            <button class="checkout-btn" onclick="checkout()">Buy Now</button>
+    
+            <!-- Terms and Conditions Link and Content -->
+            <span class="terms-and-conditions-link" onclick="toggleTerms()">Terms and Conditions</span>
+            <div id="terms-conditions" class="terms-and-conditions">
+                <p>By proceeding, you agree to our <a href="policy.html">terms and conditions</a>.</p>
+            </div>
+        </div>
+    </div>
+    </div>
     <div class="section-landing">
         <div class="navbar">
             <!-- Navigation Links on the Left -->
             <ul class="nav-left" id="nav-left">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="#">Clothing</a></li>
+                <li><a href="clothing.html">Clothing</a></li>
                 <li><a href="collection.html">Collection</a></li>
             </ul>
         
             <!-- Center Logo -->
-            <div class="logo-center">
-                <a href="#"><img src="img/company.png" alt="Logo"></a>
-            </div>
-        
+            <!-- Center Logo -->
+<div class="logo-center">
+    <a href="#" id="logo-container">
+        <img src="img/company.png" alt="Logo" id="logo-img">
+    </a>
+</div>
+
             <!-- Cart Button and About on the Right -->
             <ul class="nav-right" id="nav-right">
-                <li><a href="#">Cart</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="#" id="cart-button">Cart</a></li>
+                <li><a href="about.html">About</a></li>
             </ul>
         
             <!-- Hamburger Menu (on the top-right) -->
@@ -38,16 +90,15 @@
         
             <!-- Small Screen Cart Button -->
             <div class="cart-button-small-screen">
-                <a href="#">Cart</a>
+                <a href="#" id="cart-button">Cart</a>
             </div>
         
             <!-- Off-screen Menu -->
             <div class="off-screen-menu">
                 <a href="index.html">Home</a>
-                <a href="#">Clothing</a>
+                <a href="clothing.html">Clothing</a>
                 <a href="collection.html">Collection</a>
-                <a href="#">Cart</a>
-                <a href="#">About</a>
+                <a href="about.html">About</a>
             </div>
         </div>
         
@@ -192,6 +243,7 @@
             <p>© 2024 Cybertronic. All rights reserved.</p>
         </div>
     </footer>
-
+    <script src="product.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

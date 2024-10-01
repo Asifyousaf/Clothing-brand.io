@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleprod.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Product Page</title>
+</head>
+<body>
+ <!-- Announcement Bar -->
+ <div class="textscroll">
+    <div class="toptext" id="scrollingText">
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+    </div>
+</div>
+<!-- Navigation Bar -->
+<div class="navbar">
+    <!-- Navigation Links on the Left -->
+    <ul class="nav-left" id="nav-left">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="clothing.html">Clothing</a></li>
+        <li><a href="collection.html">Collection</a></li>
+    </ul>
+
+    <!-- Center Logo -->
+    <!-- Center Logo -->
+<div class="logo-center">
+<a href="#" id="logo-container">
+<img src="img/company.png" alt="Logo" id="logo-img">
+</a>
+</div>
+
+    <!-- Cart Button and About on the Right -->
+    <ul class="nav-right" id="nav-right">
+        <li><a href="#" id="cart-button">Cart</a></li>
+        <li><a href="about.html">About</a></li>
+    </ul>
+
+    <!-- Hamburger Menu (on the top-right) -->
+    <div class="ham-menu" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div> 
+
+    <!-- Small Screen Cart Button -->
+    <div class="cart-button-small-screen">
+        <a href="#" id="cart-button">Cart</a>
+    </div>
+
+    <!-- Off-screen Menu -->
+    <div class="off-screen-menu">
+        <a href="index.html">Home</a>
+        <a href="clothing.html">Clothing</a>
+        <a href="collection.html">Collection</a>
+        <a href="about.html">About</a>
+    </div>
+</div>
+
+<!-- Main Product Page Section -->
+<div class="product-page-container">
+    <div class="product-image-section">
+        <!-- Main product image -->
+        <img src="img/shirt1.png" alt="Product Image" class="product-image" id="main-product-image">
+        
+        <!-- Preview images section -->
+        <div class="preview-images">
+            <img src="img/shirt1.png" alt="Preview 1" class="preview" onclick="changeImage('img/shirt2.png')">
+            <img src="img/shirt1.png" alt="Preview 2" class="preview" onclick="changeImage('img/shirt1.png')">
+            <img src="img/shirt3.png" alt="Preview 3" class="preview" onclick="changeImage('img/shirt3.png')">
+        </div>
+    </div>
+    
+    <div class="product-details-section">
+    
+        <h1 id="product-name">Product Name</h1>
+        <p id="product-description">Short product description. This product is made from the best materials and designed for ultimate comfort and style.</p>
+        
+        <div class="product-options">
+            <label for="size">Size:</label>
+            <select id="size">
+                <!-- Sizes will be populated dynamically -->
+            </select>
+        </div>
+        
+        <div class="product-options">
+            <label for="color">Color:</label>
+            <select id="color">
+                <!-- Colors will be populated dynamically -->
+            </select>
+        </div>
+        <p id="stock-info">Stock: <span id="stock-quantity">N/A</span></p>
+        <div class="product-price">
+            <p>Price: <span id="product-price">$99.99</span></p>
+        </div>
+        <button id="add-to-cart-btn" onclick="addToCart('shirt2')">Add to Cart</button>
+    </div>
+
+</div>
+ <!-- Announcement Bar -->
+ <div class="textscroll">
+    <div class="toptext" id="scrollingText">
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+    </div>
+</div>
+<!-- You May Like Section -->
+<div class="you-may-like">
+    <div class="clothing-container">
+        <div class="clothing-grid">
+            <div class="item">
+                <div class="fade-bg"></div>
+                <a href="product-page-2.html" class="image-container">
+                    <img src="img/f-shirt.png" alt="Shirt 2" class="front">
+                    <img src="img/f-shirt2.png" alt="Shirt 2 Back" class="back">
+                </a>
+                <p>Shirt 2</p>
+                <span>$10</span>
+            </div>
+            <div class="item">
+                <div class="fade-bg"></div>
+                <a href="product-page-3.html" class="image-container">
+                    <img src="img/f-shirt.png" alt="Shirt 3" class="front">
+                    <img src="img/f-shirt.png" alt="Shirt 3 Back" class="back">
+                </a>
+                <p>Shirt 3</p>
+                <span>$10</span>
+            </div>
+            <div class="item">
+                <div class="fade-bg"></div>
+                <a href="product-page-4.html" class="image-container">
+                    <img src="img/shirt1.png" alt="Shirt 4" class="front">
+                    <img src="img/shirt1.png" alt="Shirt 4 Back" class="back">
+                </a>
+                <p>Shirt 4</p>
+                <span>$10</span>
+            </div>
+            <div class="item">
+                <div class="fade-bg"></div>
+                <a href="product-page-5.html" class="image-container">
+                    <img src="img/shirt1.png" alt="Shirt 5" class="front">
+                    <img src="img/shirt1.png" alt="Shirt 5 Back" class="back">
+                </a>
+                <p>Shirt 5</p>
+                <span>$10</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="cart-popup-wrapper" class="cart-popup-wrapper" onclick="closeCartOnClickOutside(event)">
+    <div id="cart-popup" class="cart-popup">
+        <div class="cart-popup-content">
+            <span class="close-btn" onclick="closeCart()">×</span>
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <p>Total: <span id="cart-total-price">$0.00</span></p>
+            </div>
+            
+            <!-- Buy Now Button -->
+            <button class="checkout-btn" onclick="checkout()">Buy Now</button>
+    
+            <!-- Terms and Conditions Link and Content -->
+            <span class="terms-and-conditions-link" onclick="toggleTerms()">Terms and Conditions</span>
+            <div id="terms-conditions" class="terms-and-conditions">
+                <p>By proceeding, you agree to our <a href="policy.html">terms and conditions</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer Section -->
+<footer class="footer-container">
+    <div class="footer-content">
+        <div class="footer-column">
+            <h3>About Us</h3>
+            <p>Leading the digital frontier with innovative designs and cutting-edge technology.</p>
+        </div>
+
+        <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">License Agreement</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Connect</h3>
+            <ul>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Instagram</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2024 Cybertronic. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+window.onload = function() {
+    // Read the cart data from localStorage on page load
+    cart = JSON.parse(localStorage.getItem('cart')) || [];
+    updateCart(); // Ensure the cart is updated when the page loads
+    renderProducts(); // Render products if necessary
+};
+
+
+    const userPurchaseLimit = 1;
+  const products = {
+            "shirt2": {
+                name: "Shirt",
+                description: "A stylish and cool shirt for all occasions.",
+                prices: {
+                    small: { red: 4.99, blue: 49.99, black: 49.99 },
+                    medium: { red: 5.99, blue: 54.99, black: 54.99 },
+                    large: { red: 5.99, blue: null, black: 59.99 },
+                    xl: { red: 6.99, blue: 64.99, black: 64.99 }
+                },
+                sizes: ["Small", "Medium", "Large", "XL"],
+                colors: ["Red", "Blue", "Black"],
+                stock: {
+                    small: { red: 10, blue: 5, black: 2 },
+                    medium: { red: 7, blue: 3, black: 8 },
+                    large: { red: 4, blue: 0, black: 6 },
+                    xl: { red: 9, blue: 2, black: 5 }
+                },
+                userLimit: 2 ,// Limit for this specific product
+                image: 'img/shirt2.png'
+            }
+        };
+
+        // Load product details dynamically
+        const productId = "shirt2"; // Change this to the actual product ID you're using
+        const product = products[productId];
+
+        // Populate size and color options
+        const sizeSelect = document.getElementById('size');
+        const colorSelect = document.getElementById('color');
+        const priceDisplay = document.getElementById('product-price');
+
+        // Populate size options
+        product.sizes.forEach(size => {
+            const option = document.createElement('option');
+            option.value = size.toLowerCase();
+            option.textContent = size;
+            sizeSelect.appendChild(option);
+        });
+
+        // Populate color options
+        product.colors.forEach(color => {
+            const option = document.createElement('option');
+            option.value = color.toLowerCase();
+            option.textContent = color;
+            colorSelect.appendChild(option);
+        });
+
+        // Update price based on size and color selection
+        sizeSelect.addEventListener('change', updatePrice);
+        colorSelect.addEventListener('change', updatePrice);
+
+        function updatePrice() {
+            const selectedSize = sizeSelect.value;
+            const selectedColor = colorSelect.value;
+            const stockInfo = document.getElementById('stock-quantity');
+            const addToCartBtn = document.getElementById('add-to-cart-btn'); // Add to Cart button
+
+            const sizePrices = product.prices[selectedSize];
+            const sizeStock = product.stock[selectedSize];
+
+            if (sizePrices && sizePrices[selectedColor] !== null && sizeStock && sizeStock[selectedColor] !== undefined) {
+                const price = sizePrices[selectedColor];
+                const stock = sizeStock[selectedColor];
+
+                priceDisplay.innerText = `$${price.toFixed(2)}`;
+                stockInfo.innerText = stock;
+
+                if (stock > 0) {
+                    addToCartBtn.innerText = 'Add to Cart'; // If in stock
+                    addToCartBtn.disabled = false; // Enable button
+                } else {
+                    addToCartBtn.innerText = 'Sold Out'; // If out of stock
+                    addToCartBtn.disabled = true; // Disable button
+                }
+            } else {
+                alert("The selected size and color combination is not available. Please choose a different option.");
+                priceDisplay.innerText = "$0.00"; // Reset price display
+                stockInfo.innerText = "N/A"; // Reset stock info
+                addToCartBtn.innerText = 'Sold Out'; // Disable the button
+                addToCartBtn.disabled = true; // Disable button
+            }
+        }
+
+        // Trigger updatePrice function on page load to set default price and stock
+        window.onload = updatePrice;
+</script>
+
+</body>
+</html>

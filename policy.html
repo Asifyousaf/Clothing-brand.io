@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+ <!-- Announcement Bar -->
+ <div class="textscroll">
+    <div class="toptext" id="scrollingText">
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+    </div>
+</div>
+<body>
+<style>
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: url('img/peakpx.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+
+/* About Section */
+
+.about {
+      padding: 100px 0 20px 0;
+    text-align: center;
+}
+
+.about h1 {
+    color: white; /* Text color */
+    font-size: 2.5rem; /* Font size */
+    margin-bottom: 20px; /* Space below the heading */
+    padding: 20px; /* Padding around the text */
+    background:rgb(2, 50, 155); /* Gradient background */
+    border-radius: 10px; /* Rounded corners */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Shadow effect for depth */
+    display: inline-block; /* Makes the background fit the text */
+}
+
+
+.about p {
+    font-size: 1rem;
+    color: #000000;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-info {
+    margin: 2rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+}
+
+.about-img {
+    width: 20rem;
+    height: 20rem;
+
+}
+
+.about-img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    object-fit: contain;
+}
+
+.about-info p {
+    font-family: 'PixelFont', sans-serif; /* Custom font */
+    color: rgb(255, 255, 255); /* Text color */
+    font-size: 30px; /* Font size */
+    margin: 20px 2rem; /* Increased top/bottom margin for spacing */
+    text-align: justify; /* Justified text alignment */
+    text-shadow: 6px 4px 5px rgba(0, 0, 0, 0.9); /* Shadow effect behind the text */
+}
+
+
+button {
+    border: none;
+    outline: 0;
+    padding: 10px;
+    margin: 2rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #0000A8;
+    text-align: center;
+    cursor: pointer;
+    width: 15rem;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #3b3b58;
+}
+
+
+ /* Contact Button Styles */
+ .contact-buttons {
+            display: inline-block; /* Keep buttons inline */
+            margin-left: 30px; /* Space between text and buttons */
+        }
+
+        .contact-button {
+            padding: 10px 15px;
+            color: white;
+            background-color: #0000A8; /* Button color */
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 5px; /* Margin between buttons */
+        }
+
+        .contact-button:hover {
+            background-color: #3b3b58; /* Hover effect */
+        }
+
+</style>
+    <div id="cart-popup-wrapper" class="cart-popup-wrapper" onclick="closeCartOnClickOutside(event)">
+    <div id="cart-popup" class="cart-popup">
+        <div class="cart-popup-content">
+            <span class="close-btn" onclick="closeCart()">×</span>
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <p>Total: <span id="cart-total-price">$0.00</span></p>
+            </div>
+            
+            <!-- Buy Now Button -->
+            <button class="checkout-btn" onclick="checkout()">Buy Now</button>
+    
+            <!-- Terms and Conditions Link and Content -->
+            <span class="terms-and-conditions-link" onclick="toggleTerms()">Terms and Conditions</span>
+            <div id="terms-conditions" class="terms-and-conditions">
+                <p>By proceeding, you agree to our <a href="policy.html">terms and conditions</a>.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+    
+     <!-- Landing Page Section --> <!-- Navigation Bar -->
+     
+     <div class="navbar">
+        <!-- Navigation Links on the Left -->
+        <ul class="nav-left" id="nav-left">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="clothing.html">Clothing</a></li>
+            <li><a href="collection.html">Collection</a></li>
+        </ul>
+    
+        <!-- Center Logo -->
+        <!-- Center Logo -->
+<div class="logo-center">
+<a href="#" id="logo-container">
+    <img src="img/company.png" alt="Logo" id="logo-img">
+</a>
+</div>
+
+        <!-- Cart Button and About on the Right -->
+        <ul class="nav-right" id="nav-right">
+            <li><a href="#" id="cart-button">Cart</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    
+        <!-- Hamburger Menu (on the top-right) -->
+        <div class="ham-menu" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div> 
+    
+        <!-- Small Screen Cart Button -->
+        <div class="cart-button-small-screen">
+            <a href="#" id="cart-button">Cart</a>
+        </div>
+    
+        <!-- Off-screen Menu -->
+        <div class="off-screen-menu">
+            <a href="index.html">Home</a>
+            <a href="clothing.html">Clothing</a>
+            <a href="collection.html">Collection</a>
+            <a href="about.html">About</a>
+        </div>
+    </div>
+        
+        <section class="about">
+            <h1>Exchange Policy</h1>
+            <div class="about-info">
+                <div>
+                    <p>At Cybertronic, customer satisfaction is our top priority. If for any reason you are not completely satisfied with your purchase, we offer exchanges within 7 days of delivery. Please note that we do not accept returns, only exchanges.<br><br>
+                    To initiate an exchange, you may contact us through WhatsApp at +971 or through Instagram at @Cybertronicllc with your order number and the item you would like to exchange. Our team will provide you with further instructions on how to proceed.<br><br>
+                    In the event of an exchange, any price difference between the original item and the new item will be either charged or deducted as applicable. A flat fee of 15 AED will also be applied to cover the cost of processing the exchange.<br><br>
+                    Exchanges are subject to availability and we cannot guarantee that the item you request will be in stock. If the item you request is not available, we will offer a store credit or alternative item.<br><br>
+                    We reserve the right to refuse exchanges for items that do not meet our return criteria, including items that have been worn, washed, or altered in any way.<br><br>
+                    Thank you for choosing Cybertronic. If you have any questions or concerns, please don't hesitate to reach out to us through WhatsApp or Instagram.</p>
+                </div>
+                
+            </div>
+            <div class="contact-buttons">
+                <a href="mailto:example@example.com" class="contact-button email">Email Us</a>
+                <a href="https://wa.me/1234567890" class="contact-button whatsapp">WhatsApp</a>
+            </div>
+        </section>
+
+    <!-- Footer Section -->
+
+    <footer class="footer-container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>About Us</h3>
+                <p>Leading the digital frontier with innovative designs and cutting-edge technology.</p>
+            </div>
+    
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+    
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Use</a></li>
+                    <li><a href="#">License Agreement</a></li>
+                </ul>
+            </div>
+    
+            <div class="footer-column">
+                <h3>Connect</h3>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Cybertronic. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+
+</body>
+</html>

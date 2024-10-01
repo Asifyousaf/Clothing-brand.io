@@ -6,8 +6,10 @@
     html,body {
         margin:0;
         padding:0;
+        overflow-x: hidden;
     }
     body{
+        
         background-color: #f2f2f2f2;
     }
 
@@ -47,6 +49,7 @@
 
 
 /* -- Navigation Bar -- */
+/* -- Navigation Bar -- */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -55,8 +58,20 @@
     position: relative;
     height: 60px;
     background-color: transparent;
+    transition: background-color 0.5s, height 0.3s; /* Smooth transition */
+    z-index: 1000; /* Keep navbar on top */
 }
-
+/* When the navbar is scrolled */
+.navbar.scrolled {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #0000A8; /* Change background color after scrolling */
+    height: 70px; /* Adjust height after scrolling */
+    transition: background-color 0.5s, height 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow effect */
+}
 /* Navigation links - left and right */
 .nav-left, .nav-right {
     display: flex;
@@ -78,17 +93,52 @@
 }
 
 /* Center the logo */
+/* Logo styles */
 .logo-center {
-    
-    left: 50%;
+    left: 0%;
     transform: translateX(-50%);
     margin-top: 61px;
+    transition: all 0.3s ease; /* Smooth transition */
 }
 
 .logo-center img {
     height: 160px;
     width: auto;
+    display: block;
 }
+.logo-text {
+    display: none; /* Initially hidden */
+    font-family: 'PixelFont', sans-serif;
+    font-size: 34px;
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+    position: relative;
+    top: -20px; /* Negative values move it up */
+    left: 10%;
+}
+
+/* When you want the text to fade away */
+.logo-text.hidden {
+    opacity: 0; /* Make it fade out */
+}
+.navbar.scrolled .logo-center img {
+    display: none; /* Hide the image when scrolled */
+}
+
+.navbar.scrolled .logo-text {
+    display: block; /* Show the text when scrolled */
+}
+
+@media (max-width: 768px) {
+    .logo-text{
+        top: 10px; /* Negative values move it up */
+    }
+}
+
+
+
+
 
 /* Hamburger Menu */
 /* Hamburger Menu */
@@ -259,7 +309,7 @@
     /* Media Query for Responsive Design */
     @media (max-width: 768px) {
         .section-landing {
-            background-image: url('img/bg2.png'); /* Change background image for smaller screens */
+            background-image: url('img/bg3png.png'); /* Change background image for smaller screens */
             background-size: cover;
             background-position: center;
             text /* Center text */
@@ -283,15 +333,20 @@
     }
     
     @media (max-width: 480px) {
-        .landing-content h1 {
-            font-size: 36px; /* Further reduce font size for very small screens */
-            top: 25%; /* Adjust top position */
+       .landing-content h1 {
+            top: 70%; /* Move text a bit higher */
+            font-size: 48px; /* Reduce font size for smaller screens */
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center; /* Center-align content horizontally */
+            text-align: center; /* Center-align the text */
         }
     
         .landing-content #btn1 {
-            top: 40%; /* Move button up */
-            padding: 6px 12px; /* Smaller padding */
-            font-size: 1em; /* Adjust font size */
+            transform: translate(-50%, -50%);
+            top: 79%; /* Adjust button position */
+            padding: 8px 16px; /* Slightly smaller padding */
+            font-size: 1.2em; /* Reduce font size for smaller screens */
         }
     }
     
@@ -551,6 +606,7 @@
     /* ----------------category ------------------ */
     /* Flexbox Container */
     .category-container {
+        background-color: #0000A8;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
@@ -1066,14 +1122,15 @@
 }
 
 
-    /* ----------------fOOTER ------------------ */
-    .footer-container {
-        background-color: #1a1a1a;
-        color: #cccccc;
-        font-family: 'Courier New', Courier, monospace; /* Mimics a retro, typewriter-like font */
-        padding: 20px 0;
-    }
-
+ /* ----------------fOOTER ------------------ */
+.footer-container {
+   background-color: rgba(0, 0, 0, 0.8); /* Dark color with 60% opacity */
+    color: #cccccc;
+    font-family: 'Courier New', Courier, monospace; /* Mimics a retro, typewriter-like font */
+    padding: 20px 0;
+    width: 100%; /* Ensure the footer takes up full width */
+    box-sizing: border-box;
+}
     .footer-content {
         display: flex;
         justify-content: space-between;
@@ -1132,3 +1189,267 @@
             max-width: 90%;
         }
     }
+
+
+/* Updated Cart Popup CSS for smooth sliding */
+.cart-popup {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 30%; /* Cart popup width */
+    height: 100%;
+    background-color: #ffffff;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+    z-index: 1200;
+    transform: translateX(100%); /* Start off-screen */
+    transition: transform 0.4s ease-in-out; /* Smooth slide-in and slide-out effect */
+    overflow-y: auto;
+}
+/* Responsive Cart Popup for smaller screens */
+@media (max-width: 1224px) {
+    .cart-popup {
+        width: 45%;
+        
+    }
+}
+@media (max-width: 768px) {
+    .cart-popup {
+        width: 90%;
+        right: 5%;
+        top: 20px;
+    }
+}
+
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.quantity-control button {
+    background-color: #000;
+    color: white;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.quantity-control button:hover {
+    background-color: #555;
+}
+
+.quantity-control span {
+    font-size: 1rem;
+    padding: 0 10px;
+}
+
+.cart-popup.show {
+    transform: translateX(0); /* Slide in */
+}
+
+.cart-popup-content {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+
+.cart-header {
+    text-align: left;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 15px 0;
+}
+
+.cart-item img {
+    width: 80px; /* Smaller image size */
+    height: 80px;
+    margin-right: 15px;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid #ccc; /* Solid box around the image */
+}
+
+.cart-item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    color: #333;
+}
+
+.cart-item-details .item-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.cart-item-details .item-price {
+    color: #777;
+}
+
+.cart-item .remove-btn {
+    cursor: pointer;
+    font-size: 20px;
+    color: #ff4d4d;
+    margin-left: 15px;
+}
+
+.cart-item .remove-btn:hover {
+    color: #ff0000;
+}
+
+.cart-total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 20px;
+}
+
+.checkout-btn {
+    display: block;
+    width: 100%;
+    background-color: #0000A8;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.checkout-btn:hover {
+    background-color: #4F50FF;
+}
+/* Styling for cart popup close button, buttons, etc. */
+.close-btn {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 44px;
+    color: #333;
+}
+.add-to-cart-button:hover {
+    background-color: #4F50FF;
+}
+.preview-images {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.preview {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;  /* Ensures previews are uniform in size */
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+
+.product-details-section {
+    width: 300px;
+}
+
+.preview:hover {
+    border-color: #007bff;
+}
+/* Ensure the product list takes most of the space */
+#cart-items {
+    flex-grow: 1;
+}
+/* Terms and Conditions */
+.terms-and-conditions {
+    display: none;
+    font-size: 12px;
+    color: #666;
+    margin-top: 10px;
+}
+
+.terms-and-conditions-link {
+    color: #000000;
+    cursor: pointer;
+    font-size: 12px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.terms-and-conditions-link:hover {
+    text-decoration: underline;
+}
+
+/* Cart popup wrapper covers the entire screen */
+.cart-popup-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1100;
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: a slight overlay for better UX */
+}
+
+/* Show the wrapper when the cart is opened */
+.cart-popup-wrapper.show {
+    visibility: visible;
+}
+
+
+
+.cursor {
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* border: 2px solid white; */
+    /* background-color: rgba(255, 255, 255, 0.356); */
+    height: 30px;
+    width: 30px;
+    border-radius: 50px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .cursor::after,
+  .cursor::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    height: 10px;
+    width: 10px;
+    border-radius: 50px;
+  }
+  .cursor::before {
+    background-color: rgb(255, 255, 255);
+  }
+  .cursor.click::before {
+    animation: click 1s ease forwards;
+    background-color: rgb(255, 255, 255);
+  }
+  @keyframes click {
+    0% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(7);
+    }
+  }
+  
