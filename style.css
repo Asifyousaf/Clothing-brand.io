@@ -526,19 +526,6 @@
         font-size: 2em; /* Smaller font size for heading */
     }
 
-    .item {
-        width: 100%; /* Full width on very small screens */
-        padding: 10px; /* Less padding */
-    }
-
-    .image-container {
-        height: 250px; /* Adjust height for smaller screens */
-    }
-
-    .item p,
-    .item span {
-        font-size: 1em; /* Smaller font size for text */
-    }
 }
 
 

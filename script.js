@@ -12,11 +12,6 @@ hamMenu.addEventListener("click", () => {
   offScreenMenu.classList.toggle("active");
 });
 
-function openCart() {
-    // Your existing code to open the cart
-    const cartPopup = document.getElementById('cart-popup-wrapper');
-    cartPopup.style.display = 'block';
-}
 
 
 
