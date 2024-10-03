@@ -7,6 +7,14 @@
     <title>Document</title>
     
 </head>
+<div id="splash" class="windows-splash">
+    <div class="splash-content">
+        <h1>Cybertronic</h1>
+        <div class="loading-bar-container">
+            <div class="loading-bar"></div>
+        </div>
+    </div>
+</div>
  <!-- Announcement Bar -->
  <div class="textscroll">
     <div class="toptext" id="scrollingText">
@@ -55,11 +63,14 @@
             <!-- Buy Now Button -->
             <button class="checkout-btn" onclick="checkout()">Buy Now</button>
     
-            <!-- Terms and Conditions Link and Content -->
-            <span class="terms-and-conditions-link" onclick="toggleTerms()">Terms and Conditions</span>
-            <div id="terms-conditions" class="terms-and-conditions">
-                <p>By proceeding, you agree to our <a href="policy.html">terms and conditions</a>.</p>
-            </div>
+           <!-- Terms and Conditions Link and Content -->
+<span class="terms-and-conditions-link">
+    <a href="policy.html" target="_blank">Terms and Conditions</a>
+</span>
+<div id="terms-conditions" class="terms-and-conditions">
+    <p>By proceeding, you agree to our <a href="policy.html" target="_blank">terms and conditions</a>.</p>
+</div>
+
         </div>
     </div>
     </div>
@@ -333,8 +344,9 @@
         </div>
     </footer>
 
-    
+    <script src="splash.js"></script>
     <script src="product.js"></script>
     <script src="script.js"></script>
+    
 </body>
 </html>

@@ -12,6 +12,84 @@
         
         background-color: #f2f2f2f2;
     }
+    /* -- splash screen -- */
+    /* Fullscreen splash with a white background */
+    .windows-splash {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white; /* White background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999; /* Ensure it stays on top */
+        opacity: 1; /* Initial opacity */
+        transition: opacity 1s ease; /* Smooth transition effect */
+    }
+    
+    /* Centered content within the splash screen */
+    .splash-content {
+        text-align: center;
+        color: #0000A8; /* Use the specified blue color */
+        font-family: 'PixelFont', sans-serif; /* Use a pixelated font for a retro feel */
+    }
+    
+    /* Splash screen title */
+    .splash-content h1 {
+        font-size: 3em; /* Title size */
+        margin: 0;
+        animation: fadeIn 1s forwards; /* Faster fade-in effect */
+    }
+    
+    /* Loading bar container */
+    .loading-bar-container {
+        width: 80%; /* Width of the loading bar container */
+        background-color: #ffffff; /* White background for the bar */
+        border: 1px solid #000; /* Black border for the loading bar */
+        margin: 20px auto; /* Center the bar */
+        border-radius: 5px; /* Rounded corners */
+        overflow: hidden; /* Hide overflow for the loading bar */
+    }
+    
+    /* Loading bar */
+    .loading-bar {
+        width: 0; /* Initial width */
+        height: 20px; /* Height of the loading bar */
+        background-color: #0000A8; /* Use the specified blue color for the loading bar */
+        animation: loadingAnimation 2s linear forwards; /* Animate the loading bar for a quicker duration */
+    }
+    
+    /* Loading Animation */
+    @keyframes loadingAnimation {
+        to {
+            width: 100%; /* Expand to full width */
+        }
+    }
+    
+    /* Fade In animation */
+    @keyframes fadeIn {
+        0% {
+            opacity: 0; /* Start hidden */
+            transform: translateY(-50px); /* Start slightly above */
+        }
+        100% {
+            opacity: 1; /* Fully visible */
+            transform: translateY(0); /* Move to original position */
+        }
+    }
+    
+    /* Fade Out animation */
+    @keyframes fadeOut {
+        0% {
+            opacity: 1; /* Fully visible */
+        }
+        100% {
+            opacity: 0; /* Fade out */
+        }
+    }
+    
 
     /* -- Annoncement bar -- */
 
@@ -293,18 +371,36 @@
         width: auto; /* Adjust width */
     }
     
-    .landing-content #btn1 {
-        color: white;
-        position: absolute;
-        background-color: #0000A8;
-        font-family: 'PixelFont', sans-serif;
-        top: 50%; /* Position button below the text */
-        left: 50%; /* Center button horizontally */
-        transform: translate(30%, -50%);
-        padding: 10px 20px;
-        font-size: 1.5em;
-        cursor: pointer;
-    }
+  .landing-content #btn1 {
+    color: white;
+    position: absolute;
+    background-color: #0000A8; /* Initial background color */
+    font-family: 'PixelFont', sans-serif;
+    top: 50%; /* Position button vertically */
+    left: 50%; /* Center button horizontally */
+    transform: translate(30%, -50%);
+    padding: 10px 20px;
+    font-size: 1.5em;
+    cursor: pointer;
+    border: 2px solid #808080; /* Grey border for Windows 95 look */
+    border-right-color: #000000; /* Dark inset shadow */
+    border-bottom-color: #000000;
+    border-left-color: #FFFFFF; /* Light outer bevel */
+    border-top-color: #FFFFFF;
+    box-shadow: none; /* Inset state initially */
+    transition: box-shadow 0.1s ease, border 0.1s ease, background-color 0.1s ease;
+}
+
+/* Hover effect for raised button */
+.landing-content #btn1:hover {
+    box-shadow: 2px 2px 0px #000000; /* Raised button effect */
+    border-right-color: #FFFFFF; /* Light bevel on hover */
+    border-bottom-color: #FFFFFF;
+    border-left-color: #000000; /* Dark shadow on the left */
+    border-top-color: #000000;
+    background-color: #000088; /* Darker background on hover */
+}
+
     
     /* Media Query for Responsive Design */
     @media (max-width: 768px) {
@@ -872,7 +968,6 @@
 
 .title {
     color: white;
-    font-family:cursive;
     font-size: 1.2rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -887,7 +982,7 @@
     letter-spacing: 0.1em;
     margin-bottom: 2rem;
     color: #fff;
-    text-shadow: 2px 2px #ff0000;
+    text-shadow: 2px 2px #000000;
 }
 
 /* Right Side */
@@ -914,19 +1009,31 @@
 
 .learn-more {
     padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #000000;
-    color: rgb(255, 255, 255);
-    border: none;
+    font-size: 1.5em;
+    background-color: #0000A8; /* Initial background color */
+    color: white;
+    border: 2px solid #808080; /* Grey border */
+    border-right-color: #FFFFFF; /* Light bevel effect */
+    border-bottom-color: #FFFFFF;
+    border-left-color: #000000; /* Darker inner shadow effect */
+    border-top-color: #000000;
+    font-family: 'PixelFont', sans-serif;
     cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin: 0 auto; /* Center the button */
+    box-shadow: 2px 2px 0px #000000; /* Gives the effect of a raised button */
+    transition: box-shadow 0.1s ease, border 0.1s ease, background-color 0.1s ease;
 }
 
+/* Hover effect to mimic button press */
 .learn-more:hover {
-    background-color: #444;
+    box-shadow: none;
+    border-right-color: #000000; /* Inset shadow effect */
+    border-bottom-color: #000000;
+    border-left-color: #FFFFFF;
+    border-top-color: #FFFFFF;
+    background-color: #000088; /* Slightly darker background on hover */
 }
+
+
 
 /* Responsive Styles */
 
@@ -1202,7 +1309,6 @@
 @media (max-width: 768px) {
     .cart-popup {
         width: 90%;
-        right: 5%;
         top: 20px;
     }
 }

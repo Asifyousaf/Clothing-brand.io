@@ -1,3 +1,4 @@
+
 document.getElementById('hamburger').addEventListener('click', function() {
     const navLeft = document.getElementById('nav-left');
     const navRight = document.getElementById('nav-right');
@@ -11,7 +12,6 @@ hamMenu.addEventListener("click", () => {
   hamMenu.classList.toggle("active");
   offScreenMenu.classList.toggle("active");
 });
-
 
 
 
@@ -46,7 +46,7 @@ function addToCart(productId) {
     const size = document.getElementById('size').value;
     const color = document.getElementById('color').value;
 
-    const existingProduct = cart.find(item => item.name === product.name && item.size === size && item.color === color);
+    const existingProduct = cart.find(item => item.productId === productId && item.size === size && item.color === color);
 
     if (!existingProduct) {
         // Check if the quantity in the cart exceeds the available stock
@@ -57,11 +57,12 @@ function addToCart(productId) {
         }
 
         // Add new product to the cart with the image URL
-        cart.push({ 
-            name: product.name, 
-            price: product.prices[size][color], 
-            quantity: 1, 
-            size: size, 
+        cart.push({
+            productId: productId,
+            name: product.name,
+            price: product.prices[size][color],
+            quantity: 1,
+            size: size,
             color: color,
             image: product.image // Store the image URL here
         });
@@ -78,58 +79,102 @@ function addToCart(productId) {
     updateCart();
     openCart(); // Automatically open cart when an item is added
 }
-
 // Function to handle the checkout process
 async function checkout() {
-    // Check stock for each item in the cart
-    for (let item of cart) {
-        const availableStock = product.stock[item.size][item.color];
-        if (item.quantity > availableStock) {
-            alert(`Cannot proceed to checkout. Only ${availableStock} item(s) available in stock for ${item.name} (${item.size}, ${item.color}).`);
-            return;
-        }
-    }
-
-    // Gather line items for Stripe
-    const lineItems = cart.map(item => ({
-        price_data: {
-            currency: 'dhs', // or your preferred currency
-            product_data: {
-                name: item.name,
-                images: [item.image],
-                description: `${item.size} ${item.color}`, // Description can be customized
+    try {
+        // Gather line items for Stripe
+        const lineItems = cart.map(item => ({
+            price_data: {
+                currency: 'usd', // Change to your preferred currency
+                product_data: {
+                    name: item.name,
+                    images: [item.image],
+                    description: `${item.size} ${item.color}`,
+                },
+                unit_amount: Math.round(item.price * 100), // Price in cents
             },
-            unit_amount: Math.round(item.price * 100), // Price in cents
-        },
-        quantity: item.quantity,
-    }));
+            quantity: item.quantity,
+        }));
 
-    // Create a new checkout session
-    const response = await fetch('/create-checkout-session', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ line_items: lineItems }),
-    });
+        // Create a new checkout session
+        const response = await fetch('/create-checkout-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ line_items: lineItems }),
+        });
 
-    const session = await response.json();
+        if (!response.ok) {
+            const errorText = await response.text(); // Get response text
+            console.error('Error response:', errorText);
+            throw new Error('Failed to create checkout session');
+        }
 
-    // Redirect to Stripe Checkout
-    if (session.id) {
-        const stripe = Stripe(pk_test_51Q4iWzJEY1WRV9LDiqJLH3WMWRjNBPUaXIAbQWPnpEtc7iTYKPi3lLb2HtlNlBv30NB1VXbbvc9HUQY6LPqJPUMX00RYhrXjGM); // Replace with your Stripe publishable key
-        await stripe.redirectToCheckout({ sessionId: session.id });
-    } else {
-        alert("Failed to create checkout session. Please try again.");
+        const session = await response.json();
+
+        // Redirect to Stripe Checkout
+        if (session.id) {
+            const stripe = Stripe('pk_test_51Q4iWzJEY1WRV9LDiqJLH3WMWRjNBPUaXIAbQWPnpEtc7iTYKPi3lLb2HtlNlBv30NB1VXbbvc9HUQY6LPqJPUMX00RYhrXjGM'); // Replace with your Stripe publishable key
+            await stripe.redirectToCheckout({ sessionId: session.id });
+        } else {
+            alert("Failed to create checkout session. Please try again.");
+        }
+
+        closeCart(); // Close cart after initiating checkout
+    } catch (error) {
+        console.error('Checkout error:', error);
+        alert('Error occurred during checkout. Please try again.');
     }
+}
 
-    closeCart(); // Close cart after initiating checkout
+// Initialize the PayPal button after the cart is updated
+function initializePayPalButton() {
+    const paypalContainer = document.getElementById('paypal-button-container');
+    paypalContainer.innerHTML = ''; // Clear existing PayPal buttons
+
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: calculateTotalCartPrice(), // Calculate the total price dynamically
+                    },
+                    description: generateProductDescription() // Add product descriptions
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                alert('Transaction completed by ' + details.payer.name.given_name);
+                // Clear the cart after successful payment
+                cart = [];
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCart();
+                closeCart(); // Close cart after checkout
+            });
+        },
+        onError: function(err) {
+            alert('Payment could not be completed. Please try again.');
+        }
+    }).render(paypalContainer); // Display PayPal buttons in the container
 }
 
 
+// Calculate the total cart price
+function calculateTotalCartPrice() {
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
+}
+
+// Generate product descriptions for PayPal
+function generateProductDescription() {
+    return cart.map(item => `${item.name} (${item.size}, ${item.color}) x${item.quantity}`).join(', ');
+}
+
+// Update the cart and initialize the PayPal button
 function updateCart() {
     const cartItemsContainer = document.getElementById('cart-items');
-    cartItemsContainer.innerHTML = ''; // Clear the existing items in the cart
+    cartItemsContainer.innerHTML = ''; // Clear existing items
     let total = 0;
 
     cart.forEach((item, index) => {
@@ -137,7 +182,7 @@ function updateCart() {
         itemDiv.classList.add('cart-item');
 
         const itemImage = document.createElement('img');
-        itemImage.src = item.image; // Use the stored image URL here
+        itemImage.src = item.image;
         itemDiv.appendChild(itemImage);
 
         const itemDetails = document.createElement('div');
@@ -148,17 +193,15 @@ function updateCart() {
         `;
         itemDiv.appendChild(itemDetails);
 
-        // Quantity control buttons
         const quantityControl = document.createElement('div');
         quantityControl.classList.add('quantity-control');
         quantityControl.innerHTML = `
-            <button onclick="changeQuantity(${index}, -1)">-</button>
+            <button class="quantity-minus">-</button>
             <span>${item.quantity}</span>
-            <button onclick="changeQuantity(${index}, 1)">+</button>
+            <button class="quantity-plus">+</button>
         `;
         itemDiv.appendChild(quantityControl);
 
-        // Remove item button
         const removeBtn = document.createElement('span');
         removeBtn.classList.add('remove-btn');
         removeBtn.innerHTML = '&times;';
@@ -166,19 +209,39 @@ function updateCart() {
         itemDiv.appendChild(removeBtn);
 
         cartItemsContainer.appendChild(itemDiv);
-        total += item.price * item.quantity; // Calculate total price
+        total += item.price * item.quantity;
     });
 
-    // Update the total price in the cart
     document.getElementById('cart-total-price').innerText = `$${total.toFixed(2)}`;
-    
-    // Save the updated cart to localStorage
     localStorage.setItem('cart', JSON.stringify(cart));
+
+    // Initialize PayPal button here
+    initializePayPalButton(); // Refresh PayPal button on cart update
+
+    // Attach event listeners for quantity buttons
+    const quantityMinusButtons = document.querySelectorAll('.quantity-minus');
+    const quantityPlusButtons = document.querySelectorAll('.quantity-plus');
+
+    quantityMinusButtons.forEach((button, index) => {
+        button.addEventListener('click', () => changeQuantity(index, -1));
+    });
+
+    quantityPlusButtons.forEach((button, index) => {
+        button.addEventListener('click', () => changeQuantity(index, 1));
+    });
 }
+
+
+// Ensure PayPal is initialized when the page loads
+window.onload = function() {
+    updateCart(); // Update cart and initialize PayPal button
+    initializePayPalButton(); // Initialize PayPal button once
+};
 
 
 function changeQuantity(index, change) {
     const item = cart[index];
+    const product = products[item.productId]; // Get the product details
     const stock = product.stock[item.size][item.color];
 
     // Change quantity only if within stock limits
@@ -200,6 +263,7 @@ function changeQuantity(index, change) {
 
     updateCart();
 }
+
 
 // Function to remove an item from the cart
 function removeFromCart(index) {
@@ -294,3 +358,16 @@ function closeCartOnClickOutside(event) {
 }
 
 // product js
+// Check if the splash screen has been shown before
+const handlePurchase = async (productId, quantity) => {
+    // Assuming purchase is successful
+    try {
+        await axios.post('http://your-server-url/update-stock', {
+            productId,
+            quantity,
+        });
+        alert('Purchase successful! Stock updated.');
+    } catch (error) {
+        alert('Error updating stock: ' + error.response.data);
+    }
+};

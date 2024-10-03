@@ -8,7 +8,6 @@
     <title>Product Page</title>
 </head>
 <body>
-    
  <!-- Announcement Bar -->
  <div class="textscroll">
     <div class="toptext" id="scrollingText">
@@ -34,89 +33,85 @@
         <h1>Warning.</h1>
     </div>
 </div>
-
 <!-- Navigation Bar -->
-    <div class="navbar">
-        <!-- Navigation Links on the Left -->
-        <ul class="nav-left" id="nav-left">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="clothing.html">Clothing</a></li>
-            <li><a href="collection.html">Collection</a></li>
-        </ul>
-    
-        <!-- Center Logo -->
-        <!-- Center Logo -->
+<div class="navbar">
+    <!-- Navigation Links on the Left -->
+    <ul class="nav-left" id="nav-left">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="clothing.html">Clothing</a></li>
+        <li><a href="collection.html">Collection</a></li>
+    </ul>
+
+    <!-- Center Logo -->
+    <!-- Center Logo -->
 <div class="logo-center">
 <a href="#" id="logo-container">
-    <img src="img/company.png" alt="Logo" id="logo-img">
+<img src="img/company.png" alt="Logo" id="logo-img">
 </a>
 </div>
 
-        <!-- Cart Button and About on the Right -->
-        <ul class="nav-right" id="nav-right">
-            <li><a href="#" id="cart-button">Cart</a></li>
-            <li><a href="about.html">About</a></li>
-        </ul>
-    
-        <!-- Hamburger Menu (on the top-right) -->
-        <div class="ham-menu" id="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div> 
-    
-        <!-- Small Screen Cart Button -->
-        <div class="cart-button-small-screen">
-            <a href="#" class="cart-button" onclick="openCart()">Cart</a>
-        </div>
-    
-        <!-- Off-screen Menu -->
-        <div class="off-screen-menu">
-            <a href="index.html">Home</a>
-            <a href="clothing.html">Clothing</a>
-            <a href="collection.html">Collection</a>
-            <a href="about.html">About</a>
-        </div>
+    <!-- Cart Button and About on the Right -->
+    <ul class="nav-right" id="nav-right">
+        <li><a href="#" id="cart-button"  onclick="openCart()">Cart</a></li>
+        <li><a href="about.html">About</a></li>
+    </ul>
+
+    <!-- Hamburger Menu (on the top-right) -->
+    <div class="ham-menu" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div> 
+
+    <!-- Small Screen Cart Button -->
+    <div class="cart-button-small-screen">
+        <a href="#" id="cart-button"  onclick="openCart()">Cart</a>
     </div>
 
+    <!-- Off-screen Menu -->
+    <div class="off-screen-menu">
+        <a href="index.html">Home</a>
+        <a href="clothing.html">Clothing</a>
+        <a href="collection.html">Collection</a>
+        <a href="about.html">About</a>
+    </div>
+</div>
+
 <!-- Main Product Page Section -->
-<div class="product-page-container">
+<div class="product-page-container"  data-product-id="pants1">
     <div class="product-image-section">
         <!-- Main product image -->
-        <img src="img/shirt2.png" alt="Product Image" class="product-image" id="main-product-image">
+        <img src="img/shirt1.png" alt="Product Image" class="product-image" id="main-product-image">
         
         <!-- Preview images section -->
         <div class="preview-images">
-            <img src="img/shirt2.png" alt="Preview 1" class="preview" onclick="changeImage('img/shirt2.png')">
+            <img src="img/shirt1.png" alt="Preview 1" class="preview" onclick="changeImage('img/shirt2.png')">
             <img src="img/shirt1.png" alt="Preview 2" class="preview" onclick="changeImage('img/shirt1.png')">
             <img src="img/shirt3.png" alt="Preview 3" class="preview" onclick="changeImage('img/shirt3.png')">
         </div>
     </div>
     
     <div class="product-details-section">
-    
         <h1 id="product-name">Product Name</h1>
-        <p id="product-description">Short product description. This product is made from the best materials and designed for ultimate comfort and style.</p>
+        <p id="product-description">Short product description.</p>
         
         <div class="product-options">
             <label for="size">Size:</label>
-            <select id="size">
-                <!-- Sizes will be populated dynamically -->
-            </select>
+            <select id="size"></select>
         </div>
         
         <div class="product-options">
             <label for="color">Color:</label>
-            <select id="color">
-                <!-- Colors will be populated dynamically -->
-            </select>
+            <select id="color"></select>
         </div>
+        
         <p id="stock-info">Stock: <span id="stock-quantity">N/A</span></p>
         <div class="product-price">
-            <p>Price: <span id="product-price">$99.99</span></p>
+            <p>Price: <span id="product-price">$0.00</span></p>
         </div>
         <button id="add-to-cart-btn" onclick="addToCart('shirt1')">Add to Cart</button>
     </div>
+    
 
 </div>
  <!-- Announcement Bar -->
@@ -185,7 +180,27 @@
         </div>
     </div>
 </div>
-
+<div id="cart-popup-wrapper" class="cart-popup-wrapper" onclick="closeCartOnClickOutside(event)">
+    <div id="cart-popup" class="cart-popup">
+        <div class="cart-popup-content">
+            <span class="close-btn" onclick="closeCart()">×</span>
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <p>Total: <span id="cart-total-price">$0.00</span></p>
+            </div>
+            
+            <!-- Buy Now Button -->
+            <button class="checkout-btn" onclick="checkout()">Buy Now</button>
+    
+            <!-- Terms and Conditions Link and Content -->
+            <span class="terms-and-conditions-link" onclick="toggleTerms()">Terms and Conditions</span>
+            <div id="terms-conditions" class="terms-and-conditions">
+                <p>By proceeding, you agree to our <a href="policy.html">terms and conditions</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Footer Section -->
 <footer class="footer-container">
@@ -228,7 +243,9 @@
     </div>
 </footer>
 
-<script src="product.js"></script>
 <script src="script.js"></script>
+<script src="product.js"></script>
+
+
 </body>
 </html>

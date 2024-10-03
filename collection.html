@@ -37,7 +37,8 @@
         <H1>• Affordable Prices </H1>
     </div>
 </div>
-<div id="cart-popup-wrapper" class="cart-popup-wrapper" onclick="closeCartOnClickOutside(event)"></div>
+
+<div id="cart-popup-wrapper" class="cart-popup-wrapper" onclick="closeCartOnClickOutside(event)">
     <div id="cart-popup" class="cart-popup">
         <div class="cart-popup-content">
             <span class="close-btn" onclick="closeCart()">×</span>
@@ -50,15 +51,21 @@
             <!-- Buy Now Button -->
             <button class="checkout-btn" onclick="checkout()">Buy Now</button>
     
-            <!-- Terms and Conditions Link and Content -->
-            <span class="terms-and-conditions-link" onclick="toggleTerms()">Terms and Conditions</span>
-            <div id="terms-conditions" class="terms-and-conditions">
-                <p>By proceeding, you agree to our <a href="policy.html">terms and conditions</a>.</p>
-            </div>
+           <!-- Terms and Conditions Link and Content -->
+<span class="terms-and-conditions-link">
+    <a href="policy.html" target="_blank">Terms and Conditions</a>
+</span>
+<div id="terms-conditions" class="terms-and-conditions">
+    <p>By proceeding, you agree to our <a href="policy.html" target="_blank">terms and conditions</a>.</p>
+</div>
+
         </div>
     </div>
     </div>
-    <div class="section-landing">
+    
+     <!-- Landing Page Section --> <!-- Navigation Bar -->
+     
+     <div class="section-landing">
         <div class="navbar">
             <!-- Navigation Links on the Left -->
             <ul class="nav-left" id="nav-left">
@@ -77,7 +84,7 @@
 
             <!-- Cart Button and About on the Right -->
             <ul class="nav-right" id="nav-right">
-                <li><a href="#" id="cart-button">Cart</a></li>
+                <li>  <a href="#" id="cart-button" onclick="openCart()">Cart</a></li>
                 <li><a href="about.html">About</a></li>
             </ul>
         
@@ -90,7 +97,7 @@
         
             <!-- Small Screen Cart Button -->
             <div class="cart-button-small-screen">
-                <a href="#" id="cart-button-small" onclick="openCart()">Cart</a>
+                <a href="#" class="cart-button" onclick="openCart()">Cart</a>
             </div>
         
             <!-- Off-screen Menu -->
@@ -103,7 +110,6 @@
         </div>
         
 
-        
     
         <div class="landing-content">
             <h1>Our Collection</h1>
