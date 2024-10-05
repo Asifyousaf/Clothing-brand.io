@@ -128,38 +128,6 @@ async function checkout() {
     }
 }
 
-// Initialize the PayPal button after the cart is updated
-function initializePayPalButton() {
-    const paypalContainer = document.getElementById('paypal-button-container');
-    paypalContainer.innerHTML = ''; // Clear existing PayPal buttons
-
-    paypal.Buttons({
-        createOrder: function(data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: calculateTotalCartPrice(), // Calculate the total price dynamically
-                    },
-                    description: generateProductDescription() // Add product descriptions
-                }]
-            });
-        },
-        onApprove: function(data, actions) {
-            return actions.order.capture().then(function(details) {
-                alert('Transaction completed by ' + details.payer.name.given_name);
-                // Clear the cart after successful payment
-                cart = [];
-                localStorage.setItem('cart', JSON.stringify(cart));
-                updateCart();
-                closeCart(); // Close cart after checkout
-            });
-        },
-        onError: function(err) {
-            alert('Payment could not be completed. Please try again.');
-        }
-    }).render(paypalContainer); // Display PayPal buttons in the container
-}
-
 
 // Calculate the total cart price
 function calculateTotalCartPrice() {
@@ -215,8 +183,6 @@ function updateCart() {
     document.getElementById('cart-total-price').innerText = `$${total.toFixed(2)}`;
     localStorage.setItem('cart', JSON.stringify(cart));
 
-    // Initialize PayPal button here
-    initializePayPalButton(); // Refresh PayPal button on cart update
 
     // Attach event listeners for quantity buttons
     const quantityMinusButtons = document.querySelectorAll('.quantity-minus');
@@ -281,48 +247,6 @@ window.onload = function() {
 function changeImage(imageSrc) {
     document.getElementById('main-product-image').src = imageSrc;
 }
-
-// Function to render products (for demo purposes)
-function renderProducts() {
-    console.log("Rendering products...");
-}
-window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('.navbar');
-    
-    if (window.scrollY > 50) {  // Trigger after scrolling down 50px
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
-
-
-// Function to handle scroll and change the logo
-window.addEventListener('scroll', function() {
-    var navbar = document.querySelector('.navbar');
-    var logoContainer = document.querySelector('.logo-center');
-    var logoImage = document.getElementById('logo-img');
-    var logoText = document.createElement('span');
-
-    // Check scroll position (adjust 100 as needed)
-    if (window.scrollY > 100) {
-        navbar.classList.add('scrolled');
-        
-        // Replace logo with text
-        if (!document.querySelector('.logo-text')) {
-            logoText.classList.add('logo-text');
-            logoText.innerText = 'CyberTronic'; // The new text
-            logoContainer.appendChild(logoText);
-        }
-    } else {
-        navbar.classList.remove('scrolled');
-        
-        // Switch back to the logo image
-        if (document.querySelector('.logo-text')) {
-            document.querySelector('.logo-text').remove();
-        }
-    }
-});
 
 
 // Function to open the cart

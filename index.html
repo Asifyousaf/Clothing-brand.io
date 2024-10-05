@@ -15,6 +15,18 @@
         </div>
     </div>
 </div>
+ <!-- Page Preloder -->
+<!-- Loading Screen -->
+<div id="loadingScreen" class="loading-screen">
+    <div class="loader"></div>
+</div>
+
+<!-- The rest of your page content goes here -->
+<div class="page-content">
+    <!-- Your page content -->
+</div>
+
+
  <!-- Announcement Bar -->
  <div class="textscroll">
     <div class="toptext" id="scrollingText">
@@ -96,7 +108,7 @@
 
             <!-- Cart Button and About on the Right -->
             <ul class="nav-right" id="nav-right">
-                <li><a href="#" id="cart-button">Cart</a></li>
+                <li><a id="cart-button" onclick="openCart()">Cart</a></li>
                 <li><a href="about.html">About</a></li>
             </ul>
         
@@ -109,7 +121,7 @@
         
             <!-- Small Screen Cart Button -->
             <div class="cart-button-small-screen">
-                <a href="#" class="cart-button" onclick="openCart()">Cart</a>
+                <a class="cart-button" onclick="openCart()">Cart</a>
             </div>
         
             <!-- Off-screen Menu -->
@@ -154,45 +166,103 @@
         </div>
         <div class="clothing-container">
             <h1>New Arrival</h1>
-            <div class="clothing-grid">
-                <div class="item" data-product='{"name": "Shirt 2", "price": 10, "description": "Short description of Shirt 2.", "image": "img/f-shirt.png"}'>
-                    <div class="fade-bg"></div>
-                    <a href="Product.html" class="image-container"> <!-- Link to Product Page -->
-                        <img src="img/f-shirt.png" alt="Shirt 2" class="front">
-                        <img src="img/f-shirt2.png" alt="Shirt 2 Back" class="back">
-                    </a>
-                    <p>Shirt 2</p>
-                    <span>$10</span>
-                </div>
-                <div class="item" data-product='{"name": "Shirt 3", "price": 10, "description": "Short description of Shirt 3.", "image": "img/f-shirt.png"}'>
-                    <div class="fade-bg"></div>
-                    <a href="Product2.html" class="image-container">
-                        <img src="img/f-shirt.png" alt="Shirt 3" class="front">
-                        <img src="img/f-shirt.png" alt="Shirt 3 Back" class="back">
-                    </a>
-                    <p>Shirt 3</p>
-                    <span>$10</span>
-                </div>
-                <div class="item" data-product='{"name": "Shirt 4", "price": 10, "description": "Short description of Shirt 4.", "image": "img/shirt1.png"}'>
+        
+            <!-- Grid layout for larger screens -->
+            <div class="clothing-grid" id="clothingGrid">
+                <!-- Product 1 -->
+                <div class="item">
                     <div class="fade-bg"></div>
                     <a href="Product.html" class="image-container">
-                        <img src="img/shirt1.png" alt="Shirt 4" class="front">
-                        <img src="img/shirt1.png" alt="Shirt 4 Back" class="back">
+                        <img src="img/f-shirt.png" alt="Product 1" class="front">
+                        <img src="https://via.placeholder.com/280x300" alt="Product 1 Back" class="back">
                     </a>
-                    <p>Shirt 4</p>
-                    <span>$10</span>
+                    <p class="product-name">Product 1</p>
+                    <span class="product-price">$10</span>
                 </div>
-                <div class="item" data-product='{"name": "Shirt 5", "price": 10, "description": "Short description of Shirt 5.", "image": "img/shirt1.png"}'>
+                 <!-- Product 1 -->
+                <div class="item">
                     <div class="fade-bg"></div>
                     <a href="Product.html" class="image-container">
-                        <img src="img/shirt1.png" alt="Shirt 5" class="front">
-                        <img src="img/shirt1.png" alt="Shirt 5 Back" class="back">
+                        <img src="https://via.placeholder.com/280x300" alt="Product 1" class="front">
+                        <img src="https://via.placeholder.com/280x300" alt="Product 1 Back" class="back">
                     </a>
-                    <p>Shirt 5</p>
-                    <span>$10</span>
+                    <p class="product-name">Product 1</p>
+                    <span class="product-price">$10</span>
                 </div>
+                 <!-- Product 1 -->
+                <div class="item">
+                    <div class="fade-bg"></div>
+                    <a href="Product.html" class="image-container">
+                        <img src="https://via.placeholder.com/280x300" alt="Product 1" class="front">
+                        <img src="https://via.placeholder.com/280x300" alt="Product 1 Back" class="back">
+                    </a>
+                    <p class="product-name">Product 1</p>
+                    <span class="product-price">$10</span>
+                </div>
+                 <!-- Product 1 -->
+                <div class="item">
+                    <div class="fade-bg"></div>
+                    <a href="Product.html" class="image-container">
+                        <img src="https://via.placeholder.com/280x300" alt="Product 1" class="front">
+                        <img src="https://via.placeholder.com/280x300" alt="Product 1 Back" class="back">
+                    </a>
+                    <p class="product-name">Product 1</p>
+                    <span class="product-price">$10</span>
+                </div>
+                <!-- Add more products similarly -->
+            </div>
+        
+            <!-- Slider layout for smaller screens -->
+            <div class="clothing-slider-wrapper" id="clothingSlider">
+                <button class="slider-arrow left-arrow" onclick="slideLeft()">&#10094;</button>
+                <div class="clothing-grid-slider" id="sliderGrid">
+                    <!-- Product 1 -->
+                    <div class="item">
+                        <div class="fade-bg"></div>
+                        <a href="Product.html" class="image-container">
+                            <img src="img/f-shirt.png" alt="Product 1" class="front">
+                            <img src="https://via.placeholder.com/280x300" alt="Product 1 Back" class="back">
+                        </a>
+                        <p class="product-name">Product 1</p>
+                        <span class="product-price">$10</span>
+                    </div>
+                    <div class="item">
+                        <div class="fade-bg"></div>
+                        <a href="Product.html" class="image-container">
+                            <img src="https://via.placeholder.com/280x300" alt="Product 1" class="front">
+                            <img src="https://via.placeholder.com/280x30" alt="Product 1 Back" class="back">
+                        </a>
+                        <p class="product-name">Product 1</p>
+                        <span class="product-price">$10</span>
+                    </div>
+                    <div class="item">
+                        <div class="fade-bg"></div>
+                        <a href="Product.html" class="image-container">
+                            <img src="https://via.placeholder.com/280x300" alt="Product 1" class="front">
+                            <img src="https://via.placeholder.com/280x300" alt="Product 1 Back" class="back">
+                        </a>
+                        <p class="product-name">Product 1</p>
+                        <span class="product-price">$10</span>
+                    </div>
+                    <div class="item">
+                        <div class="fade-bg"></div>
+                        <a href="Product.html" class="image-container">
+                            <img src="https://via.placeholder.com/280x300" alt="Product 1" class="front">
+                            <img src="https://via.placeholder.com/280x300" alt="Product 1 Back" class="back">
+                        </a>
+                        <p class="product-name">Product 1</p>
+                        <span class="product-price">$10</span>
+                    </div>
+                    <!-- Add more products similarly -->
+                </div>
+                <button class="slider-arrow right-arrow" onclick="slideRight()">&#10095;</button>
             </div>
         </div>
+        
+        
+        
+        
+        
         
         
      </div>
@@ -345,6 +415,36 @@
     </footer>
 
     <script src="splash.js"></script>
+
+    <script>
+    
+    let scrollPosition = 0;
+
+        function slideLeft() {
+            const clothingSlider = document.getElementById('sliderGrid');
+            const itemWidth = clothingSlider.querySelector('.item').offsetWidth + 15; // Include gap
+            scrollPosition -= itemWidth * 2; // Scroll by two items
+            if (scrollPosition < 0) scrollPosition = 0;
+            clothingSlider.scrollTo({
+                left: scrollPosition,
+                behavior: 'smooth'
+            });
+        }
+        
+        function slideRight() {
+            const clothingSlider = document.getElementById('sliderGrid');
+            const itemWidth = clothingSlider.querySelector('.item').offsetWidth + 15; // Include gap
+            scrollPosition += itemWidth * 2; // Scroll by two items
+            const maxScroll = clothingSlider.scrollWidth - clothingSlider.clientWidth;
+            if (scrollPosition > maxScroll) scrollPosition = maxScroll;
+            clothingSlider.scrollTo({
+                left: scrollPosition,
+                behavior: 'smooth'
+            });
+        }
+        
+        </script>
+        <script src="scroll.js"></script>
     <script src="product.js"></script>
     <script src="script.js"></script>
     

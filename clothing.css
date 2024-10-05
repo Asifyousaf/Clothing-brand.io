@@ -6,6 +6,130 @@ body {
     background-size: cover;
 }
 
+.filter-bar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: transparent; /* Removed background color */
+    padding: 10px;
+    margin: 20px 0;
+    border: 2px solid white; /* Set border to white */
+    border-radius: 15px; /* Increased border radius for a more rounded effect */
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-group label {
+    color: white;
+    font-size: 18px;
+    font-family: 'PixelFont', sans-serif;
+
+}
+
+.filter-apply-btn {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-apply-btn:hover {
+    background-color: #555;
+}
+.filter-popup {
+    color: white;
+    font-size: 18px;
+    font-family: 'PixelFont', sans-serif;
+    display: none; /* Initially hidden */
+   
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px; /* Padding inside the box */
+    margin-top: 10px; /* Space between the filter bar and the popup */
+    position: relative; /* Position relative to its container */
+    width: 250px; /* Set a specific width for the popup */
+    max-width: 90%; /* Ensure it doesn't exceed 90% of the viewport */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    height: auto; /* Auto height */
+    overflow: hidden; /* Hide overflow */
+    opacity: 0; /* Start as invisible */
+    transform: translateY(-10px); /* Initial position slightly above */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -10px); /* Center and move up slightly */
+    display: flex; /* Change to flex display */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: center; /* Center items horizontally */
+}
+
+/* Class to show the filter popup */
+.filter-popup.show {
+    display: flex; /* Set to flex to take up space */
+    opacity: 1; /* Fade in */
+    transform: translate(-50%, 0); /* Move to original position */
+}
+
+/* Individual filter item style */
+.filter-item {
+    border: 1px solid white; /* Individual border */
+    border-radius: 5px; /* Slightly rounded corners for individual items */
+    padding: 5px; /* Padding inside each filter item */
+    margin: 5px; /* Space around filter items */
+    display: flex; /* Use flexbox for better alignment */
+    justify-content: space-between; /* Space between filter text and remove button */
+    align-items: center; /* Center items vertically */
+}
+
+/* Remove filter button style */
+.remove-filter {
+    cursor: pointer; /* Change cursor to pointer on hover */
+    color: red; /* Color for the remove button */
+    margin-left: 10px; /* Space between text and button */
+}
+
+
+
+
+/* Optional: Add some responsiveness */
+@media (max-width: 600px) {
+    .filter-bar {
+        flex-direction: column; /* Stack filters vertically on small screens */
+    }
+}
+
+/* Style for dropdown buttons */
+select {
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    border: 2px solid white; /* White outline */
+    color: black; /* Change text color to black for visibility */
+    border-radius: 5px; /* Rounded corners */
+    padding: 8px; /* Add some padding for better appearance */
+    font-size: 1em; /* Adjust font size if necessary */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: border-color 0.3s; /* Transition for border color */
+}
+
+/* Change border color on focus */
+select:focus {
+    outline: none; /* Remove default outline */
+    border-color: #555; /* Change border color on focus */
+}
+
+/* Optional: Change the appearance of dropdown arrow (if applicable) */
+select::-ms-expand {
+    display: none; /* Hide the default dropdown arrow for Internet Explorer */
+}
+
+/* Additional styling for dropdown appearance */
+.filter-group {
+    position: relative; /* To position the dropdowns correctly */
+}
+
 /* Clothing container styling */
 .clothing-container {
     text-align: center;
@@ -83,9 +207,10 @@ body {
 .image-container:hover img {
     opacity: 0.8; /* Only change opacity, no zoom */
 }
+
 @media (max-width: 1296px) {
     .clothing-grid {
-        grid-template-columns: repeat(4, 1fr); /* 3 items per row for tablets */
+        grid-template-columns: repeat(4, 1fr); /* 4 items per row for tablets */
     }
 }
 @media (max-width: 1024px) {

@@ -8,6 +8,17 @@
     <title>Product Page</title>
 </head>
 <body>
+     <!-- Page Preloder -->
+<!-- Loading Screen -->
+<div id="loadingScreen" class="loading-screen">
+    <div class="loader"></div>
+</div>
+
+<!-- The rest of your page content goes here -->
+<div class="page-content">
+    <!-- Your page content -->
+</div>
+
  <!-- Announcement Bar -->
  <div class="textscroll">
     <div class="toptext" id="scrollingText">
@@ -52,7 +63,7 @@
 
     <!-- Cart Button and About on the Right -->
     <ul class="nav-right" id="nav-right">
-        <li><a href="#" id="cart-button" onclick="openCart()">Cart</a></li>
+        <li><a id="cart-button" onclick="openCart()">Cart</a></li>
         <li><a href="about.html">About</a></li>
     </ul>
 
@@ -65,7 +76,7 @@
 
     <!-- Small Screen Cart Button -->
     <div class="cart-button-small-screen">
-        <a href="#" id="cart-button">Cart</a>
+        <a id="cart-button" onclick="openCart()">Cart</a>
     </div>
 
     <!-- Off-screen Menu -->
@@ -240,7 +251,7 @@
         <p>© 2024 Cybertronic. All rights reserved.</p>
     </div>
 </footer>
-
+<script src="scroll.js"></script>
 <script src="script.js"></script>
 <script src="product.js"></script>
 

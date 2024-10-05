@@ -90,6 +90,44 @@
         }
     }
     
+    /* -- LOADING  -- */
+    /* Loading screen styles */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff; /* White background */
+    z-index: 9999; /* Ensure it's on top */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+/* Hide the loading screen when it's not visible */
+.loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Blue loader animation */
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #007bff; /* Blue color */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+/* Spin animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
     /* -- Annoncement bar -- */
 
@@ -157,6 +195,7 @@
 }
 
 .nav-left li, .nav-right li {
+    cursor: pointer;
     padding-top: 10px;
     margin: 0 15px;
 }
@@ -513,58 +552,51 @@
         padding-bottom: 20px;
         color: #fff;
     }
-  /* Clothing container styling */
-  .clothing-container {
+/* Container styling */
+.clothing-container {
     text-align: center;
     padding: 40px 20px;
 }
 
 .clothing-container h1 {
-    font-family: 'PixelFont', sans-serif; /* Replace with your font */
+    font-family: 'PixelFont', sans-serif;
     font-size: 3em;
     margin-bottom: 30px;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    color: #ffffff;
 }
 
-/* Grid layout */
+/* Grid layout for larger screens */
 .clothing-grid {
     display: flex;
-    justify-content: center;
-    gap: 60px;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 20px;
 }
 
-/* Individual item styles */
-.clothing-grid .item {
+.item {
     position: relative;
-    width: 280px; /* Base width */
+    width: calc(33.333% - 25px);
+    max-width: 280px;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
-    overflow: hidden; /* Ensure children don't overflow */
-    z-index: 0;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* White fade effect */
-.fade-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.9);
-    filter: blur(55px);
-    border-radius: 4px;
-    z-index: -1;
+.item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Image container to hold both images */
 .image-container {
     position: relative;
     width: 100%;
-    height: 400px; /* Adjust height as needed */
-    display: block; /* Ensure anchor behaves as block */
+    height: 300px;
+    display: block;
 }
 
 /* Image styles */
@@ -591,39 +623,91 @@
     opacity: 1; /* Show back on hover */
 }
 
-/* Ensure text is above the fade effect */
-.item p,
-.item span {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+
+.product-name,
+.product-price {
     font-family: 'PixelFont', sans-serif;
     font-size: 1.2em;
-    color: rgb(255, 255, 255);
-    z-index: 1; /* Higher than the fade-bg */
+    color: #333;
+    margin: 10px 0;
 }
 
-.item span {
-    padding-top: 10px;
+.product-price {
+    color: #666;
+    font-size: 1em;
 }
 
-/* Responsive styles for smaller screens */
+/* Mobile Slider Layout for smaller screens */
+.clothing-slider-wrapper {
+    display: none; /* Hidden by default for larger screens */
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 20px;
+    width: 100%;
+}
+
+.clothing-grid-slider {
+    display: flex;
+    gap: 15px;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+    width: 100%;
+}
+
+.clothing-grid-slider .item {
+    flex-shrink: 0;
+    width: 280px; /* Adjust based on image size */
+    max-width: 280px;
+}
+
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+    transform: translateY(-50%);
+}
+
+.left-arrow {
+    left: 0;
+}
+
+.right-arrow {
+    right: 0;
+}
+
+/* Hide scrollbar on clothing slider */
+.clothing-grid-slider {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.clothing-grid-slider::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, and Opera */
+}
+
+/* Responsive styles */
 @media (max-width: 768px) {
     .clothing-grid {
-        flex-direction: column;
-        align-items: center;
+        display: none; /* Hide grid on mobile */
     }
-
-    .item {
-        width: 90%; /* Make items take up more width */
+    .clothing-slider-wrapper {
+        display: flex; /* Show slider on mobile */
     }
 }
 
-@media (max-width: 600px) {
-    .clothing-container h1 {
-        font-size: 2em; /* Smaller font size for heading */
+@media (min-width: 769px) {
+    .clothing-slider-wrapper {
+        display: none; /* Hide slider on larger screens */
     }
-
 }
 
+    
 
     .featured-products {
         text-align: center;
@@ -681,125 +765,124 @@
     @media (max-width: 768px) {
         .banner-text h1{
             font-size: 40px;
-
         }
     }
 
+/* ----------------category ------------------ */
+/* Flexbox Container */
+.category-container {
+    background-color: #0000A8; /* Background color */
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+    justify-content: center; /* Center items for better alignment */
+    padding: 10px;
+    gap: 10px; /* Space between items */
+}
 
-    /* ----------------category ------------------ */
-    /* Flexbox Container */
-    .category-container {
-        background-color: #0000A8;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        padding: 10px;
-        gap: 10px;
-    }
+/* Flex Items - Each Category */
+.category-item {
+    position: relative;
+    flex: 1 1 calc(33.333% - 20px); /* 3 columns layout */
+    max-width: calc(33.333% - 20px); /* Ensures items don't exceed 3 per row */
+    height: 400px; /* Default height for square items */
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    background: url('img/peakpx.jpg') center/cover no-repeat; /* Background image */
+    box-shadow: 0 2px 0 rgba(255, 255, 255, 0.8); /* Create a thin line effect */
+}
 
-    /* Flex Items - Each Category */
+/* Make the first item larger */
+.category-item:first-child {
+    flex: 2 1 calc(66.666% - 20px); /* Makes it span two columns */
+    max-width: calc(66.666% - 20px);
+    height: 400px; /* Keep the rectangular height */
+}
+
+/* Hover effect for scaling */
+.category-item:hover {
+    transform: scale(1.02); /* Slightly larger on hover */
+}
+
+/* Product image on top of the background */
+.category-item .product-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%; /* Adjust the size of the product image */
+    height: auto;
+    z-index: 1; /* Ensure the product image is on top */
+}
+
+/* Overlay content (Button and text) */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4); /* Semi-transparent dark overlay */
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2; /* Overlay on top of everything */
+}
+
+.category-item:hover .overlay {
+    opacity: 1; /* Show overlay on hover */
+}
+
+/* Text and button in overlay */
+.overlay h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.overlay button {
+    padding: 10px 20px;
+    border: none;
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.overlay button:hover {
+    background-color: #ddd;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
     .category-item {
-        position: relative;
-        flex: 1 1 calc(33.333% - 20px); /* 3 columns layout */
-        max-width:630px; /* Ensures items don't exceed 3 per row */
-        height: 400px; /* Default height for square items */
-        overflow: hidden;
-        transition: transform 0.3s ease;
-        background: url('img/peakpx.jpg') center/cover no-repeat; /* Background image */
-    }
-
-    /* Make the first item larger */
-    .category-item:first-child {
-        flex: 2 1 calc(66.666% - 20px); /* Makes it span two columns */
-        max-width: calc(66.666% - 20px);
-        height: 400px; /* Make it rectangular */
-    }
-
-    /* Hover effect for scaling */
-    .category-item:hover {
-        transform: scale(1.01);
-    }
-
-    /* Product image on top of the background */
-    .category-item .product-img {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 50%; /* Adjust the size of the product image */
-        height: auto;
-        z-index: 1; /* Ensure the product image is on top */
-    }
-
-    /* Overlay content (Button and text) */
-    .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background: rgba(0, 0, 0, 0.4); /* Semi-transparent dark overlay */
-        color: white;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        z-index: 2; /* Overlay on top of everything */
-    }
-
-    .category-item:hover .overlay {
-        opacity: 1; /* Show overlay on hover */
-    }
-
-    /* Text and button in overlay */
-    .overlay h2 {
-        font-size: 2rem;
-        margin-bottom: 10px;
-    }
-
-    .overlay button {
-        padding: 10px 20px;
-        border: none;
-        background-color: white;
-        color: black;
-        cursor: pointer;
-        font-size: 1rem;
-        transition: background-color 0.3s ease;
-    }
-
-    .overlay button:hover {
-        background-color: #ddd;
-    }
-
-    /* Responsive Layout */
-    @media (max-width: 768px) {
-        .category-item {
         flex: 1 1 calc(50% - 20px); /* 2 columns on tablets */
         max-width: calc(50% - 20px);
-        height: 200px;
-        }
+        height: 200px; /* Adjust height */
+    }
 
-        .category-item:first-child {
+    .category-item:first-child {
         flex: 1 1 100%; /* Full-width on tablets for the first item */
         max-width: 100%;
         height: 300px; /* Adjust height */
-        }
     }
+}
 
-    @media (max-width: 480px) {
-        .category-item {
+@media (max-width: 480px) {
+    .category-item {
         flex: 1 1 100%; /* Full-width on mobile */
         max-width: 100%;
-        height: 200px;
-        }
-
-        .category-item:first-child {
-        height: 250px; /* Adjust height for mobile */
-        }
+        height: 200px; /* Adjust height for mobile */
     }
-    
+
+    .category-item:first-child {
+        height: 250px; /* Adjust height for mobile */
+    }
+}
+
     
     /* ----------------FEATURED PRODUCTS------------------ */
     /* Styling for the header text */
