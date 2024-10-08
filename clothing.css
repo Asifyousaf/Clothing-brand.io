@@ -92,15 +92,44 @@ body {
     margin-left: 10px; /* Space between text and button */
 }
 
-
-
-
-/* Optional: Add some responsiveness */
-@media (max-width: 600px) {
-    .filter-bar {
-        flex-direction: column; /* Stack filters vertically on small screens */
-    }
+#filter-options{
+    gap: 10px;
+    background-color: transparent;
 }
+
+
+/* Filter Button Style */
+.filter-btn {
+    display: none; /* Hide on larger screens */
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    width: 100%; /* Full width button */
+}
+
+/* Show Filter Button and Hide Filter Bar on Small Screens */
+@media (max-width: 600px) {
+    .filter-btn {
+        display: block; /* Show the button */
+    }
+
+    .filter-bar {
+        display: none; /* Hide the filter bar by default */
+    }
+
+    .filter-bar.show {
+        display: flex; /* Show the filter bar when button is clicked */
+        flex-direction: column; /* Stack filters vertically */
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.8);
+        border-radius: 10px;
+    }
+    
+}
+
 
 /* Style for dropdown buttons */
 select {
@@ -223,12 +252,75 @@ select::-ms-expand {
     .clothing-grid {
         grid-template-columns: repeat(2, 1fr); /* 2 items per row for smaller screens */
     }
-}
-
-@media (max-width: 600px) {
-    .clothing-grid {
-        grid-template-columns: 1fr; /* 1 item per row for mobile */
+    .filter-btn {
+        display: block; /* Show the button */
     }
+
+    .filter-bar {
+        display: none; /* Hide the filter bar by default */
+    }
+    .filter-bar.show {
+        display: flex; /* Show the filter bar when button is clicked */
+        flex-direction: column; /* Stack filters vertically */
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.8);
+        border-radius: 10px;
+    }
+    
+}
+/* Show Filter Button and Hide Filter Bar on Small Screens */
+@media (max-width: 600px) {
+    .filter-btn {
+        display: block; /* Show the button */
+    }
+
+    .filter-bar {
+        display: none; /* Hide the filter bar by default */
+    }
+
+    .filter-bar.show {
+        display: flex; /* Show the filter bar when button is clicked */
+        flex-direction: column; /* Stack filters vertically */
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.8);
+        border-radius: 10px;
+    }
+    
+}
+@media (max-width: 500px) {
+    .clothing-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 items per row */
+        gap: 5px;
+    }
+
+    .clothing-grid .item {
+        width: 100%;
+        height: auto; /* Adjust height for mobile */
+    }
+
+    .image-container {
+        height: 190px; /* Reduced height for images on mobile screens */
+    }
+
+    .image-container img {
+        object-fit: contain; /* Ensure the image maintains aspect ratio */
+    }
+
+    /* Adjust filter dropdown text size for small screens */
+    select {
+        font-size: 14px; /* Smaller font size for mobile */
+        padding: 6px; /* Reduce padding for smaller screens */
+    }
+
+    /* Optional: Adjust the labels and button text size as well */
+    .filter-group label {
+        font-size: 14px; /* Adjust label font size */
+    }
+
+    .filter-apply-btn {
+        font-size: 14px; /* Adjust button font size */
+    }
+    
 }
 /* ----------------fOOTER ------------------ */
 .footer-container {

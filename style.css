@@ -231,9 +231,12 @@
     text-transform: uppercase;
     text-align: center;
     position: relative;
-    top: -20px; /* Negative values move it up */
-    left: 10%;
+    top: 45%; /* Move up from the center */
+    left: 48%; /* Move left from the center */
+    transform: translate(-50%, -50%); /* Adjust for the element's own size */
 }
+
+
 
 /* When you want the text to fade away */
 .logo-text.hidden {
@@ -249,10 +252,15 @@
 
 @media (max-width: 768px) {
     .logo-text{
-        top: 10px; /* Negative values move it up */
+         transform: translate(-50%,-20%); /* Adjust for the element's own size */
     }
 }
 
+@media (max-width: 500px) {
+    .logo-text{
+        font-size: 27px; /* Negative values move it up */
+    }
+}
 
 
 
@@ -265,7 +273,7 @@
     width: 40px;
     position: absolute;
     top: 20px; /* Adjusts distance from the top */
-    right: 27px; /* Adjusts distance from the right */
+    right: 22px; /* Adjusts distance from the right */
     z-index: 1100; /* Keeps it on top */
     cursor: pointer;
 }
@@ -273,7 +281,7 @@
 .ham-menu span {
     height: 5px;
     width: 100%;
-    background-color: black; /* Change to black lines */
+    background-color: rgb(255, 255, 255); /* Change to black lines */
     border-radius: 25px;
     position: absolute;
     left: 50%;

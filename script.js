@@ -77,57 +77,78 @@ function addToCart(productId) {
     }
 
     updateCart();
-    openCart(); // Automatically open cart when an item is added
-}
-// Function to handle the checkout process
-async function checkout() {
+    openCart(); }// Automatically open cart when an item is added
+// Function to handle the checkout process via PayTabs
+// Function to handle the checkout process via PayTabs
+async function checkoutWithPayTabs() {
     try {
-        // Gather line items for Stripe
-        const lineItems = cart.map(item => ({
-            price_data: {
-                currency: 'usd', // Change to your preferred currency
-                product_data: {
-                    name: item.name,
-                    images: [item.image],
-                    description: `${item.size} ${item.color}`,
-                },
-                unit_amount: Math.round(item.price * 100), // Price in cents
-            },
-            quantity: item.quantity,
+        // Gather line items from cart
+        const cartItems = cart.map(item => ({
+            name: item.name, // Product name
+            quantity: item.quantity, // Quantity
+            amount: item.price.toFixed(2), // Unit price in string format
+            description: `${item.size} ${item.color}` // Additional details about the item
         }));
 
-        // Create a new checkout session
-        const response = await fetch('/create-checkout-session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
+        // Prepare the payload for PayTabs
+        const payload = {
+            "profile_id": "153021", // Your PayTabs profile ID
+            "tran_type": "sale",
+            "tran_class": "ecom",
+            "cart_description": "Your Store Cart", // Description of the cart
+            "cart_id": "cart_" + new Date().getTime(), // Unique cart ID
+            "cart_currency": "USD", // Adjust currency as needed
+            "cart_amount": calculateTotalCartPrice(), // Total amount
+            "cart_items": cartItems, // List of items
+            "customer_details": {
+                "name": "John Doe", // Dynamic user data
+                "email": "johndoe@example.com",
+                "phone": "+1234567890",
+                "street1": "Address",
+                "city": "City",
+                "state": "State",
+                "country": "AE", // Adjust based on your country
+                "zip": "12345"
             },
-            body: JSON.stringify({ line_items: lineItems }),
+            "callback": "https://yourwebsite.com/callback", // Your callback URL after payment
+            "return": "https://yourwebsite.com/success", // Success page
+            "cancel": "https://yourwebsite.com/cancel", // Cancel page
+            "hide_shipping": true // Optional: hide shipping fields
+        };
+
+        // Send the payload to your backend server to create the PayTabs session
+        const response = await fetch('http://localhost:3000/create-paytabs-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload) // Send payload to the server
         });
 
+        // Check if the response is successful
         if (!response.ok) {
-            const errorText = await response.text(); // Get response text
-            console.error('Error response:', errorText);
-            throw new Error('Failed to create checkout session');
+            const errorMsg = await response.text();
+            throw new Error('Failed to create payment session: ' + errorMsg);
         }
 
-        const session = await response.json();
+        const result = await response.json();
 
-        // Redirect to Stripe Checkout
-        if (session.id) {
-            const stripe = Stripe('pk_test_51Q4iWzJEY1WRV9LDiqJLH3WMWRjNBPUaXIAbQWPnpEtc7iTYKPi3lLb2HtlNlBv30NB1VXbbvc9HUQY6LPqJPUMX00RYhrXjGM'); // Replace with your Stripe publishable key
-            await stripe.redirectToCheckout({ sessionId: session.id });
+        // Check if we got a payment URL back from PayTabs
+        if (result.payment_url) {
+            // Redirect the user to the PayTabs payment page
+            window.location.href = result.payment_url;
         } else {
-            alert("Failed to create checkout session. Please try again.");
+            throw new Error('No payment URL returned from PayTabs');
         }
 
-        closeCart(); // Close cart after initiating checkout
     } catch (error) {
-        console.error('Checkout error:', error);
-        alert('Error occurred during checkout. Please try again.');
+        console.error('Checkout error:', error); // Log the detailed error
+        alert('Error occurred during checkout. Please try again. ' + error.message); // Display user-friendly error
     }
 }
 
+// Helper function to calculate the total cart price
+function calculateTotalCartPrice() {
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
+}
 
 // Calculate the total cart price
 function calculateTotalCartPrice() {

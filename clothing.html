@@ -121,50 +121,52 @@
      
 <div class="clothing-container">
     <h1>New Designs</h1>
-      <!-- Filtering Sidebar Section -->
-         <!-- Filtering Sidebar Section -->
-         <div class="filter-sidebar">
-            <div class="filter-bar">
-                <div class="filter-group">
-                    <label for="gender-filter">Gender:</label>
-                    <select id="gender-filter">
-                        <option value="all">All</option>
-                        <option value="men">Men</option>
-                        <option value="women">Women</option>
-                        <option value="unisex">Unisex</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="size-filter">Size:</label>
-                    <select id="size-filter">
-                        <option value="all">All</option>
-                        <option value="s">S</option>
-                        <option value="m">M</option>
-                        <option value="l">L</option>
-                        <option value="xl">XL</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="price-filter">Price:</label>
-                    <select id="price-filter">
-                        <option value="all">All</option>
-                        <option value="low-to-high">Low to High</option>
-                        <option value="high-to-low">High to Low</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="category-filter">Category:</label>
-                    <select id="category-filter">
-                        <option value="all">All</option>
-                        <option value="t-shirts">T-Shirts</option>
-                        <option value="hoodies">Hoodies</option>
-                        <option value="pants">Pants</option>
-                        <option value="accessories">Accessories</option>
-                    </select>
-                </div>
-               
-            </div>
+<!-- Filter Button for Small Screens -->
+<button id="filter-toggle" class="filter-btn">Filter</button>
+
+<!-- Filtering Sidebar Section -->
+<div class="filter-sidebar">
+    <div id="filter-options" class="filter-bar">
+        <div class="filter-group">
+            <label for="gender-filter">Gender:</label>
+            <select id="gender-filter">
+                <option value="all">All</option>
+                <option value="men">Men</option>
+                <option value="women">Women</option>
+                <option value="unisex">Unisex</option>
+            </select>
         </div>
+        <div class="filter-group">
+            <label for="size-filter">Size:</label>
+            <select id="size-filter">
+                <option value="all">All</option>
+                <option value="s">S</option>
+                <option value="m">M</option>
+                <option value="l">L</option>
+                <option value="xl">XL</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="price-filter">Price:</label>
+            <select id="price-filter">
+                <option value="all">All</option>
+                <option value="low-to-high">Low to High</option>
+                <option value="high-to-low">High to Low</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="category-filter">Category:</label>
+            <select id="category-filter">
+                <option value="all">All</option>
+                <option value="t-shirts">T-Shirts</option>
+                <option value="hoodies">Hoodies</option>
+                <option value="pants">Pants</option>
+                <option value="accessories">Accessories</option>
+            </select>
+        </div>
+    </div>
+</div>
+
 
         <div class="filter-popup" id="filter-popup"></div>
     <div class="clothing-grid">
@@ -321,7 +323,14 @@
             <p>© 2024 Cybertronic. All rights reserved.</p>
         </div>
     </footer>
-    <script>document.addEventListener('DOMContentLoaded', function () {
+    <script>
+    // JavaScript to toggle the visibility of the filter bar
+document.getElementById('filter-toggle').addEventListener('click', function() {
+    const filterOptions = document.getElementById('filter-options');
+    filterOptions.classList.toggle('show'); // Toggle the "show" class
+});
+
+    document.addEventListener('DOMContentLoaded', function () {
         const genderFilter = document.getElementById('gender-filter');
         const sizeFilter = document.getElementById('size-filter');
         const priceFilter = document.getElementById('price-filter');

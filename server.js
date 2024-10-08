@@ -1,53 +1,37 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const stripe = require('stripe')('your_secret_key'); // Replace with your Stripe secret key
+const axios = require('axios');
+const cors = require('cors'); // Import the CORS package
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware
+app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
-app.post('/create-checkout-session', async (req, res) => {
+// Endpoint to create a PayTabs payment request
+app.post('/create-paytabs-session', async (req, res) => {
     try {
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
-            line_items: req.body.line_items,
-            mode: 'payment',
-            success_url: 'https://yourdomain.com/success', // Replace with your success URL
-            cancel_url: 'https://yourdomain.com/cancel', // Replace with your cancel URL
+        const payload = req.body;
+
+        const response = await axios.post('https://secure.paytabs.com/payment/request', payload, {
+            headers: {
+                'Authorization': 'Bearer STJ9WRDKKT-JKBGBKGW9T-JGHLGLL92T', // Your PayTabs server API key
+                'Content-Type': 'application/json'
+            }
         });
-        res.json({ id: session.id });
+
+        // Handle successful response
+        res.status(200).json(response.data);
     } catch (error) {
-        console.error('Error creating checkout session:', error);
-        res.status(500).json({ error: 'Failed to create checkout session' });
+        console.error('Error processing payment:', error.response ? error.response.data : error.message);
+        res.status(500).json({ error: error.message }); // Include the error message in the response
     }
 });
 
-const PORT = process.env.PORT || 3000;
+
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-});
-// Endpoint to update product stock
-app.post('/update-stock', async (req, res) => {
-    const { productId, quantity } = req.body;
-
-    try {
-        // Find the product and update its stock
-        const product = await Product.findById(productId);
-        if (!product) {
-            return res.status(404).send('Product not found');
-        }
-
-        // Check if enough stock is available
-        if (product.stock < quantity) {
-            return res.status(400).send('Not enough stock available');
-        }
-
-        // Deduct the purchased quantity from stock
-        product.stock -= quantity;
-        await product.save();
-
-        res.status(200).send('Stock updated successfully');
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal server error');
-    }
 });
