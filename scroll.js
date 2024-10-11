@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    window.onload = function() {
-        // Hide the loading screen once the page has fully loaded
-        document.getElementById('loadingScreen').classList.add('hidden');
-    };
+    setTimeout(() => {
+        window.location.href = href; // Navigate to the link after delay
+    }, 2000); // Adjust this time to match your preference
+    
 
     function showLoadingScreen() {
         document.getElementById('loadingScreen').classList.remove('hidden');
