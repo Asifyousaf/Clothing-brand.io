@@ -12,11 +12,14 @@ app.post('/api/create-checkout-session', async (req, res) => {
         const { cartItems } = req.body;
 
         const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
-            line_items: cartItems,
-            mode: 'payment',
-            success_url: 'https://cybertronicbot.com/success',
-            cancel_url: 'https://cybertronicbot.com/cancel',
+            payment_method_types: ['card', 'apple_pay'],
+    line_items: cartItems,
+    mode: 'payment',
+    success_url: 'https://cybertronicbot.com/success',
+    cancel_url: 'https://cybertronicbot.com/cancel',
+    shipping_address_collection: {
+        allowed_countries: ['US', 'CA', 'GB'], // Specify allowed countries
+    },
         });
 
         res.json({ id: session.id });
