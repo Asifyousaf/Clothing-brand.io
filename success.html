@@ -7,15 +7,14 @@
 </head>
 <body>
     <h1>Thank you for your purchase!</h1>
-    <div id="order-details">
-        Loading order details...
-    </div>
+    <div id="order-details">Loading order details...</div>
 
     <script>
-        const queryParams = new URLSearchParams(window.location.search);
-        const sessionId = queryParams.get('session_id');
+        // Get session_id from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session_id');
 
-        // Fetch the session details from the server
+        // Fetch session data from the server
         fetch(`/api/checkout-session?session_id=${sessionId}`)
             .then(response => response.json())
             .then(data => {
@@ -25,18 +24,17 @@
                 orderDetails.innerHTML = `
                     <h2>Order Summary</h2>
                     <p><strong>Order ID:</strong> ${session.id}</p>
-                    <p><strong>Customer Email:</strong> ${session.customer_details.email}</p>
-                    <p><strong>Shipping Address:</strong> ${session.shipping.address.line1}, ${session.shipping.address.city}, ${session.shipping.address.country}</p>
-                    <p><strong>Total Amount:</strong> ${session.amount_total / 100} ${session.currency.toUpperCase()}</p>
+                    <p><strong>Email:</strong> ${session.customer_details.email}</p>
+                    <p><strong>Total:</strong> ${session.amount_total / 100} ${session.currency.toUpperCase()}</p>
                     <h3>Items:</h3>
                     <ul>
                         ${session.line_items.data.map(item => `
-                            <li>${item.description} - ${item.quantity} x ${(item.amount_total / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
+                            <li>${item.description} - ${item.quantity} x ${item.amount_total / 100} ${session.currency.toUpperCase()}</li>
                         `).join('')}
                     </ul>
                 `;
             })
-            .catch(error => {
+            .catch(err => {
                 document.getElementById('order-details').innerHTML = 'Error loading order details.';
             });
     </script>
