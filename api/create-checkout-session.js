@@ -17,21 +17,10 @@ app.post('/api/create-checkout-session', async (req, res) => {
             mode: 'payment',
             success_url: 'https://cybertronicbot.com/success',
             cancel_url: 'https://cybertronicbot.com/cancel',
-            shipping_address_collection: {
-                allowed_countries: [
-                    'AE', // United Arab Emirates
-                    'SA', // Saudi Arabia
-                    'KW', // Kuwait
-                    'QA', // Qatar
-                    'BH', // Bahrain
-                    'OM', // Oman
-                    'JO', // Jordan
-                    'IQ', // Iraq
-                    'YE', // Yemen
-                    'SY', // Syria
-                    'LB'  // Lebanon
-                ],
-            },
+            billing_address_collection: 'required',
+  shipping_address_collection: {
+    allowed_countries: ['AE'],
+  },
         });
 
         res.json({ id: session.id });
