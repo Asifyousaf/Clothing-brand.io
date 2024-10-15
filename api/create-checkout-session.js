@@ -10,13 +10,14 @@ app.use(express.json());
 
 // Configure Nodemailer
 const transporter = nodemailer.createTransport({
-    service: 'gmail', // or another email service
+    service: 'gmail', 
     auth: {
         user: 'testingphase2024oct15@gmail.com', // your email address
         pass: 'Asif219217' // your email password or app-specific password
     }
 });
 
+// Endpoint for creating a checkout session
 app.post('/api/create-checkout-session', async (req, res) => {
     try {
         const { cartItems, email } = req.body; // Expect email in the request
@@ -25,7 +26,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
             payment_method_types: ['card'],
             line_items: cartItems,
             mode: 'payment',
-            success_url: 'https://cybertronicbot.com/success',
+            success_url: 'https://cybertronicbot.com/success?session_id={CHECKOUT_SESSION_ID}', // Pass session_id to success URL
             cancel_url: 'https://cybertronicbot.com/cancel',
             billing_address_collection: 'required',
             shipping_address_collection: {
@@ -35,7 +36,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
 
         // Send confirmation email to the user
         const mailOptions = {
-            from: 'your_email@gmail.com',
+            from: 'testingphase2024oct15@gmail.com', // From your email
             to: email, // User's email address
             subject: 'Order Confirmation',
             text: `Thank you for your order!\n\nYour order number is: ${session.id}\n\nBilling Details:\n${JSON.stringify(cartItems, null, 2)}\n\nThank you for shopping with us!`
@@ -68,6 +69,20 @@ app.post('/api/create-checkout-session', async (req, res) => {
         res.json({ id: session.id });
     } catch (error) {
         console.error('Error creating Stripe checkout session:', error);
+        res.status(500).send({ error: error.message });
+    }
+});
+
+// Endpoint to retrieve checkout session details for the success page
+app.get('/api/checkout-session', async (req, res) => {
+    try {
+        const session = await stripe.checkout.sessions.retrieve(req.query.session_id, {
+            expand: ['line_items', 'customer_details', 'shipping'],
+        });
+
+        res.json({ session });
+    } catch (error) {
+        console.error('Error retrieving Stripe session:', error);
         res.status(500).send({ error: error.message });
     }
 });
