@@ -17,19 +17,6 @@ hamMenu.addEventListener("click", () => {
 
 
 
-// Function to open the cart popup
-function openCart() {
-    document.getElementById('cart-popup').classList.add('show');
-}
-
-// Function to close the cart popup
-function closeCart() {
-    document.getElementById('cart-popup').classList.remove('show');
-}
-
-
-
-
 // Retrieve cart data from localStorage or initialize an empty cart if not available
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 updateCart(); // Ensure cart is updated based on localStorage
@@ -78,92 +65,74 @@ function addToCart(productId) {
 
     updateCart();
     openCart(); }// Automatically open cart when an item is added
-// Function to handle the checkout process via PayTabs
-// Function to handle the checkout process via PayTabs
-async function checkoutWithPayTabs() {
-    try {
-        // Gather line items from cart
-        const cartItems = cart.map(item => ({
-            name: item.name, // Product name
-            quantity: item.quantity, // Quantity
-            amount: item.price.toFixed(2), // Unit price in string format
-            description: `${item.size} ${item.color}` // Additional details about the item
-        }));
-
-        // Prepare the payload for PayTabs
-        const payload = {
-            "profile_id": "153021", // Your PayTabs profile ID
-            "tran_type": "sale",
-            "tran_class": "ecom",
-            "cart_description": "Your Store Cart", // Description of the cart
-            "cart_id": "cart_" + new Date().getTime(), // Unique cart ID
-            "cart_currency": "USD", // Adjust currency as needed
-            "cart_amount": calculateTotalCartPrice(), // Total amount
-            "cart_items": cartItems, // List of items
-            "customer_details": {
-                "name": "John Doe", // Dynamic user data
-                "email": "johndoe@example.com",
-                "phone": "+1234567890",
-                "street1": "Address",
-                "city": "City",
-                "state": "State",
-                "country": "AE", // Adjust based on your country
-                "zip": "12345"
-            },
-            "callback": "https://yourwebsite.com/callback", // Your callback URL after payment
-            "return": "https://yourwebsite.com/success", // Success page
-            "cancel": "https://yourwebsite.com/cancel", // Cancel page
-            "hide_shipping": true // Optional: hide shipping fields
-        };
-
-        // Send the payload to your backend server to create the PayTabs session
-        const response = await fetch('http://localhost:3000/create-paytabs-session', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload) // Send payload to the server
-        });
-
-        // Check if the response is successful
-        if (!response.ok) {
-            const errorMsg = await response.text();
-            throw new Error('Failed to create payment session: ' + errorMsg);
-        }
-
-        const result = await response.json();
-
-        // Check if we got a payment URL back from PayTabs
-        if (result.payment_url) {
-            // Redirect the user to the PayTabs payment page
-            window.location.href = result.payment_url;
-        } else {
-            throw new Error('No payment URL returned from PayTabs');
-        }
-
-    } catch (error) {
-        console.error('Checkout error:', error); // Log the detailed error
-        alert('Error occurred during checkout. Please try again. ' + error.message); // Display user-friendly error
-    }
-}
 
 // Helper function to calculate the total cart price
 function calculateTotalCartPrice() {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
 }
 
-// Calculate the total cart price
-function calculateTotalCartPrice() {
-    return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
+
+async function checkoutWithStripe() {
+    try {
+        // Map cart items to a structure that Stripe expects
+        const cartItems = cart.map(item => ({
+            price_data: {
+                currency: 'aed',
+                product_data: {
+                    name: item.name,
+                    images: [item.image], // Send the image URL from local data
+                    description: `Size: ${item.size}, Color: ${item.color}`, // Include size and color in the description
+                },
+                unit_amount: Math.round(item.price * 100), // Stripe expects price in cents
+            },
+            quantity: item.quantity, // Send quantity from local data
+        }));
+
+        // Send cart data to your backend for session creation
+        const response = await fetch('http://localhost:3000/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cartItems })  // Send cart items
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to create checkout session');
+        }
+
+        // Get the session object from the response
+        const session = await response.json();
+
+        // Initialize Stripe and redirect to checkout
+        const stripe = Stripe('pk_test_51Q6qZ8Rxk79NacxxmxK6wWgu9j4c9S6s8P65w0usB7WISHIEKMGyr2bfgo0EDdsXD23D7LjtIz7jt7fvlfyc72v600ZMyI8pef');
+        await stripe.redirectToCheckout({ sessionId: session.id });
+    } catch (error) {
+        console.error('Error during checkout:', error);
+        alert('An error occurred. Please try again.');
+    }
 }
 
-// Generate product descriptions for PayPal
-function generateProductDescription() {
-    return cart.map(item => `${item.name} (${item.size}, ${item.color}) x${item.quantity}`).join(', ');
+
+
+document.getElementById('checkout-button').addEventListener('click', function() {
+    checkoutWithStripe(); // Trigger the checkout process
+});
+
+// Function to open the cart popup
+function openCart() {
+    document.getElementById('cart-popup').classList.add('show');
 }
 
-// Update the cart and initialize the PayPal button
+// Function to close the cart popup
+function closeCart() {
+    document.getElementById('cart-popup').classList.remove('show');
+}
+
+
+
+// Update cart function (with Stripe)
 function updateCart() {
     const cartItemsContainer = document.getElementById('cart-items');
-    cartItemsContainer.innerHTML = ''; // Clear existing items
+    cartItemsContainer.innerHTML = '';
     let total = 0;
 
     cart.forEach((item, index) => {
@@ -204,8 +173,6 @@ function updateCart() {
     document.getElementById('cart-total-price').innerText = `$${total.toFixed(2)}`;
     localStorage.setItem('cart', JSON.stringify(cart));
 
-
-    // Attach event listeners for quantity buttons
     const quantityMinusButtons = document.querySelectorAll('.quantity-minus');
     const quantityPlusButtons = document.querySelectorAll('.quantity-plus');
 
@@ -222,7 +189,7 @@ function updateCart() {
 // Ensure PayPal is initialized when the page loads
 window.onload = function() {
     updateCart(); // Update cart and initialize PayPal button
-    initializePayPalButton(); // Initialize PayPal button once
+   
 };
 
 

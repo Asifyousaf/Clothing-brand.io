@@ -17,6 +17,7 @@ body {
     /* -- splash screen -- */
     /* Fullscreen splash with a white background */
     .windows-splash {
+        display: none;
         position: fixed;
         top: 0;
         left: 0;
@@ -96,6 +97,8 @@ body {
     /* Loading screen styles */
 /* Add this CSS for the loading screen */
 .loading-screen {
+    display: none; /* Hide loading screen by default */
+
     position: fixed; /* Ensure it covers the entire screen */
     top: 0;
     left: 0;
@@ -112,6 +115,7 @@ body {
 
 /* Add hidden class to handle the fade-out */
 .hidden {
+    display: none !important;
     opacity: 0; /* Fully transparent when hidden */
     pointer-events: none; /* Disable interactions */
 }

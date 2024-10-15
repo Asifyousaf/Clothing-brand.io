@@ -121,7 +121,7 @@
         <div class="product-price">
             <p>Price: <span id="product-price">$0.00</span></p>
         </div>
-        <button id="add-to-cart-btn" onclick="addToCart('shirt1')">Add to Cart</button>
+        <button id="add-to-cart-btn" onclick="addToCart('pants1')">Add to Cart</button>
     </div>
     
 
@@ -202,8 +202,10 @@
                 <p>Total: <span id="cart-total-price">$0.00</span></p>
             </div>
             
-            <!-- Buy Now Button -->
-            <button class="checkout-btn" onclick="checkout()">Buy Now</button>
+           <!-- Add this button to your product or cart page -->
+<button id="checkout-button" class="checkout-btn">Checkout with Stripe</button>
+
+
     
             <!-- Terms and Conditions Link and Content -->
             <span class="terms-and-conditions-link" onclick="toggleTerms()">Terms and Conditions</span>
@@ -255,6 +257,8 @@
     </div>
 </footer>
 <script src="scroll.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
+
 <script src="script.js"></script>
 <script src="product.js"></script>
 

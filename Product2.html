@@ -120,7 +120,7 @@
         <div class="product-price">
             <p>Price: <span id="product-price">$0.00</span></p>
         </div>
-        <button id="add-to-cart-btn" onclick="addToCart('pants1')">Add to Cart</button>
+        <button id="add-to-cart-btn" onclick="addToCart('shirt1')">Add to Cart</button>
     </div>
     
 
@@ -201,9 +201,10 @@
                 <p>Total: <span id="cart-total-price">$0.00</span></p>
             </div>
             <!-- Buy Now Button Container -->
-<!-- Container for PayPal Buttons -->
-<!-- In your HTML, change the Buy Now button to trigger the PayTabs checkout -->
-<button class="checkout-btn" onclick="checkoutWithPayTabs()">Bu1y Now</button>
+          <!-- Add this button to your product or cart page -->
+          <button id="checkout-button" class="checkout-btn">Checkout with Stripe</button>
+
+
 
             <!-- Terms and Conditions Link and Content -->
             <span class="terms-and-conditions-link" onclick="toggleTerms()">Terms and Conditions</span>

@@ -1,26 +1,32 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
+    const splash = document.getElementById('splash');
+    const loadingScreen = document.getElementById('loadingScreen');
+
+    // Check if splash has been shown before
     if (!sessionStorage.getItem('splashShown')) {
-        // If not shown, display the splash screen
-        const splash = document.getElementById('splash');
-        splash.style.display = 'flex'; // Show the splash screen
-        
-        // Set a flag in sessionStorage to indicate that the splash has been shown
+        // First time: Show splash screen and hide hourglass
+        splash.style.display = 'flex';  // Show splash
+        loadingScreen.style.display = 'none';  // Hide hourglass during splash screen
+
+        // Set a flag in sessionStorage to track if the splash was shown
         sessionStorage.setItem('splashShown', 'true');
-        
-        // Hide the splash screen after the loading is complete
+
+        // Hide splash screen after a set time (3 seconds), and then show the hourglass
         setTimeout(function() {
-            splash.style.animation = 'fadeOut 1s forwards'; // Trigger fade-out animation
+            splash.style.animation = 'fadeOut 1s forwards';  // Trigger fade-out animation
             setTimeout(function() {
-                splash.style.display = 'none'; // Hide the splash screen after the animation ends
-            }, 1000); // Match this duration with the fade-out animation (1 second)
-        }, 3000); // Match this duration with the loading animation (3 seconds)
+                splash.style.display = 'none';  // Hide the splash completely
+                loadingScreen.style.display = 'flex';  // Show hourglass after splash is hidden
+            }, 1000);  // Time for fade-out animation (1 second)
+        }, 3000);  // Duration of splash (3 seconds)
+
     } else {
-        // If already shown, just hide the splash screen
-        const splash = document.getElementById('splash');
-        splash.style.display = 'none'; // Hide the splash screen immediately
+        // If the splash screen was already shown, hide it
+        splash.style.display = 'none';
+        loadingScreen.style.display = 'flex';  // Show hourglass loading screen directly
     }
 });
+
 
 window.addEventListener('scroll', function() {
     const navbar = document.querySelector('.navbar');
