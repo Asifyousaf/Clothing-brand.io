@@ -95,11 +95,12 @@ function calculateTotalCartPrice() {
         console.log('Formatted cart items for Stripe:', cartItems);
 
         // Send cart data to your backend for session creation
-        const response = await fetch('/api/create-checkout-session', { // Update to the new API endpoint
+        const response = await fetch('/api/create-checkout-session', { // Use the /api/ prefix
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cartItems }),  // Send cart items
+            body: JSON.stringify({ cartItems })
         });
+        
         
         if (!response.ok) {
             throw new Error('Failed to create checkout session');
