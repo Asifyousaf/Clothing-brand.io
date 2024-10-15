@@ -3,87 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Success - CyberTronic</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* Add your CSS here */
-    </style>
+    <title>Order Success</title>
 </head>
 <body>
-
-<div class="container">
-    <h1>Thank You for Your Order!</h1>
-    <p>Your order has been successfully placed. Below are your order details:</p>
-
-    <div class="order-details">
-        <h3>Order Summary</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody id="order-items">
-                <!-- Order items will be populated here dynamically -->
-            </tbody>
-        </table>
+    <h1>Thank you for your purchase!</h1>
+    <div id="order-details">
+        Loading order details...
     </div>
 
-    <div class="summary">
-        <p><strong>Subtotal:</strong> $<span id="subtotal"></span></p>
-        <p><strong>Shipping:</strong> $<span id="shipping"></span></p>
-        <p><strong>Total:</strong> $<span id="total"></span></p>
-    </div>
+    <script>
+        const queryParams = new URLSearchParams(window.location.search);
+        const sessionId = queryParams.get('session_id');
 
-    <div class="billing-info">
-        <h3>Billing Information</h3>
-        <p><strong>Name:</strong> <span id="billing-name"></span></p>
-        <p><strong>Email:</strong> <span id="billing-email"></span></p>
-    </div>
-</div>
-
-<script>
-    // Extract session ID from URL parameters (e.g., ?session_id=cs_test_...)
-    const urlParams = new URLSearchParams(window.location.search);
-    const sessionId = urlParams.get('session_id');
-
-    if (sessionId) {
-        // Fetch the checkout session details from your backend
+        // Fetch the session details from the server
         fetch(`/api/checkout-session?session_id=${sessionId}`)
             .then(response => response.json())
             .then(data => {
                 const session = data.session;
+                const orderDetails = document.getElementById('order-details');
 
-                // Populate order details
-                const orderItemsContainer = document.getElementById('order-items');
-                let subtotal = 0;
-
-                session.line_items.forEach(item => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${item.description}</td>
-                        <td>${item.quantity}</td>
-                        <td>$${(item.amount_total / 100).toFixed(2)}</td>
-                    `;
-                    orderItemsContainer.appendChild(row);
-                    subtotal += item.amount_total;
-                });
-
-                document.getElementById('subtotal').textContent = (subtotal / 100).toFixed(2);
-                document.getElementById('shipping').textContent = session.shipping_cost ? (session.shipping_cost / 100).toFixed(2) : '0.00';
-                document.getElementById('total').textContent = (session.amount_total / 100).toFixed(2);
-
-                // Populate billing info
-                document.getElementById('billing-name').textContent = session.customer_details.name;
-                document.getElementById('billing-email').textContent = session.customer_details.email;
+                orderDetails.innerHTML = `
+                    <h2>Order Summary</h2>
+                    <p><strong>Order ID:</strong> ${session.id}</p>
+                    <p><strong>Customer Email:</strong> ${session.customer_details.email}</p>
+                    <p><strong>Shipping Address:</strong> ${session.shipping.address.line1}, ${session.shipping.address.city}, ${session.shipping.address.country}</p>
+                    <p><strong>Total Amount:</strong> ${session.amount_total / 100} ${session.currency.toUpperCase()}</p>
+                    <h3>Items:</h3>
+                    <ul>
+                        ${session.line_items.data.map(item => `
+                            <li>${item.description} - ${item.quantity} x ${(item.amount_total / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
+                        `).join('')}
+                    </ul>
+                `;
             })
-            .catch(error => console.error('Error fetching session:', error));
-    } else {
-        console.error('No session ID found in URL');
-    }
-</script>
-
+            .catch(error => {
+                document.getElementById('order-details').innerHTML = 'Error loading order details.';
+            });
+    </script>
 </body>
 </html>
