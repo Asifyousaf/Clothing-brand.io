@@ -69,8 +69,7 @@ function addToCart(productId) {
 // Helper function to calculate the total cart price
 function calculateTotalCartPrice() {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
-}
-async function checkoutWithStripe() {
+}async function checkoutWithStripe() {
     try {
         // Log the entire cart for inspection
         console.log('Cart items to send:', cart);
@@ -96,10 +95,10 @@ async function checkoutWithStripe() {
         console.log('Formatted cart items for Stripe:', cartItems);
 
         // Send cart data to your backend for session creation
-        const response = await fetch('https://cybertronicbot.com/create-checkout-session', {
+        const response = await fetch('/api/create-checkout-session', { // Update to the new API endpoint
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cartItems })  // Send cart items
+            body: JSON.stringify({ cartItems }),  // Send cart items
         });
         
         if (!response.ok) {
