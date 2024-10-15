@@ -70,31 +70,38 @@ function addToCart(productId) {
 function calculateTotalCartPrice() {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
 }
-
-
 async function checkoutWithStripe() {
     try {
+        // Log the entire cart for inspection
+        console.log('Cart items to send:', cart);
+
         // Map cart items to a structure that Stripe expects
-        const cartItems = cart.map(item => ({
-            price_data: {
-                currency: 'aed',
-                product_data: {
-                    name: item.name,
-                    images: [item.image], // Send the image URL from local data
-                    description: `Size: ${item.size}, Color: ${item.color}`, // Include size and color in the description
+        const cartItems = cart.map(item => {
+            console.log(`Item: ${item.name}, Price: ${item.price}, Quantity: ${item.quantity}`); // Log each item
+            return {
+                price_data: {
+                    currency: 'aed',
+                    product_data: {
+                        name: item.name,
+                        images: [item.image],
+                        description: `Size: ${item.size}, Color: ${item.color}`,
+                    },
+                    unit_amount: Math.round(item.price * 100), // Stripe expects price in cents
                 },
-                unit_amount: Math.round(item.price * 100), // Stripe expects price in cents
-            },
-            quantity: item.quantity, // Send quantity from local data
-        }));
+                quantity: item.quantity,
+            };
+        });
+
+        // Log formatted cart items to see if they are correct
+        console.log('Formatted cart items for Stripe:', cartItems);
 
         // Send cart data to your backend for session creation
-        const response = await fetch('http://localhost:3000/create-checkout-session', {
+        const response = await fetch('https://cybertronicbot.com/create-checkout-session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ cartItems })  // Send cart items
         });
-
+        
         if (!response.ok) {
             throw new Error('Failed to create checkout session');
         }

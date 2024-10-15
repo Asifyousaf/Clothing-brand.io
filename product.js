@@ -6,7 +6,7 @@ const products = {
         prices: {
             small: { red: 49.99, blue: 49.99, black: 49.99 },
             medium: { red: 54.99, blue: 54.99, black: 54.99 },
-            large: { red: 59.99, blue: null, black: 59.99 },
+            large: { red: 59.99, blue: 222, black: 59.99 },
             xl: { red: 64.99, blue: 64.99, black: 64.99 }
         },
         sizes: ["Small", "Medium", "Large", "XL"],
@@ -18,7 +18,7 @@ const products = {
             xl: { red: 9, blue: 2, black: 5 }
         },
         userLimit: 2,
-        image: 'img/shirt1.png'
+        image: 'https://via.placeholder.com/150'
     },
     "pants1": {
         name: "Casual Pants",
