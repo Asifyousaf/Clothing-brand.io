@@ -1,31 +1,41 @@
-// Import Stripe
+const express = require('express');
+const cors = require('cors');
 const stripe = require('stripe')('sk_test_51Q6qZ8Rxk79NacxxJgyYInUBdiJ2Pcqm8otxx0l4TBywHa9BM2clTwi9Siiilxzh7dIcmqMOiG5f0IlJsfOMauIQ00ZgqTu36r');
 
-// Export a default async function to handle requests
-export default async function handler(req, res) {
-    // Check for POST request
-    if (req.method === 'POST') {
-        try {
-            const { cartItems } = req.body; // Get cart items from request body
+const app = express();
 
-            // Create Stripe checkout session
-            const session = await stripe.checkout.sessions.create({
-                payment_method_types: ['card'],
-                line_items: cartItems,
-                mode: 'payment',
-                success_url: 'https://cybertronicbot.com/success',  // Success URL after payment
-                cancel_url: 'https://cybertronicbot.com/cancel',    // Cancel URL if payment fails
-            });
+// Enable CORS and JSON parsing
+app.use(cors());
+app.use(express.json());
 
-            // Send session ID back to the client
-            res.status(200).json({ id: session.id });
-        } catch (error) {
-            console.error('Error creating Stripe checkout session:', error); // Log the error for debugging
-            res.status(500).send({ error: error.message }); // Send error message to the client
+app.post('/api/create-checkout-session', async (req, res) => {
+    try {
+        const { cartItems } = req.body;
+
+        // Log the cart items for debugging
+        console.log('Cart items received:', cartItems);
+
+        // Ensure cartItems is not empty
+        if (!cartItems || cartItems.length === 0) {
+            return res.status(400).send({ error: 'Cart items are required' });
         }
-    } else {
-        // Handle any other HTTP method
-        res.setHeader('Allow', ['POST']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
+
+        // Create the Stripe checkout session
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card', 'apple_pay'], // Include Apple Pay if desired
+            line_items: cartItems,
+            mode: 'payment',
+            success_url: 'https://cybertronicbot.com/success',
+            cancel_url: 'https://cybertronicbot.com/cancel',
+        });
+
+        // Respond with the session ID
+        res.json({ id: session.id });
+    } catch (error) {
+        console.error('Error creating Stripe checkout session:', error); // Log the error
+        res.status(500).send({ error: error.message }); // Send error message to the client
     }
-}
+});
+
+// Export the app for serverless function usage
+module.exports = app;
