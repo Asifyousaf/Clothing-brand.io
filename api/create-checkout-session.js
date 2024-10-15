@@ -1,15 +1,25 @@
 const express = require('express');
 const cors = require('cors');
 const stripe = require('stripe')('sk_test_51Q6qZ8Rxk79NacxxJgyYInUBdiJ2Pcqm8otxx0l4TBywHa9BM2clTwi9Siiilxzh7dIcmqMOiG5f0IlJsfOMauIQ00ZgqTu36r');
+const nodemailer = require('nodemailer');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
+// Configure Nodemailer
+const transporter = nodemailer.createTransport({
+    service: 'gmail', // or another email service
+    auth: {
+        user: 'testingphase2024oct15@gmail.com', // your email address
+        pass: 'Asif219217' // your email password or app-specific password
+    }
+});
+
 app.post('/api/create-checkout-session', async (req, res) => {
     try {
-        const { cartItems } = req.body;
+        const { cartItems, email } = req.body; // Expect email in the request
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -18,9 +28,41 @@ app.post('/api/create-checkout-session', async (req, res) => {
             success_url: 'https://cybertronicbot.com/success',
             cancel_url: 'https://cybertronicbot.com/cancel',
             billing_address_collection: 'required',
-  shipping_address_collection: {
-    allowed_countries: ['AE'],
-  },
+            shipping_address_collection: {
+                allowed_countries: ['AE', 'SA', 'EG'], // Add other country codes as needed
+            },
+        });
+
+        // Send confirmation email to the user
+        const mailOptions = {
+            from: 'your_email@gmail.com',
+            to: email, // User's email address
+            subject: 'Order Confirmation',
+            text: `Thank you for your order!\n\nYour order number is: ${session.id}\n\nBilling Details:\n${JSON.stringify(cartItems, null, 2)}\n\nThank you for shopping with us!`
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email:', error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
+        // Send a notification email to yourself
+        const adminMailOptions = {
+            from: 'testingphase2024oct15@gmail.com',
+            to: 'testingphase2024oct15@gmail.com', // Your email address
+            subject: 'New Order Placed',
+            text: `A new order has been placed!\n\nOrder Number: ${session.id}\n\nBilling Details:\n${JSON.stringify(cartItems, null, 2)}`
+        };
+
+        transporter.sendMail(adminMailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending admin notification email:', error);
+            } else {
+                console.log('Admin notification email sent: ' + info.response);
+            }
         });
 
         res.json({ id: session.id });
