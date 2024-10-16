@@ -30,15 +30,12 @@ app.post('/api/create-checkout-session', async (req, res) => {
         res.status(500).send({ error: error.message });
     }
 });
-
-// Webhook endpoint for handling events from Stripe
 app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
-    console.log('Received webhook request:', req.body); // Log the incoming request body
+    console.log('Webhook received:', req.body); // Log incoming request
     let event;
 
-    // Verify the webhook signature
     const signature = req.headers['stripe-signature'];
-    const endpointSecret = 'whsec_yKI5WAE7jTnFlMjV1gztY01Ql8J8Y6z7'; // replace with your webhook signing secret
+    const endpointSecret = 'whsec_jpk9R320UxDDfTM28wFdxpAIHkEo3pJ4'; // replace with your webhook signing secret
 
     try {
         event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
@@ -48,20 +45,19 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
     }
 
     // Handle the event
+    console.log(`Received event type: ${event.type}`);
     switch (event.type) {
         case 'checkout.session.completed':
-            const session = event.data.object; // Contains the checkout session
+            const session = event.data.object;
             console.log('Payment succeeded:', session);
-            // You can add logic here to handle the order, such as saving it to a database.
             break;
-        // Handle other event types as needed
         default:
             console.log(`Unhandled event type ${event.type}`);
     }
 
-    // Return a response to acknowledge receipt of the event
     res.json({ received: true });
 });
+
 
 // Start the server
 app.listen(3000, () => console.log('Server is running on port 3000'));
