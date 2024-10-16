@@ -1,64 +1,33 @@
-// Example of product data (can be extended)
-const products = {
-    "shirt1": {
-        name: "Cool Shirt",
-        description: "A stylish and cool shirt for all occasions.",
-        prices: {
-            small: { red: 49.99, blue: 49.99, black: 49.99 },
-            medium: { red: 54.99, blue: 54.99, black: 54.99 },
-            large: { red: 59.99, blue: 222, black: 59.99 },
-            xl: { red: 64.99, blue: 64.99, black: 64.99 }
-        },
-        sizes: ["Small", "Medium", "Large", "XL"],
-        colors: ["Red", "Blue", "Black"],
-        stock: {
-            small: { red: 10, blue: 5, black: 2 },
-            medium: { red: 7, blue: 3, black: 8 },
-            large: { red: 4, blue: 0, black: 6 },
-            xl: { red: 9, blue: 2, black: 5 }
-        },
-        userLimit: 2,
-        image: 'https://via.placeholder.com/150'
-    },
-    "pants1": {
-        name: "Casual Pants",
-        description: "Comfortable and stylish casual pants.",
-        prices: {
-            small: { red: 39.99, blue: 39.99, black: 39.99 },
-            medium: { red: 44.99, blue: 44.99, black: 44.99 },
-            large: { red: 49.99, blue: 49.99, black: 49.99 },
-            xl: { red: 54.99, blue: 54.99, black: 54.99 }
-        },
-        sizes: ["Small", "Medium", "Large", "XL"],
-        colors: ["Red", "Blue", "Black"],
-        stock: {
-            small: { red: 115, blue: 10, black: 5 },
-            medium: { red: 8, blue: 6, black: 7 },
-            large: { red: 4, blue: 0, black: 3 },
-            xl: { red: 5, blue: 2, black: 1 }
-        },
-        userLimit: 3,
-        image: 'img/shirt1.png'
+async function fetchProductFromSupabase(productId) {
+    try {
+        const response = await fetch(`/api/inventory?productId=${productId}`); // Call your Supabase API
+        if (!response.ok) throw new Error('Failed to fetch product data');
+        const productData = await response.json(); // Get the product data
+        return productData;
+    } catch (error) {
+        console.error('Error fetching product from Supabase:', error);
+        return null;
     }
-};
+}
 
-// Load product details dynamically
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     console.log('DOM fully loaded and parsed');
 
     // Extract product ID from the data attribute in the HTML
     const productContainer = document.querySelector('.product-page-container');
     const productId = productContainer.dataset.productId;
 
-    if (productId && products[productId]) {
-        loadProductDetails(productId);
+    // Fetch product data from Supabase
+    const product = await fetchProductFromSupabase(productId);
+
+    if (product) {
+        loadProductDetails(product);  // Populate the page with fetched data
     } else {
-        console.error('Product ID not found or invalid');
+        console.error('Product data not found or invalid');
     }
 });
 
-function loadProductDetails(productId) {
-    const product = products[productId];
+function loadProductDetails(product) {
     const sizeSelect = document.getElementById('size');
     const colorSelect = document.getElementById('color');
     const priceDisplay = document.getElementById('product-price');
@@ -69,7 +38,7 @@ function loadProductDetails(productId) {
     sizeSelect.innerHTML = '';
     colorSelect.innerHTML = '';
 
-    // Populate size options
+    // Populate size options from Supabase data
     product.sizes.forEach(size => {
         const option = document.createElement('option');
         option.value = size.toLowerCase();
@@ -77,7 +46,7 @@ function loadProductDetails(productId) {
         sizeSelect.appendChild(option);
     });
 
-    // Populate color options
+    // Populate color options from Supabase data
     product.colors.forEach(color => {
         const option = document.createElement('option');
         option.value = color.toLowerCase();

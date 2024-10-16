@@ -1,3 +1,55 @@
+// Global variable to store inventory data
+let inventory = {};
+
+async function fetchInventory() {
+    try {
+        const response = await fetch('/api/inventory'); // Fetch inventory data from Supabase
+        if (!response.ok) throw new Error('Failed to fetch inventory');
+
+        inventory = await response.json(); // Store the fetched inventory in the global variable
+        console.log('Fetched Inventory:', inventory);
+
+        // Populate your product details based on the fetched data
+        const productId = document.querySelector('.product-page-container').dataset.productId;
+        const product = inventory.find(p => p.id === productId);
+
+        if (product) {
+            document.getElementById('product-name').innerText = product.name;
+            document.getElementById('product-description').innerText = product.description;
+            document.getElementById('product-price').innerText = `$${product.prices.small.red}`; // Set initial price
+            updateStockAndOptions(product); // Update options and stock display
+        } else {
+            console.error('Product not found');
+        }
+    } catch (error) {
+        console.error('Error fetching inventory:', error);
+    }
+}
+function populateProductOptions() {
+    const productContainer = document.getElementById('product-container'); // Ensure you have a container in your HTML
+    productContainer.innerHTML = ''; // Clear existing content
+
+    for (const product of inventory) {
+        const productDiv = document.createElement('div');
+        productDiv.innerHTML = `
+            <h3>${product.name}</h3>
+            <p>Description: ${product.description}</p>
+            <p>User Limit: ${product.userLimit}</p>
+            <p>Available Sizes: ${product.sizes.join(', ')}</p>
+            <p>Available Colors: ${product.colors.join(', ')}</p>
+            <button onclick="selectProduct('${product.id}')">Select</button>
+        `;
+        productContainer.appendChild(productDiv);
+    }
+}
+
+function selectProduct(productId) {
+    const product = inventory.find(item => item.id === productId);
+    // Populate size and color options based on the selected product
+    populateSizeColorOptions(product);
+}
+
+document.addEventListener('DOMContentLoaded', fetchInventory); // Call fetchInventory on page load
 
 document.getElementById('hamburger').addEventListener('click', function() {
     const navLeft = document.getElementById('nav-left');
@@ -27,11 +79,17 @@ document.getElementById('cart-button').addEventListener('click', function(event)
     event.preventDefault(); // Prevent default link behavior
     openCart();
 });
+
 async function addToCart(productId) {
-    const product = products[productId]; // Get the product details
+    // Find the selected product from the fetched inventory
+    const product = inventory.find(p => p.id === productId); 
+
+    // Get the selected size and color from the dropdowns
     const size = document.getElementById('size').value;
     const color = document.getElementById('color').value;
 
+    // Find the existing product in the cart
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const existingProduct = cart.find(item => item.productId === productId && item.size === size && item.color === color);
 
     // Check available stock
@@ -43,7 +101,7 @@ async function addToCart(productId) {
             return;
         }
 
-        // Add new product to the cart with the image URL
+        // Add new product to the cart
         cart.push({
             productId: productId,
             name: product.name,
@@ -51,11 +109,8 @@ async function addToCart(productId) {
             quantity: 1,
             size: size,
             color: color,
-            image: product.image // Store the image URL here
+            image: product.image
         });
-
-        // Update the stock in the database
-        await updateStock(productId, size, color, 1); // Sending quantity as 1
     } else {
         // Increase quantity if item already exists
         if (existingProduct.quantity >= availableStock) {
@@ -63,14 +118,16 @@ async function addToCart(productId) {
             return;
         }
         existingProduct.quantity += 1;
-
-        // Update the stock in the database
-        await updateStock(productId, size, color, 1); // Sending quantity as 1
     }
 
+    // Update the cart in localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // Update cart display
     updateCart();
     openCart(); // Automatically open cart when an item is added
 }
+
 
 // Function to update stock in the database
 async function updateStock(productId, size, color, quantity) {
@@ -225,6 +282,46 @@ window.onload = function() {
     updateCart(); // Update cart and initialize PayPal button
    
 };
+function updateStockAndOptions(product) {
+    // Populate size options
+    const sizeSelect = document.getElementById('size');
+    sizeSelect.innerHTML = ''; // Clear previous options
+    product.sizes.forEach(size => {
+        const option = document.createElement('option');
+        option.value = size.toLowerCase();
+        option.textContent = size;
+        sizeSelect.appendChild(option);
+    });
+
+    // Populate color options
+    const colorSelect = document.getElementById('color');
+    colorSelect.innerHTML = ''; // Clear previous options
+    product.colors.forEach(color => {
+        const option = document.createElement('option');
+        option.value = color.toLowerCase();
+        option.textContent = color;
+        colorSelect.appendChild(option);
+    });
+
+    // Update stock and price based on the selected size and color
+    updatePriceAndStockDisplay(product);
+}
+
+function updatePriceAndStockDisplay(product) {
+    const selectedSize = document.getElementById('size').value;
+    const selectedColor = document.getElementById('color').value;
+
+    // Update price
+    const price = product.prices[selectedSize][selectedColor];
+    document.getElementById('product-price').innerText = `$${price.toFixed(2)}`;
+
+    // Update stock info
+    const stock = product.stock[selectedSize][selectedColor];
+    document.getElementById('stock-quantity').innerText = stock;
+
+    const addToCartBtn = document.getElementById('add-to-cart-btn');
+    addToCartBtn.disabled = stock <= 0; // Disable button if out of stock
+}
 
 
 function changeQuantity(index, change) {
@@ -347,48 +444,4 @@ export default async function handler(req, res) {
 }
 
 // sql 
-// INVENTORY  js
-let inventory = {}; // Global variable to store inventory data
 
-async function fetchInventory() {
-    try {
-        const response = await fetch('inventory'); // Your API endpoint
-        if (!response.ok) throw new Error('Failed to fetch inventory');
-
-        const inventoryData = await response.json();
-        console.log('Fetched Inventory:', inventoryData); // Check inventory in console
-
-        // You can now populate your product options based on the fetched data
-        populateProductOptions(inventoryData); // Implement this function to update the UI
-    } catch (error) {
-        console.error('Error fetching inventory:', error);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', fetchInventory); // Fetch data on page load
-
-
-document.addEventListener('DOMContentLoaded', fetchInventory); // Call on page load
-function populateProductOptions() {
-    const productContainer = document.getElementById('product-container'); // Ensure you have a container in your HTML
-    productContainer.innerHTML = ''; // Clear existing content
-
-    for (const product of inventory) {
-        const productDiv = document.createElement('div');
-        productDiv.innerHTML = `
-            <h3>${product.name}</h3>
-            <p>Description: ${product.description}</p>
-            <p>User Limit: ${product.userLimit}</p>
-            <p>Available Sizes: ${product.sizes.join(', ')}</p>
-            <p>Available Colors: ${product.colors.join(', ')}</p>
-            <button onclick="selectProduct('${product.id}')">Select</button>
-        `;
-        productContainer.appendChild(productDiv);
-    }
-}
-
-function selectProduct(productId) {
-    const product = inventory.find(item => item.id === productId);
-    // Populate size and color options based on the selected product
-    populateSizeColorOptions(product);
-}
