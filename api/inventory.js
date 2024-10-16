@@ -1,5 +1,6 @@
 // api/inventory.js
-const supabase = require('../lib/db'); // Import the Supabase client
+const supabase = require('./db'); // Import the Supabase client from the same directory
+
 
 export default async function handler(req, res) {
     try {
