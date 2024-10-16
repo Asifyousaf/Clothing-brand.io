@@ -34,38 +34,6 @@ app.post('/api/create-checkout-session', async (req, res) => {
             },
         });
 
-        // Send confirmation email to the user
-        const mailOptions = {
-            from: 'testingphase2024oct15@gmail.com', // From your email
-            to: email, // User's email address
-            subject: 'Order Confirmation',
-            text: `Thank you for your order!\n\nYour order number is: ${session.id}\n\nBilling Details:\n${JSON.stringify(cartItems, null, 2)}\n\nThank you for shopping with us!`
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error('Error sending email:', error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
-
-        // Send a notification email to yourself
-        const adminMailOptions = {
-            from: 'testingphase2024oct15@gmail.com',
-            to: 'testingphase2024oct15@gmail.com', // Your email address
-            subject: 'New Order Placed',
-            text: `A new order has been placed!\n\nOrder Number: ${session.id}\n\nBilling Details:\n${JSON.stringify(cartItems, null, 2)}`
-        };
-
-        transporter.sendMail(adminMailOptions, (error, info) => {
-            if (error) {
-                console.error('Error sending admin notification email:', error);
-            } else {
-                console.log('Admin notification email sent: ' + info.response);
-            }
-        });
-
         res.json({ id: session.id });
     } catch (error) {
         console.error('Error creating Stripe checkout session:', error);
@@ -73,18 +41,67 @@ app.post('/api/create-checkout-session', async (req, res) => {
     }
 });
 
-// Endpoint to retrieve checkout session details for the success page
-app.get('/api/checkout-session', async (req, res) => {
-    try {
-        const session = await stripe.checkout.sessions.retrieve(req.query.session_id, {
-            expand: ['line_items', 'customer_details', 'shipping'],
-        });
+// Webhook endpoint for handling events from Stripe
+app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+    let event;
 
-        res.json({ session });
-    } catch (error) {
-        console.error('Error retrieving Stripe session:', error);
-        res.status(500).send({ error: error.message });
+    // Verify the webhook signature
+    const signature = req.headers['stripe-signature'];
+    const endpointSecret = 'whsec_yKI5WAE7jTnFlMjV1gztY01Ql8J8Y6z7'; // replace with your webhook signing secret
+
+    try {
+        event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
+    } catch (err) {
+        console.error('Webhook signature verification failed:', err);
+        return res.status(400).send(`Webhook Error: ${err.message}`);
     }
+
+    // Handle the event
+    switch (event.type) {
+        case 'checkout.session.completed':
+            const session = event.data.object; // Contains the checkout session
+            const customerEmail = session.customer_email; // Email from session
+
+            // Send confirmation email to the customer
+            const mailOptions = {
+                from: 'testingphase2024oct15@gmail.com',
+                to: customerEmail,
+                subject: 'Order Confirmation',
+                text: `Thank you for your order!\n\nYour order number is: ${session.id}\n\nThank you for shopping with us!`
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error sending email:', error);
+                } else {
+                    console.log('Email sent to customer:', info.response);
+                }
+            });
+
+            // Optionally, send an email to yourself with order details
+            const adminMailOptions = {
+                from: 'testingphase2024oct15@gmail.com',
+                to: 'testingphase2024oct15@gmail.com', // Your email address
+                subject: 'New Order Placed',
+                text: `A new order has been placed!\n\nOrder Number: ${session.id}\n\nBilling Details:\n${JSON.stringify(session, null, 2)}`
+            };
+
+            transporter.sendMail(adminMailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error sending admin notification email:', error);
+                } else {
+                    console.log('Admin notification email sent:', info.response);
+                }
+            });
+
+            break;
+        // Handle other event types as needed
+        default:
+            console.log(`Unhandled event type ${event.type}`);
+    }
+
+    // Return a response to acknowledge receipt of the event
+    res.json({ received: true });
 });
 
 // Start the server
