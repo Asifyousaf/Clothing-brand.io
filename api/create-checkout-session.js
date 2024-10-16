@@ -1,21 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const stripe = require('stripe')('sk_test_51Q6qZ8Rxk79NacxxJgyYInUBdiJ2Pcqm8otxx0l4TBywHa9BM2clTwi9Siiilxzh7dIcmqMOiG5f0IlJsfOMauIQ00ZgqTu36r');
-const nodemailer = require('nodemailer');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-// Configure Nodemailer
-const transporter = nodemailer.createTransport({
-    service: 'gmail', 
-    auth: {
-        user: 'testingphase2024oct15@gmail.com', // your email address
-        pass: 'Asif219217' // your email password or app-specific password
-    }
-});
 
 // Endpoint for creating a checkout session
 app.post('/api/create-checkout-session', async (req, res) => {
@@ -60,39 +50,8 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
     switch (event.type) {
         case 'checkout.session.completed':
             const session = event.data.object; // Contains the checkout session
-            const customerEmail = session.customer_email; // Email from session
-
-            // Send confirmation email to the customer
-            const mailOptions = {
-                from: 'testingphase2024oct15@gmail.com',
-                to: customerEmail,
-                subject: 'Order Confirmation',
-                text: `Thank you for your order!\n\nYour order number is: ${session.id}\n\nThank you for shopping with us!`
-            };
-
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    console.error('Error sending email:', error);
-                } else {
-                    console.log('Email sent to customer:', info.response);
-                }
-            });
-
-            // Optionally, send an email to yourself with order details
-            const adminMailOptions = {
-                from: 'testingphase2024oct15@gmail.com',
-                to: 'testingphase2024oct15@gmail.com', // Your email address
-                subject: 'New Order Placed',
-                text: `A new order has been placed!\n\nOrder Number: ${session.id}\n\nBilling Details:\n${JSON.stringify(session, null, 2)}`
-            };
-
-            transporter.sendMail(adminMailOptions, (error, info) => {
-                if (error) {
-                    console.error('Error sending admin notification email:', error);
-                } else {
-                    console.log('Admin notification email sent:', info.response);
-                }
-            });
+            console.log('Payment succeeded:', session);
+            // Here you can add additional logic, like saving the order to a database
 
             break;
         // Handle other event types as needed
