@@ -7,17 +7,19 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default async function handler(req, res) {
+    const { productId } = req.query; // Extract the productId from query parameters
+
     try {
         const { data, error } = await supabase
             .from('products')
-            .select('*');
+            .select('*')
+            .eq('id', productId); // Filter by product ID
 
         if (error) {
             console.error('Error fetching data from Supabase:', error);
             return res.status(500).json({ error: 'Failed to fetch data from Supabase', details: error });
         }
 
-        console.log('Fetched Inventory:', data);
         res.status(200).json(data);
     } catch (error) {
         console.error('Database query error:', error);

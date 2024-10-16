@@ -90,7 +90,7 @@
 </div>
 
 <!-- Main Product Page Section -->
-<div class="product-page-container"  data-product-id="pants1">
+<div class="product-page-container" data-product-id="23">
     <div class="product-image-section">
         <!-- Main product image -->
         <img src="img/shirt1.png" alt="Product Image" class="product-image" id="main-product-image">
@@ -261,79 +261,78 @@
 
 <script src="script.js"></script>
 <script>
-    // Fetch inventory data on page load
-    async function fetchInventory() {
-        try {
-            const response = await fetch('/api/inventory'); // Your API endpoint
-            if (!response.ok) throw new Error('Failed to fetch inventory');
+// Fetch inventory data on page load
+async function fetchInventory() {
+    try {
+        const productId = document.querySelector('.product-page-container').dataset.productId; // Get product ID
+        const response = await fetch(`/api/inventory?productId=${productId}`); // Your API endpoint with product ID
+        if (!response.ok) throw new Error('Failed to fetch inventory');
 
-            const inventoryData = await response.json();
-            console.log(inventoryData); // Debug: Check the fetched data
+        const inventoryData = await response.json();
+        console.log(inventoryData); // Debug: Check the fetched data
 
-            // Find the product based on the data-product-id attribute
-            const productId = document.querySelector('.product-page-container').dataset.productId;
-            const product = inventoryData.find(p => p.id === productId); // Assuming productId is numeric
-
-            // Populate product details
-            if (product) {
-                document.getElementById('product-name').innerText = product.name;
-                document.getElementById('product-description').innerText = product.description;
-                document.getElementById('product-price').innerText = `$${product.prices.small.red}`; // Set initial price (example)
-                updateStockAndOptions(product);
-            } else {
-                console.error('Product not found');
-            }
-
-        } catch (error) {
-            console.error('Error fetching inventory:', error);
+        // Populate product details
+        if (inventoryData) {
+            const product = inventoryData[0]; // Assuming the API returns an array with a single product
+            document.getElementById('product-name').innerText = product.name;
+            document.getElementById('product-description').innerText = product.description;
+            document.getElementById('product-price').innerText = `$${product.prices.small.red}`; // Set initial price (example)
+            updateStockAndOptions(product);
+        } else {
+            console.error('Product not found');
         }
+
+    } catch (error) {
+        console.error('Error fetching inventory:', error);
     }
+}
 
-    function updateStockAndOptions(product) {
-        // Populate size options
-        const sizeSelect = document.getElementById('size');
-        product.sizes.forEach(size => {
-            const option = document.createElement('option');
-            option.value = size.toLowerCase();
-            option.textContent = size;
-            sizeSelect.appendChild(option);
-        });
+function updateStockAndOptions(product) {
+    // Populate size options
+    const sizeSelect = document.getElementById('size');
+    product.sizes.forEach(size => {
+        const option = document.createElement('option');
+        option.value = size.toLowerCase();
+        option.textContent = size;
+        sizeSelect.appendChild(option);
+    });
 
-        // Populate color options
-        const colorSelect = document.getElementById('color');
-        product.colors.forEach(color => {
-            const option = document.createElement('option');
-            option.value = color.toLowerCase();
-            option.textContent = color;
-            colorSelect.appendChild(option);
-        });
+    // Populate color options
+    const colorSelect = document.getElementById('color');
+    product.colors.forEach(color => {
+        const option = document.createElement('option');
+        option.value = color.toLowerCase();
+        option.textContent = color;
+        colorSelect.appendChild(option);
+    });
 
-        // Update stock display based on initial selections
-        updatePriceAndStockDisplay(product);
-        
-        // Event listeners to update price and stock when selections change
-        sizeSelect.addEventListener('change', () => updatePriceAndStockDisplay(product));
-        colorSelect.addEventListener('change', () => updatePriceAndStockDisplay(product));
-    }
+    // Update stock display based on initial selections
+    updatePriceAndStockDisplay(product);
+    
+    // Event listeners to update price and stock when selections change
+    sizeSelect.addEventListener('change', () => updatePriceAndStockDisplay(product));
+    colorSelect.addEventListener('change', () => updatePriceAndStockDisplay(product));
+}
 
-    function updatePriceAndStockDisplay(product) {
-        const selectedSize = document.getElementById('size').value;
-        const selectedColor = document.getElementById('color').value;
+function updatePriceAndStockDisplay(product) {
+    const selectedSize = document.getElementById('size').value;
+    const selectedColor = document.getElementById('color').value;
 
-        // Update price
-        const price = product.prices[selectedSize][selectedColor];
-        document.getElementById('product-price').innerText = `$${price.toFixed(2)}`;
+    // Update price
+    const price = product.prices[selectedSize][selectedColor];
+    document.getElementById('product-price').innerText = `$${price.toFixed(2)}`;
 
-        // Update stock info
-        const stock = product.stock[selectedSize][selectedColor];
-        document.getElementById('stock-quantity').innerText = stock;
+    // Update stock info
+    const stock = product.stock[selectedSize][selectedColor];
+    document.getElementById('stock-quantity').innerText = stock;
 
-        const addToCartBtn = document.getElementById('add-to-cart-btn');
-        addToCartBtn.disabled = stock <= 0; // Disable button if out of stock
-    }
+    const addToCartBtn = document.getElementById('add-to-cart-btn');
+    addToCartBtn.disabled = stock <= 0; // Disable button if out of stock
+}
 
-    // Call fetchInventory when the page loads
-    document.addEventListener('DOMContentLoaded', fetchInventory);
+// Call fetchInventory when the page loads
+document.addEventListener('DOMContentLoaded', fetchInventory);
+
 </script>
 
 
