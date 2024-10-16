@@ -52,9 +52,7 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
         case 'checkout.session.completed':
             const session = event.data.object; // Contains the checkout session
             console.log('Payment succeeded:', session);
-
-            // Logic to handle the order can go here
-
+            // You can add logic here to handle the order, such as saving it to a database.
             break;
         // Handle other event types as needed
         default:
@@ -64,7 +62,6 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
     // Return a response to acknowledge receipt of the event
     res.json({ received: true });
 });
-
 
 // Start the server
 app.listen(3000, () => console.log('Server is running on port 3000'));
