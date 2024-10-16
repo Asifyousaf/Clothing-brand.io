@@ -260,7 +260,81 @@
 <script src="https://js.stripe.com/v3/"></script>
 
 <script src="script.js"></script>
-<script src="product.js"></script>
+<script>
+    // Fetch inventory data on page load
+    async function fetchInventory() {
+        try {
+            const response = await fetch('/api/inventory'); // Your API endpoint
+            if (!response.ok) throw new Error('Failed to fetch inventory');
+
+            const inventoryData = await response.json();
+            console.log(inventoryData); // Debug: Check the fetched data
+
+            // Find the product based on the data-product-id attribute
+            const productId = document.querySelector('.product-page-container').dataset.productId;
+            const product = inventoryData.find(p => p.id === productId); // Assuming productId is numeric
+
+            // Populate product details
+            if (product) {
+                document.getElementById('product-name').innerText = product.name;
+                document.getElementById('product-description').innerText = product.description;
+                document.getElementById('product-price').innerText = `$${product.prices.small.red}`; // Set initial price (example)
+                updateStockAndOptions(product);
+            } else {
+                console.error('Product not found');
+            }
+
+        } catch (error) {
+            console.error('Error fetching inventory:', error);
+        }
+    }
+
+    function updateStockAndOptions(product) {
+        // Populate size options
+        const sizeSelect = document.getElementById('size');
+        product.sizes.forEach(size => {
+            const option = document.createElement('option');
+            option.value = size.toLowerCase();
+            option.textContent = size;
+            sizeSelect.appendChild(option);
+        });
+
+        // Populate color options
+        const colorSelect = document.getElementById('color');
+        product.colors.forEach(color => {
+            const option = document.createElement('option');
+            option.value = color.toLowerCase();
+            option.textContent = color;
+            colorSelect.appendChild(option);
+        });
+
+        // Update stock display based on initial selections
+        updatePriceAndStockDisplay(product);
+        
+        // Event listeners to update price and stock when selections change
+        sizeSelect.addEventListener('change', () => updatePriceAndStockDisplay(product));
+        colorSelect.addEventListener('change', () => updatePriceAndStockDisplay(product));
+    }
+
+    function updatePriceAndStockDisplay(product) {
+        const selectedSize = document.getElementById('size').value;
+        const selectedColor = document.getElementById('color').value;
+
+        // Update price
+        const price = product.prices[selectedSize][selectedColor];
+        document.getElementById('product-price').innerText = `$${price.toFixed(2)}`;
+
+        // Update stock info
+        const stock = product.stock[selectedSize][selectedColor];
+        document.getElementById('stock-quantity').innerText = stock;
+
+        const addToCartBtn = document.getElementById('add-to-cart-btn');
+        addToCartBtn.disabled = stock <= 0; // Disable button if out of stock
+    }
+
+    // Call fetchInventory when the page loads
+    document.addEventListener('DOMContentLoaded', fetchInventory);
+</script>
 
 
 </body>
