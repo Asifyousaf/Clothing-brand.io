@@ -1,8 +1,7 @@
 const { createClient } = require('@supabase/supabase-js');
 
-// Supabase project URL and service role key from environment variables
-const supabaseUrl = process.env.SUPABASE_URL; // Ensure this is set in Vercel environment variables
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY; // Ensure this is set in Vercel environment variables
+const supabaseUrl = 'https://vfcajbxgvievqettjanj.supabase.co'; // Directly add your Supabase URL
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmY2FqYnhndmlldnFldHRqYW5qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjkxMDM0NDYsImV4cCI6MjA0NDY3OTQ0Nn0.dMfKKUfSd6McT9RLknOK6PMZ4QYTEElzodsWNhNUh1M'; // Directly add your service role key
 
 // Create a Supabase client
 const supabase = createClient(supabaseUrl, supabaseKey);
