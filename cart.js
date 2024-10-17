@@ -10,6 +10,7 @@ async function fetchInventory(productId) {
         if (Array.isArray(inventoryData) && inventoryData.length > 0) {
             const product = inventoryData[0];
             inventory.push(product);  // Add product to inventory here
+            localStorage.setItem('inventory', JSON.stringify(inventory)); // Save updated inventory to localStorage
             updateStockAndOptions(product);
             updatePriceAndStockDisplay(product);
         } else {
@@ -19,6 +20,7 @@ async function fetchInventory(productId) {
         console.error('Error fetching inventory:', error);
     }
 }
+
 localStorage.setItem('inventory', JSON.stringify(inventory));
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -191,27 +193,32 @@ async function addToCart(productId) {
     updateCart();
     openCart(); // Open cart after adding
 }
+window.onload = function() {
+    // Load inventory from localStorage if it exists
+    inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+    updateCart(); // Ensure cart is updated when the page loads
+    const productId = document.querySelector('.product-page-container').dataset.productId; // Get product ID
+    fetchInventory(productId); // Fetch inventory for the product based on the ID
+};
 
 // Function to remove an item from the cart
 function removeFromCart(index) {
     cart.splice(index, 1);
     updateCart();
 }
-
 async function changeQuantity(index, change) {
     const item = cart[index];
     
-    // Refetch inventory if empty
-    if (inventory.length === 0) {
-        const product = await fetchInventory(item.productId);
-        if (!product) {
-            alert('Product not found in inventory.');
-            return;
-        }
-    }
+    // Fetch inventory from localStorage or refetch if empty
+    let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+    let product = inventory.find(p => p.id === item.productId);
 
-    // Use the inventory variable to find the product details
-    const product = inventory.find(p => p.id === item.productId);
+    if (!product) {
+        // Refetch if the product is not in the local inventory
+        await fetchInventory(item.productId);
+        inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+        product = inventory.find(p => p.id === item.productId);
+    }
 
     if (!product) {
         alert('Product not found in inventory.');
@@ -239,6 +246,7 @@ async function changeQuantity(index, change) {
 
     updateCart();
 }
+
 
 // Add event listener to the cart button to open the cart popup
 document.getElementById('cart-button').addEventListener('click', function(event) {
