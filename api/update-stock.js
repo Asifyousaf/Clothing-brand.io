@@ -51,11 +51,13 @@ const server = http.createServer((req, res) => {
     }
 });
 
-// Update stock function
 async function updateStockInSupabase(cartItems) {
     try {
         for (const item of cartItems) {
             const { productId, size, color, quantity } = item;
+            
+            // Debug: Log cart item details
+            console.log(`Updating stock for Product ID: ${productId}, Size: ${size}, Color: ${color}, Quantity: ${quantity}`);
 
             // Fetch the current stock from Supabase
             const { data: product, error } = await supabase
@@ -64,27 +66,40 @@ async function updateStockInSupabase(cartItems) {
                 .eq('id', productId)
                 .single();
 
-            if (error) throw new Error('Error fetching product stock');
+            if (error) {
+                throw new Error('Error fetching product stock');
+            }
+
+            // Debug: Log product data
+            console.log('Product Data:', product);
 
             // Decrease the stock
             const updatedStock = product.stock[size][color] - quantity;
-            if (updatedStock < 0) throw new Error('Insufficient stock');
+            if (updatedStock < 0) {
+                throw new Error('Insufficient stock');
+            }
 
             // Update stock in Supabase
             product.stock[size][color] = updatedStock;
+
+            // Debug: Log updated stock
+            console.log('Updated Stock:', product.stock);
 
             const { error: updateError } = await supabase
                 .from('products')
                 .update({ stock: product.stock })
                 .eq('id', productId);
 
-            if (updateError) throw new Error('Error updating stock in Supabase');
+            if (updateError) {
+                throw new Error('Error updating stock in Supabase');
+            }
         }
         console.log('Stock successfully updated');
     } catch (error) {
         console.error('Error updating stock:', error);
     }
 }
+
 
 server.listen(3000, () => {
     console.log('Server listening on port 3000');
