@@ -1,31 +1,8 @@
 
-// Global variable to store inventory data
-let inventory = {};
+document.getElementById('checkout-button').addEventListener('click', function() {
+    checkoutWithStripe(); // Trigger the checkout process
+});
 
-async function fetchInventory() {
-    try {
-        const response = await fetch('/api/inventory'); // Fetch inventory data from Supabase
-        if (!response.ok) throw new Error('Failed to fetch inventory');
-
-        inventory = await response.json(); // Store the fetched inventory in the global variable
-        console.log('Fetched Inventory:', inventory);
-
-        // Populate your product details based on the fetched data
-        const productId = document.querySelector('.product-page-container').dataset.productId;
-        const product = inventory.find(p => p.id === productId);
-
-        if (product) {
-            document.getElementById('product-name').innerText = product.name;
-            document.getElementById('product-description').innerText = product.description;
-            document.getElementById('product-price').innerText = `$${product.prices.small.red}`; // Set initial price
-            updateStockAndOptions(product); // Update options and stock display
-        } else {
-            console.error('Product not found');
-        }
-    } catch (error) {
-        console.error('Error fetching inventory:', error);
-    }
-}
 function populateProductOptions() {
     const productContainer = document.getElementById('product-container'); // Ensure you have a container in your HTML
     productContainer.innerHTML = ''; // Clear existing content
@@ -80,61 +57,6 @@ document.getElementById('cart-button').addEventListener('click', function(event)
     event.preventDefault(); // Prevent default link behavior
     openCart();
 });
-async function addToCart(productId) {
-    // Ensure productId is an integer
-    productId = parseInt(productId, 10);
-
-    // Find the selected product from the fetched inventory
-    const product = inventory.find(p => p.id === productId); 
-
-    if (!product) {
-        console.error('Product not found in inventory');
-        return; // Early exit if product is not found
-    }
-
-    // Get the selected size and color from the dropdowns
-    const size = document.getElementById('size').value.toLowerCase(); // Ensure size is lowercase
-    const color = document.getElementById('color').value.toLowerCase(); // Ensure color is lowercase
-
-    // Find the existing product in the cart
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const existingProduct = cart.find(item => item.productId === productId && item.size === size && item.color === color);
-
-    // Check available stock
-    const availableStock = product.stock[size][color];
-
-    if (!existingProduct) {
-        if (availableStock <= 0) {
-            alert(`Cannot add more items to the cart. Only ${availableStock} item(s) available in stock for ${product.name} (${size}, ${color}).`);
-            return;
-        }
-
-        // Add new product to the cart
-        cart.push({
-            productId: productId,
-            name: product.name,
-            price: product.prices[size][color],
-            quantity: 1,
-            size: size,
-            color: color,
-            image: product.image // Assuming product.image exists in your product data
-        });
-    } else {
-        // Increase quantity if item already exists
-        if (existingProduct.quantity >= availableStock) {
-            alert(`Cannot add more items to the cart. Only ${availableStock} item(s) available in stock for ${product.name} (${size}, ${color}).`);
-            return;
-        }
-        existingProduct.quantity += 1;
-    }
-
-    // Update the cart in localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    // Update cart display
-    updateCart();
-    openCart(); // Automatically open cart when an item is added
-}
 
 
 // Function to update stock in the database
@@ -323,32 +245,6 @@ const handlePurchase = async (productId, quantity) => {
 };
 
 
-// inventory.js
-const { createClient } = require('@supabase/supabase-js');
-
-const supabaseUrl = 'https://vfcajbxgvievqettjanj.supabase.co'; // Directly add your Supabase URL
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmY2FqYnhndmlldnFldHRqYW5qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjkxMDM0NDYsImV4cCI6MjA0NDY3OTQ0Nn0.dMfKKUfSd6McT9RLknOK6PMZ4QYTEElzodsWNhNUh1M'; // Directly add your service role key
-
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-export default async function handler(req, res) {
-    try {
-        const { data, error } = await supabase
-            .from('products')
-            .select('*');
-
-        if (error) {
-            console.error('Error fetching data from Supabase:', error);
-            return res.status(500).json({ error: 'Failed to fetch data from Supabase', details: error });
-        }
-
-        console.log('Fetched Inventory:', data);
-        res.status(200).json(data);
-    } catch (error) {
-        console.error('Database query error:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-}
 
 // sql 
 
