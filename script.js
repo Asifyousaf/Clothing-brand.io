@@ -1,3 +1,4 @@
+
 // Global variable to store inventory data
 let inventory = {};
 
@@ -79,14 +80,21 @@ document.getElementById('cart-button').addEventListener('click', function(event)
     event.preventDefault(); // Prevent default link behavior
     openCart();
 });
-
 async function addToCart(productId) {
+    // Ensure productId is an integer
+    productId = parseInt(productId, 10);
+
     // Find the selected product from the fetched inventory
     const product = inventory.find(p => p.id === productId); 
 
+    if (!product) {
+        console.error('Product not found in inventory');
+        return; // Early exit if product is not found
+    }
+
     // Get the selected size and color from the dropdowns
-    const size = document.getElementById('size').value;
-    const color = document.getElementById('color').value;
+    const size = document.getElementById('size').value.toLowerCase(); // Ensure size is lowercase
+    const color = document.getElementById('color').value.toLowerCase(); // Ensure color is lowercase
 
     // Find the existing product in the cart
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -109,7 +117,7 @@ async function addToCart(productId) {
             quantity: 1,
             size: size,
             color: color,
-            image: product.image
+            image: product.image // Assuming product.image exists in your product data
         });
     } else {
         // Increase quantity if item already exists
@@ -153,7 +161,8 @@ async function updateStock(productId, size, color, quantity) {
 // Helper function to calculate the total cart price
 function calculateTotalCartPrice() {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
-}async function checkoutWithStripe() {
+}
+async function checkoutWithStripe() {
     try {
         // Log the entire cart for inspection
         console.log('Cart items to send:', cart);
@@ -220,61 +229,6 @@ function closeCart() {
 
 
 
-// Update cart function (with Stripe)
-function updateCart() {
-    const cartItemsContainer = document.getElementById('cart-items');
-    cartItemsContainer.innerHTML = '';
-    let total = 0;
-
-    cart.forEach((item, index) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.classList.add('cart-item');
-
-        const itemImage = document.createElement('img');
-        itemImage.src = item.image;
-        itemDiv.appendChild(itemImage);
-
-        const itemDetails = document.createElement('div');
-        itemDetails.classList.add('cart-item-details');
-        itemDetails.innerHTML = `
-            <span class="item-name">${item.name} (${item.size}, ${item.color})</span>
-            <span class="item-price">$${item.price.toFixed(2)} x ${item.quantity}</span>
-        `;
-        itemDiv.appendChild(itemDetails);
-
-        const quantityControl = document.createElement('div');
-        quantityControl.classList.add('quantity-control');
-        quantityControl.innerHTML = `
-            <button class="quantity-minus">-</button>
-            <span>${item.quantity}</span>
-            <button class="quantity-plus">+</button>
-        `;
-        itemDiv.appendChild(quantityControl);
-
-        const removeBtn = document.createElement('span');
-        removeBtn.classList.add('remove-btn');
-        removeBtn.innerHTML = '&times;';
-        removeBtn.onclick = () => removeFromCart(index);
-        itemDiv.appendChild(removeBtn);
-
-        cartItemsContainer.appendChild(itemDiv);
-        total += item.price * item.quantity;
-    });
-
-    document.getElementById('cart-total-price').innerText = `$${total.toFixed(2)}`;
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    const quantityMinusButtons = document.querySelectorAll('.quantity-minus');
-    const quantityPlusButtons = document.querySelectorAll('.quantity-plus');
-
-    quantityMinusButtons.forEach((button, index) => {
-        button.addEventListener('click', () => changeQuantity(index, -1));
-    });
-
-    quantityPlusButtons.forEach((button, index) => {
-        button.addEventListener('click', () => changeQuantity(index, 1));
-    });
-}
 
 
 // Ensure PayPal is initialized when the page loads
@@ -324,30 +278,6 @@ function updatePriceAndStockDisplay(product) {
 }
 
 
-function changeQuantity(index, change) {
-    const item = cart[index];
-    const product = products[item.productId]; // Get the product details
-    const stock = product.stock[item.size][item.color];
-
-    // Change quantity only if within stock limits
-    if (change === 1) {
-        if (item.quantity < stock) {
-            item.quantity += 1;
-        } else {
-            alert(`Cannot add more items to the cart. Only ${stock} item(s) available in stock for ${item.name} (${item.size}, ${item.color}).`);
-        }
-    } else if (change === -1) {
-        if (item.quantity > 1) {
-            item.quantity -= 1;
-        } else {
-            // Remove item from the cart if quantity reaches zero
-            removeFromCart(index);
-            return;
-        }
-    }
-
-    updateCart();
-}
 
 
 // Function to remove an item from the cart
@@ -368,29 +298,6 @@ function changeImage(imageSrc) {
 }
 
 
-// Function to open the cart
-function openCart() {
-    const cartPopup = document.getElementById('cart-popup');
-    const cartWrapper = document.getElementById('cart-popup-wrapper');
-
-    // Show the cart popup and wrapper
-    cartPopup.classList.add('show');
-    cartWrapper.classList.add('show');
-}
-
-// Function to close the cart with smooth transition
-function closeCart() {
-    const cartPopup = document.getElementById('cart-popup');
-    const cartWrapper = document.getElementById('cart-popup-wrapper');
-
-    // Slide the cart out
-    cartPopup.classList.remove('show');
-
-    // After the sliding animation is done, hide the wrapper (with slight delay to match CSS transition)
-    setTimeout(() => {
-        cartWrapper.classList.remove('show');
-    }, 400); // Delay matches the CSS transition duration (0.4s)
-}
 
 // Function to close cart when clicking outside the cart area
 function closeCartOnClickOutside(event) {
