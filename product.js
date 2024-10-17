@@ -200,11 +200,15 @@ function updateCart() {
 // Change quantity in the cart
 async function changeQuantity(index, change) {
     const item = cart[index];
-    const product = inventory.find(p => p.id === item.productId);
+    let product = inventory.find(p => p.id === item.productId);
 
+    // If product is not found in inventory, fetch it again
     if (!product) {
-        alert('Product not found in inventory.');
-        return;
+        product = await fetchProductFromSupabase(item.productId);
+        if (!product) {
+            alert('Product not found in inventory.');
+            return;
+        }
     }
 
     const stock = product.stock[item.size][item.color];
