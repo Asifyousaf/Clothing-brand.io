@@ -1,44 +1,55 @@
+const http = require('http');
 const { createClient } = require('@supabase/supabase-js');
 const stripe = require('stripe')('sk_test_51Q6qZ8Rxk79NacxxJgyYInUBdiJ2Pcqm8otxx0l4TBywHa9BM2clTwi9Siiilxzh7dIcmqMOiG5f0IlJsfOMauIQ00ZgqTu36r');
 
 const supabaseUrl = 'https://vfcajbxgvievqettjanj.supabase.co'; // Directly add your Supabase URL
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmY2FqYnhndmlldnFldHRqYW5qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjkxMDM0NDYsImV4cCI6MjA0NDY3OTQ0Nn0.dMfKKUfSd6McT9RLknOK6PMZ4QYTEElzodsWNhNUh1M'; // Service role key
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmY2FqYnhndmlldnFldHRqYW5qIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcyOTEwMzQ0NiwiZXhwIjoyMDQ0Njc5NDQ2fQ.NPOWDNnIHoW_iZqf4H5KgbfJSWOe6lZIU1kPagrQrxo'; // Service role key
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Handler to process webhook and update stock
-export default async function handler(req, res) {
-    if (req.method === 'POST') {
-        // Stripe webhook logic
-        const signature = req.headers['stripe-signature'];
-        const endpointSecret = 'whsec_jpk9R320UxDDfTM28wFdxpAIHkEo3pJ4'; // Webhook secret
+const server = http.createServer((req, res) => {
+    if (req.method === 'POST' && req.url === '/api/update-stock') {
+        let body = '';
 
-        let event;
+        // Read the request body as a stream of data
+        req.on('data', chunk => {
+            body += chunk;
+        });
 
-        try {
-            event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
-        } catch (err) {
-            console.error('Webhook signature verification failed:', err);
-            return res.status(400).send(`Webhook Error: ${err.message}`);
-        }
+        req.on('end', async () => {
+            const signature = req.headers['stripe-signature'];
+            const endpointSecret = 'whsec_jpk9R320UxDDfTM28wFdxpAIHkEo3pJ4'; // Webhook secret
 
-        // Handle the checkout session completed event
-        if (event.type === 'checkout.session.completed') {
-            const session = event.data.object;
-            const cartItems = session.metadata.cartItems ? JSON.parse(session.metadata.cartItems) : [];
+            let event;
+            try {
+                event = stripe.webhooks.constructEvent(body, signature, endpointSecret);
+            } catch (err) {
+                console.error('Webhook signature verification failed:', err);
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Webhook Error: ' + err.message }));
+                return;
+            }
 
-            // Update stock in Supabase using cartItems
-            await updateStockInSupabase(cartItems);
+            if (event.type === 'checkout.session.completed') {
+                const session = event.data.object;
+                const cartItems = session.metadata.cartItems ? JSON.parse(session.metadata.cartItems) : [];
 
-            return res.status(200).json({ received: true });
-        } else {
-            return res.status(400).json({ error: 'Unhandled event type' });
-        }
+                // Update stock in Supabase using cartItems
+                await updateStockInSupabase(cartItems);
+
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ received: true }));
+            } else {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Unhandled event type' }));
+            }
+        });
     } else {
-        res.setHeader('Allow', ['POST']);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
+        // Respond with 405 Method Not Allowed if the method is not POST
+        res.writeHead(405, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: `Method ${req.method} Not Allowed` }));
     }
-}
+});
 
 // Update stock function
 async function updateStockInSupabase(cartItems) {
@@ -74,3 +85,7 @@ async function updateStockInSupabase(cartItems) {
         console.error('Error updating stock:', error);
     }
 }
+
+server.listen(3000, () => {
+    console.log('Server listening on port 3000');
+});
