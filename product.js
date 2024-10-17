@@ -9,6 +9,26 @@ async function fetchProductFromSupabase(productId) {
         return null;
     }
 }
+async function fetchInventory(productId) {
+    try {
+        const response = await fetch(`/api/inventory?productId=${productId}`);
+        if (!response.ok) throw new Error('Failed to fetch inventory');
+
+        const inventoryData = await response.json();
+        console.log('Fetched Inventory:', inventoryData);
+
+        if (Array.isArray(inventoryData) && inventoryData.length > 0) {
+            const product = inventoryData[0];
+            inventory.push(product);  // Add product to inventory here
+            updateStockAndOptions(product);
+            updatePriceAndStockDisplay(product);
+        } else {
+            console.error('Product not found');
+        }
+    } catch (error) {
+        console.error('Error fetching inventory:', error);
+    }
+}
 
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('DOM fully loaded and parsed');

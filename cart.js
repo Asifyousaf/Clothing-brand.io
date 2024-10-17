@@ -9,27 +9,7 @@ window.onload = function() {
 };
 // Function to fetch inventory data
 // Function to fetch inventory data
-async function fetchInventory(productId) {
-    try {
-        const response = await fetch(`/api/inventory?productId=${productId}`); // Your API endpoint
-        if (!response.ok) throw new Error('Failed to fetch inventory');
 
-        const inventoryData = await response.json();
-        console.log('Fetched Inventory:', inventoryData); // Debug: Check the fetched data
-
-        // Check if we got a product back
-        if (Array.isArray(inventoryData) && inventoryData.length > 0) {
-            const product = inventoryData[0]; // Assuming the API returns an array with a single product
-            updateStockAndOptions(product); // Update size and color options
-            updatePriceAndStockDisplay(product); // Initial price and stock display
-        } else {
-            console.error('Product not found'); // Handle no product found scenario
-        }
-
-    } catch (error) {
-        console.error('Error fetching inventory:', error);
-    }
-}
 
 // Function to populate size and color options
 function updateStockAndOptions(product) {

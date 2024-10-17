@@ -262,31 +262,7 @@
 <script src="product.js"></script>
 <script src="script.js"></script>
 <script>
-// Fetch inventory data on page load
-async function fetchInventory() {
-    try {
-        const productId = document.querySelector('.product-page-container').dataset.productId; // Get product ID
-        const response = await fetch(`/api/inventory?productId=${productId}`); // Your API endpoint with product ID
-        if (!response.ok) throw new Error('Failed to fetch inventory');
 
-        const inventoryData = await response.json();
-        console.log(inventoryData); // Debug: Check the fetched data
-
-        // Populate product details
-        if (inventoryData) {
-            const product = inventoryData[0]; // Assuming the API returns an array with a single product
-            document.getElementById('product-name').innerText = product.name;
-            document.getElementById('product-description').innerText = product.description;
-            document.getElementById('product-price').innerText = `$${product.prices.small.red}`; // Set initial price (example)
-            updateStockAndOptions(product);
-        } else {
-            console.error('Product not found');
-        }
-
-    } catch (error) {
-        console.error('Error fetching inventory:', error);
-    }
-}
 
 function updateStockAndOptions(product) {
     // Populate size options
