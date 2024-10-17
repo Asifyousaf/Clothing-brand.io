@@ -28,8 +28,12 @@ app.post('/api/create-checkout-session', async (req, res) => {
                 allowed_countries: ['AE', 'SA', 'EG'], // Add other country codes as needed
             },
             metadata: {
-                cartItems: JSON.stringify(cartItems) // Pass cart items as metadata
-            }
+                cartItems: JSON.stringify(cartItems.map(item => ({
+                    productId: item.productId, // Ensure productId, size, color, and quantity are included
+                    size: item.size,
+                    color: item.color,
+                    quantity: item.quantity
+                })))
         });
 
         // Send back the session ID
