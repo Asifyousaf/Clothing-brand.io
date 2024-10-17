@@ -1,13 +1,26 @@
-async function fetchInventory() {
-    if (!inventory.length) { // If inventory isn't loaded yet
-        try {
-            const response = await fetch('/api/inventory'); 
-            if (!response.ok) throw new Error('Failed to fetch inventory');
-            inventory = await response.json();
-            localStorage.setItem('inventory', JSON.stringify(inventory)); // Save to localStorage
-        } catch (error) {
-            console.error('Error fetching inventory:', error);
+let inventory = JSON.parse(localStorage.getItem('inventory')) || []; // Initialize inventory from localStorage or an empty array
+
+async function fetchProductFromSupabase(productId) {
+    try {
+        // Check if the product is already in the local inventory
+        let product = inventory.find(item => item.id === productId);
+        
+        if (!product) {
+            // Fetch the product from the API if not in local inventory
+            const response = await fetch(`/api/inventory?productId=${productId}`);
+            if (!response.ok) throw new Error('Failed to fetch product data');
+
+            product = await response.json(); // Get the product data
+
+            // Add the fetched product to the inventory
+            inventory.push(product);
+            localStorage.setItem('inventory', JSON.stringify(inventory)); // Store the updated inventory in localStorage
         }
+
+        return product; // Return the product data (either from local or fetched)
+    } catch (error) {
+        console.error('Error fetching product from Supabase:', error);
+        return null;
     }
 }
 
