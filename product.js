@@ -1,25 +1,15 @@
-
-let inventory = [];
-async function fetchInventory(productId) {
+async function fetchProductFromSupabase(productId) {
     try {
-        const response = await fetch(`/api/inventory?productId=${productId}`);
-        if (!response.ok) throw new Error('Failed to fetch inventory');
-
-        const inventoryData = await response.json();
-        console.log('Fetched Inventory:', inventoryData);
-
-        if (Array.isArray(inventoryData) && inventoryData.length > 0) {
-            const product = inventoryData[0];
-            inventory.push(product);  // Add product to inventory here
-            updateStockAndOptions(product);
-            updatePriceAndStockDisplay(product);
-        } else {
-            console.error('Product not found');
-        }
+        const response = await fetch(`/api/inventory?productId=${productId}`); // Call your Supabase API
+        if (!response.ok) throw new Error('Failed to fetch product data');
+        const productData = await response.json(); // Get the product data
+        return productData;
     } catch (error) {
-        console.error('Error fetching inventory:', error);
+        console.error('Error fetching product from Supabase:', error);
+        return null;
     }
 }
+
 
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('DOM fully loaded and parsed');
