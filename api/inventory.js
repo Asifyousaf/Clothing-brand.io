@@ -2,7 +2,7 @@
 const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = 'https://vfcajbxgvievqettjanj.supabase.co'; // Directly add your Supabase URL
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmY2FqYnhndmlldnFldHRqYW5qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjkxMDM0NDYsImV4cCI6MjA0NDY3OTQ0Nn0.dMfKKUfSd6McT9RLknOK6PMZ4QYTEElzodsWNhNUh1M'; // Directly add your service role key
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmY2FqYnhndmlldnFldHRqYW5qIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcyOTEwMzQ0NiwiZXhwIjoyMDQ0Njc5NDQ2fQ.NPOWDNnIHoW_iZqf4H5KgbfJSWOe6lZIU1kPagrQrxo'; // Directly add your service role key
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -10,10 +10,21 @@ export default async function handler(req, res) {
     const { productId } = req.query; // Extract the productId from query parameters
 
     try {
-        const { data, error } = await supabase
-            .from('products')
-            .select('*')
-            .eq('id', productId); // Filter by product ID
+        let data;
+        let error;
+
+        if (productId) {
+            // Fetch specific product by ID
+            ({ data, error } = await supabase
+                .from('products')
+                .select('*')
+                .eq('id', productId));
+        } else {
+            // If no productId, return all products
+            ({ data, error } = await supabase
+                .from('products')
+                .select('*')); // Fetch all products
+        }
 
         if (error) {
             console.error('Error fetching data from Supabase:', error);
