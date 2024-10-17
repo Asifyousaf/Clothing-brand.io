@@ -1,24 +1,18 @@
 let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-
-
-
-async function fetchInventory() {
+async function fetchInventory(productId) {
     try {
-        const response = await fetch('/api/inventory'); // Fetch inventory data from Supabase
+        const response = await fetch(`/api/inventory?productId=${productId}`);
         if (!response.ok) throw new Error('Failed to fetch inventory');
 
-        inventory = await response.json(); // Store the fetched inventory in the global variable
-        console.log('Fetched Inventory:', inventory);
+        const inventoryData = await response.json();
+        console.log('Fetched Inventory:', inventoryData);
 
-        // Populate your product details based on the fetched data
-        const productId = document.querySelector('.product-page-container').dataset.productId;
-        const product = inventory.find(p => p.id === productId);
-
-        if (product) {
-            document.getElementById('product-name').innerText = product.name;
-            document.getElementById('product-description').innerText = product.description;
-            document.getElementById('product-price').innerText = `$${product.prices.small.red}`; // Set initial price
-            updateStockAndOptions(product); // Update options and stock display
+        if (Array.isArray(inventoryData) && inventoryData.length > 0) {
+            const product = inventoryData[0];
+            inventory.push(product);  // Add product to inventory here
+            localStorage.setItem('inventory', JSON.stringify(inventory)); // Save updated inventory to localStorage
+            updateStockAndOptions(product);
+            updatePriceAndStockDisplay(product);
         } else {
             console.error('Product not found');
         }
@@ -199,56 +193,54 @@ async function addToCart(productId) {
     updateCart();
     openCart(); // Open cart after adding
 }
-window.onload = function() {
-    // Load inventory from localStorage if it exists
-    inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-    updateCart(); // Ensure cart is updated when the page loads
-    const productId = document.querySelector('.product-page-container').dataset.productId; // Get product ID
-    fetchInventory(productId); // Fetch inventory for the product based on the ID
-};
 
 // Function to remove an item from the cart
 function removeFromCart(index) {
     cart.splice(index, 1);
     updateCart();
 }
-async function changeQuantity(index, change) {
-    const item = cart[index];  // Get the item from the cart
-    let product = inventory.find(p => p.id === item.productId); // Try to find the product in the inventory
 
-    // If the product is not found in the local inventory, fetch it again
-    if (!product) {
-        await fetchInventory(item.productId); // Refetch inventory if product is missing
-        inventory = JSON.parse(localStorage.getItem('inventory')) || []; // Reload the inventory from localStorage
-        product = inventory.find(p => p.id === item.productId); // Try to find the product again
+async function changeQuantity(index, change) {
+    const item = cart[index];
+    
+    // Refetch inventory if empty
+    if (inventory.length === 0) {
+        const product = await fetchInventory(item.productId);
+        if (!product) {
+            alert('Product not found in inventory.');
+            return;
+        }
     }
 
-    // If the product is still not found after refetching, display an error
+    // Use the inventory variable to find the product details
+    const product = inventory.find(p => p.id === item.productId);
+
     if (!product) {
         alert('Product not found in inventory.');
         return;
     }
 
-    // Get the stock for the selected size and color
     const stock = product.stock[item.size][item.color];
 
-    // Handle increasing or decreasing the quantity
-    if (change === 1 && item.quantity < stock) {
-        item.quantity += 1; // Increase quantity if there's stock available
-    } else if (change === -1 && item.quantity > 1) {
-        item.quantity -= 1; // Decrease quantity if it's above 1
-    } else if (change === -1 && item.quantity === 1) {
-        removeFromCart(index); // Remove item if quantity becomes zero
-        return;
-    } else {
-        alert(`Cannot add more than available stock (${stock})`);
+    // Change quantity only if within stock limits
+    if (change === 1) {
+        if (item.quantity < stock) {
+            item.quantity += 1;
+        } else {
+            alert(`Cannot add more items to the cart. Only ${stock} item(s) available in stock for ${item.name} (${item.size}, ${item.color}).`);
+        }
+    } else if (change === -1) {
+        if (item.quantity > 1) {
+            item.quantity -= 1;
+        } else {
+            // Remove item from the cart if quantity reaches zero
+            removeFromCart(index);
+            return;
+        }
     }
 
-    updateCart(); // Update the cart after the quantity change
+    updateCart();
 }
-
-
-
 
 // Add event listener to the cart button to open the cart popup
 document.getElementById('cart-button').addEventListener('click', function(event) {
