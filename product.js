@@ -17,9 +17,11 @@ async function fetchProductFromSupabase(productId) {
             // Check if the response is an array and get the first element, assuming it's the product
             product = Array.isArray(responseData) ? responseData[0] : responseData; 
 
-            // Add the fetched product to the inventory
-            inventory.push(product);
-            localStorage.setItem('inventory', JSON.stringify(inventory)); // Store the updated inventory in localStorage
+            // Only add the product to the inventory if it's not already there (to avoid duplicates)
+            if (!inventory.find(item => item.id === product.id)) {  // << Add this check here
+                inventory.push(product);
+                localStorage.setItem('inventory', JSON.stringify(inventory)); // Store the updated inventory in localStorage
+            }
         }
 
         return product; // Return the product data (either from local or fetched)
@@ -28,6 +30,7 @@ async function fetchProductFromSupabase(productId) {
         return null;  // Return null in case of failure
     }
 }
+
 
 console.log('Current Inventory:', JSON.parse(localStorage.getItem('inventory')));
 
