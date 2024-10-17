@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
         checkoutWithStripe(); // Trigger the checkout process
     });
 });
-
 async function checkoutWithStripe() {
     try {
         // Log the entire cart for inspection
@@ -20,12 +19,12 @@ async function checkoutWithStripe() {
                 name: item.name,
                 description: `Size: ${item.size}, Color: ${item.color}`,
             };
-        
+
             // Only add the 'images' field if the image URL is not empty
             if (item.image && item.image.trim() !== "") {
                 productData.images = [item.image];
             }
-        
+
             return {
                 price_data: {
                     currency: 'aed',
@@ -35,7 +34,6 @@ async function checkoutWithStripe() {
                 quantity: item.quantity,
             };
         });
-        
 
         // Log formatted cart items to see if they are correct
         console.log('Formatted cart items for Stripe:', cartItems);
@@ -46,20 +44,30 @@ async function checkoutWithStripe() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ cartItems })
         });
-        
-        
+
+        // Check for response status before parsing JSON
         if (!response.ok) {
-            throw new Error('Failed to create checkout session');
+            const errorMessage = `Failed to create checkout session: ${response.statusText}`;
+            console.error(errorMessage);
+            throw new Error(errorMessage);
         }
 
-        // Get the session object from the response
-        const session = await response.json();
+        // Try to parse the session object
+        let session;
+        try {
+            session = await response.json();
+        } catch (jsonError) {
+            console.error("Error parsing JSON response:", jsonError);
+            throw new Error("Could not parse the session response from server.");
+        }
 
         // Initialize Stripe and redirect to checkout
         const stripe = Stripe('pk_test_51Q6qZ8Rxk79NacxxmxK6wWgu9j4c9S6s8P65w0usB7WISHIEKMGyr2bfgo0EDdsXD23D7LjtIz7jt7fvlfyc72v600ZMyI8pef');
         await stripe.redirectToCheckout({ sessionId: session.id });
+        
     } catch (error) {
-        console.error('Error during checkout:', error);
+        // Log detailed error message
+        console.error('Error during checkout:', error.message);
         alert('An error occurred. Please try again.');
     }
 }
