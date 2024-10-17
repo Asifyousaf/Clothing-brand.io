@@ -1,4 +1,4 @@
-let inventory = [];
+let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
 async function fetchInventory(productId) {
     try {
         const response = await fetch(`/api/inventory?productId=${productId}`);
@@ -20,7 +20,6 @@ async function fetchInventory(productId) {
     }
 }
 localStorage.setItem('inventory', JSON.stringify(inventory));
-let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 updateCart(); // Ensure cart is updated based on localStorage
