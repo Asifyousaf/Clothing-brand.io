@@ -12,12 +12,10 @@ async function fetchProductFromSupabase(productId) {
             const response = await fetch(`/api/inventory?productId=${productId}`);
             if (!response.ok) throw new Error('Failed to fetch product data');
 
-            product = await response.json(); // Get the product data
-            
-            // Ensure the product data format is correct (e.g., if the API returns an array)
-            if (Array.isArray(product)) {
-                product = product[0];  // Assuming the product is the first element in the array
-            }
+            const responseData = await response.json(); // Get the product data (could be array or object)
+
+            // Check if the response is an array and get the first element, assuming it's the product
+            product = Array.isArray(responseData) ? responseData[0] : responseData; 
 
             // Add the fetched product to the inventory
             inventory.push(product);
@@ -30,6 +28,7 @@ async function fetchProductFromSupabase(productId) {
         return null;  // Return null in case of failure
     }
 }
+
 console.log('Current Inventory:', JSON.parse(localStorage.getItem('inventory')));
 
 async function changeQuantity(index, change) {
