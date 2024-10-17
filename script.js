@@ -16,20 +16,26 @@ async function checkoutWithStripe() {
 
         // Map cart items to a structure that Stripe expects
         const cartItems = cart.map(item => {
-            console.log(`Item: ${item.name}, Price: ${item.price}, Quantity: ${item.quantity}`); // Log each item
+            const productData = {
+                name: item.name,
+                description: `Size: ${item.size}, Color: ${item.color}`,
+            };
+        
+            // Only add the 'images' field if the image URL is not empty
+            if (item.image && item.image.trim() !== "") {
+                productData.images = [item.image];
+            }
+        
             return {
                 price_data: {
                     currency: 'aed',
-                    product_data: {
-                        name: item.name,
-                        images: [item.image],
-                        description: `Size: ${item.size}, Color: ${item.color}`,
-                    },
+                    product_data: productData,
                     unit_amount: Math.round(item.price * 100), // Stripe expects price in cents
                 },
                 quantity: item.quantity,
             };
         });
+        
 
         // Log formatted cart items to see if they are correct
         console.log('Formatted cart items for Stripe:', cartItems);
