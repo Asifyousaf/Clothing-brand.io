@@ -7,29 +7,37 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Endpoint for creating a checkout session
 app.post('/api/create-checkout-session', async (req, res) => {
     try {
         const { cartItems } = req.body; // Expect cart items in the request
 
+        // Ensure cartItems is not empty or undefined
+        if (!cartItems || cartItems.length === 0) {
+            return res.status(400).send({ error: 'No items in cart' });
+        }
+
+        // Create a Stripe session and pass cartItems as line_items
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
-            line_items: cartItems,
+            line_items: cartItems, // Pass cartItems as line_items to Stripe
             mode: 'payment',
-            success_url: 'https://cybertronicbot.com/success?session_id={CHECKOUT_SESSION_ID}', // Pass session_id to success URL
-            cancel_url: 'https://cybertronicbot.com/cancel',
+            success_url: 'https://cybertronicbot.com/success?session_id={CHECKOUT_SESSION_ID}', // Success URL
+            cancel_url: 'https://cybertronicbot.com/cancel', // Cancel URL
             billing_address_collection: 'required',
             shipping_address_collection: {
                 allowed_countries: ['AE', 'SA', 'EG'], // Add other country codes as needed
             },
         });
 
+        // Send back the session ID
         res.json({ id: session.id });
     } catch (error) {
         console.error('Error creating Stripe checkout session:', error);
         res.status(500).send({ error: error.message });
     }
 });
+
+
 app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     console.log('Webhook received:', req.body); // Log incoming request
     let event;
