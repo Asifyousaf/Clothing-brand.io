@@ -1,18 +1,24 @@
 let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-async function fetchInventory(productId) {
+
+
+
+async function fetchInventory() {
     try {
-        const response = await fetch(`/api/inventory?productId=${productId}`);
+        const response = await fetch('/api/inventory'); // Fetch inventory data from Supabase
         if (!response.ok) throw new Error('Failed to fetch inventory');
 
-        const inventoryData = await response.json();
-        console.log('Fetched Inventory:', inventoryData);
+        inventory = await response.json(); // Store the fetched inventory in the global variable
+        console.log('Fetched Inventory:', inventory);
 
-        if (Array.isArray(inventoryData) && inventoryData.length > 0) {
-            const product = inventoryData[0];
-            inventory.push(product);  // Add product to inventory here
-            localStorage.setItem('inventory', JSON.stringify(inventory)); // Save updated inventory to localStorage
-            updateStockAndOptions(product);
-            updatePriceAndStockDisplay(product);
+        // Populate your product details based on the fetched data
+        const productId = document.querySelector('.product-page-container').dataset.productId;
+        const product = inventory.find(p => p.id === productId);
+
+        if (product) {
+            document.getElementById('product-name').innerText = product.name;
+            document.getElementById('product-description').innerText = product.description;
+            document.getElementById('product-price').innerText = `$${product.prices.small.red}`; // Set initial price
+            updateStockAndOptions(product); // Update options and stock display
         } else {
             console.error('Product not found');
         }
