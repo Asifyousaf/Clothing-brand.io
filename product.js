@@ -15,7 +15,6 @@ window.onload = function () {
 // Function to fetch product data from Supabase
 async function fetchProductFromSupabase(productId) {
     try {
-        // Always fetch from the API for the latest data
         const response = await fetch(`/api/inventory?productId=${productId}`);
         if (!response.ok) throw new Error('Failed to fetch product data');
         
@@ -24,8 +23,12 @@ async function fetchProductFromSupabase(productId) {
 
         if (product) {
             // Update local inventory with the latest data
-            inventory = inventory.filter(item => item.id !== product.id); // Remove old product if it exists
-            inventory.push(product); // Add updated product
+            const existingProductIndex = inventory.findIndex(item => item.id === product.id);
+            if (existingProductIndex !== -1) {
+                inventory[existingProductIndex] = product; // Update existing product
+            } else {
+                inventory.push(product); // Add new product
+            }
             localStorage.setItem('inventory', JSON.stringify(inventory)); // Update localStorage
         }
         return product;
@@ -63,8 +66,9 @@ function loadProductDetails(product) {
     sizeSelect.addEventListener('change', () => updatePrice(product));
     colorSelect.addEventListener('change', () => updatePrice(product));
 
-    updatePrice(product);
+    updatePrice(product); // Call updatePrice initially to set default values
 }
+
 // Update price and stock info when size or color changes
 function updatePrice(product) {
     const selectedSize = document.getElementById('size').value;
@@ -76,20 +80,15 @@ function updatePrice(product) {
     const sizePrices = product.prices[selectedSize];
     const sizeStock = product.stock[selectedSize];
 
-    if (sizePrices && sizePrices[selectedColor] !== null && sizeStock && sizeStock[selectedColor] !== undefined) {
+    if (sizePrices && sizePrices[selectedColor] !== undefined && sizeStock && sizeStock[selectedColor] !== undefined) {
         const price = sizePrices[selectedColor];
         const stock = sizeStock[selectedColor];
 
         priceDisplay.innerText = `$${price.toFixed(2)}`;
         stockInfo.innerText = stock;
 
-        if (stock > 0) {
-            addToCartBtn.innerText = 'Add to Cart';
-            addToCartBtn.disabled = false;
-        } else {
-            addToCartBtn.innerText = 'Sold Out';
-            addToCartBtn.disabled = true;
-        }
+        addToCartBtn.innerText = stock > 0 ? 'Add to Cart' : 'Sold Out';
+        addToCartBtn.disabled = stock <= 0; // Disable button if out of stock
     } else {
         priceDisplay.innerText = "$0.00";
         stockInfo.innerText = "N/A";
@@ -97,6 +96,7 @@ function updatePrice(product) {
         addToCartBtn.disabled = true;
     }
 }
+
 // Add product to cart
 async function addToCart(productId) {
     const product = inventory.find(p => p.id === parseInt(productId, 10));
