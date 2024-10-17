@@ -90,7 +90,7 @@
 </div>
 
 <!-- Main Product Page Section -->
-<div class="product-page-container" data-product-id="23">
+<div class="product-page-container"  data-product-id="pants1">
     <div class="product-image-section">
         <!-- Main product image -->
         <img src="img/shirt1.png" alt="Product Image" class="product-image" id="main-product-image">
@@ -121,7 +121,7 @@
         <div class="product-price">
             <p>Price: <span id="product-price">$0.00</span></p>
         </div>
-        <button id="add-to-cart-btn" onclick="addToCart('23')">Add to Cart</button>
+        <button id="add-to-cart-btn" onclick="addToCart('pants1')">Add to Cart</button>
     </div>
     
 
@@ -257,60 +257,10 @@
     </div>
 </footer>
 <script src="scroll.js"></script>
-<script src="cart.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
-<script src="product.js"></script>
+
 <script src="script.js"></script>
-<script>
-
-
-function updateStockAndOptions(product) {
-    // Populate size options
-    const sizeSelect = document.getElementById('size');
-    product.sizes.forEach(size => {
-        const option = document.createElement('option');
-        option.value = size.toLowerCase();
-        option.textContent = size;
-        sizeSelect.appendChild(option);
-    });
-
-    // Populate color options
-    const colorSelect = document.getElementById('color');
-    product.colors.forEach(color => {
-        const option = document.createElement('option');
-        option.value = color.toLowerCase();
-        option.textContent = color;
-        colorSelect.appendChild(option);
-    });
-
-    // Update stock display based on initial selections
-    updatePriceAndStockDisplay(product);
-    
-    // Event listeners to update price and stock when selections change
-    sizeSelect.addEventListener('change', () => updatePriceAndStockDisplay(product));
-    colorSelect.addEventListener('change', () => updatePriceAndStockDisplay(product));
-}
-
-function updatePriceAndStockDisplay(product) {
-    const selectedSize = document.getElementById('size').value;
-    const selectedColor = document.getElementById('color').value;
-
-    // Update price
-    const price = product.prices[selectedSize][selectedColor];
-    document.getElementById('product-price').innerText = `$${price.toFixed(2)}`;
-
-    // Update stock info
-    const stock = product.stock[selectedSize][selectedColor];
-    document.getElementById('stock-quantity').innerText = stock;
-
-    const addToCartBtn = document.getElementById('add-to-cart-btn');
-    addToCartBtn.disabled = stock <= 0; // Disable button if out of stock
-}
-
-// Call fetchInventory when the page loads
-document.addEventListener('DOMContentLoaded', fetchInventory);
-
-</script>
+<script src="product.js"></script>
 
 
 </body>
