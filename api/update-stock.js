@@ -7,58 +7,62 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+const endpointSecret = 'whsec_jpk9R320UxDDfTM28wFdxpAIHkEo3pJ4'; // Your webhook signing secret
+
 const server = http.createServer((req, res) => {
     if (req.method === 'POST' && req.url === '/api/update-stock') {
         let body = '';
 
+        // Collect the request body data
         req.on('data', chunk => {
             body += chunk;
         });
 
         req.on('end', async () => {
             const signature = req.headers['stripe-signature'];
-            const endpointSecret = 'whsec_jpk9R320UxDDfTM28wFdxpAIHkEo3pJ4';
 
             let event;
             try {
+                // Verify the webhook signature
                 event = stripe.webhooks.constructEvent(body, signature, endpointSecret);
             } catch (err) {
-                console.error('Webhook signature verification failed:', err);
-                logToFile('Webhook signature verification failed: ' + err.message);  // Log error to file
+                console.error('Webhook signature verification failed:', err.message);
                 res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: 'Webhook Error: ' + err.message }));
+                res.end(JSON.stringify({ error: `Webhook Error: ${err.message}` }));
                 return;
             }
 
+            // Handle the checkout.session.completed event
             if (event.type === 'checkout.session.completed') {
                 const session = event.data.object;
+
+                // Parse the cart items from metadata
                 const cartItems = session.metadata.cartItems ? JSON.parse(session.metadata.cartItems) : [];
 
+                // Update stock in Supabase using cartItems
                 try {
-                    // Update stock
                     await updateStockInSupabase(cartItems);
                     console.log('Stock updated successfully.');
-                    logToFile('Stock updated successfully.');
                 } catch (err) {
-                    console.error('Error updating stock:', err);
-                    logToFile('Error updating stock: ' + err.message);
+                    console.error('Error updating stock:', err.message);
                 }
 
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ received: true }));
             } else {
                 console.log('Unhandled event type:', event.type);
-                logToFile('Unhandled event type: ' + event.type);  // Log unhandled event
                 res.writeHead(400, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Unhandled event type' }));
             }
         });
     } else {
+        // Respond with 405 Method Not Allowed if the request method is not POST
         res.writeHead(405, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: `Method ${req.method} Not Allowed` }));
     }
 });
 
+// Function to update stock in Supabase
 async function updateStockInSupabase(cartItems) {
     try {
         for (const item of cartItems) {
@@ -79,15 +83,15 @@ async function updateStockInSupabase(cartItems) {
                 throw new Error(`Stock not found for Size: ${size}, Color: ${color}`);
             }
 
+            // Decrease the stock based on quantity
             const updatedStock = product.stock[size][color] - quantity;
             if (updatedStock < 0) {
                 throw new Error('Insufficient stock');
             }
 
-            // Update the stock value
+            // Update the stock in the Supabase database
             product.stock[size][color] = updatedStock;
 
-            // Update the product's stock in Supabase
             const { error: updateError } = await supabase
                 .from('products')
                 .update({ stock: product.stock })
@@ -99,20 +103,11 @@ async function updateStockInSupabase(cartItems) {
         }
         console.log('Stock successfully updated for all items.');
     } catch (error) {
-        console.error('Error updating stock:', error);
+        console.error('Error updating stock:', error.message);
     }
 }
 
-function logToFile(message) {
-    const fs = require('fs');
-    const logMessage = `${new Date().toISOString()} - ${message}\n`;
-    fs.appendFile('server-logs.txt', logMessage, (err) => {
-        if (err) {
-            console.error('Failed to write log:', err);
-        }
-    });
-}
-
+// Start the server
 server.listen(3000, () => {
     console.log('Server listening on port 3000');
 });

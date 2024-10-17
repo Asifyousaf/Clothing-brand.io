@@ -36,6 +36,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
                 })))
             }
         });
+        console.log('Cart Items on Server:', cartItems);
 
         // Send back the session ID
         res.json({ id: session.id });
