@@ -207,45 +207,41 @@ function removeFromCart(index) {
     updateCart();
 }
 async function changeQuantity(index, change) {
-    const item = cart[index];
-    
-    // Fetch inventory from localStorage or refetch if empty
-    let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-    let product = inventory.find(p => p.id === item.productId);
+    const item = cart[index];  // Get the item from the cart
+    let product = inventory.find(p => p.id === item.productId); // Try to find the product in the inventory
 
+    // If the product is not found in the local inventory, fetch it again
     if (!product) {
-        // Refetch if the product is not in the local inventory
-        await fetchInventory(item.productId);
-        inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-        product = inventory.find(p => p.id === item.productId);
+        await fetchInventory(item.productId); // Refetch inventory if product is missing
+        inventory = JSON.parse(localStorage.getItem('inventory')) || []; // Reload the inventory from localStorage
+        product = inventory.find(p => p.id === item.productId); // Try to find the product again
     }
 
+    // If the product is still not found after refetching, display an error
     if (!product) {
         alert('Product not found in inventory.');
         return;
     }
 
+    // Get the stock for the selected size and color
     const stock = product.stock[item.size][item.color];
 
-    // Change quantity only if within stock limits
-    if (change === 1) {
-        if (item.quantity < stock) {
-            item.quantity += 1;
-        } else {
-            alert(`Cannot add more items to the cart. Only ${stock} item(s) available in stock for ${item.name} (${item.size}, ${item.color}).`);
-        }
-    } else if (change === -1) {
-        if (item.quantity > 1) {
-            item.quantity -= 1;
-        } else {
-            // Remove item from the cart if quantity reaches zero
-            removeFromCart(index);
-            return;
-        }
+    // Handle increasing or decreasing the quantity
+    if (change === 1 && item.quantity < stock) {
+        item.quantity += 1; // Increase quantity if there's stock available
+    } else if (change === -1 && item.quantity > 1) {
+        item.quantity -= 1; // Decrease quantity if it's above 1
+    } else if (change === -1 && item.quantity === 1) {
+        removeFromCart(index); // Remove item if quantity becomes zero
+        return;
+    } else {
+        alert(`Cannot add more than available stock (${stock})`);
     }
 
-    updateCart();
+    updateCart(); // Update the cart after the quantity change
 }
+
+
 
 
 // Add event listener to the cart button to open the cart popup

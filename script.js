@@ -1,31 +1,4 @@
 
-// Global variable to store inventory data
-let inventory = {};
-
-async function fetchInventory() {
-    try {
-        const response = await fetch('/api/inventory'); // Fetch inventory data from Supabase
-        if (!response.ok) throw new Error('Failed to fetch inventory');
-
-        inventory = await response.json(); // Store the fetched inventory in the global variable
-        console.log('Fetched Inventory:', inventory);
-
-        // Populate your product details based on the fetched data
-        const productId = document.querySelector('.product-page-container').dataset.productId;
-        const product = inventory.find(p => p.id === productId);
-
-        if (product) {
-            document.getElementById('product-name').innerText = product.name;
-            document.getElementById('product-description').innerText = product.description;
-            document.getElementById('product-price').innerText = `$${product.prices.small.red}`; // Set initial price
-            updateStockAndOptions(product); // Update options and stock display
-        } else {
-            console.error('Product not found');
-        }
-    } catch (error) {
-        console.error('Error fetching inventory:', error);
-    }
-}
 function populateProductOptions() {
     const productContainer = document.getElementById('product-container'); // Ensure you have a container in your HTML
     productContainer.innerHTML = ''; // Clear existing content
