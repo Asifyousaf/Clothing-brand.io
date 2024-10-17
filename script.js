@@ -1,7 +1,58 @@
 
-document.getElementById('checkout-button').addEventListener('click', function() {
-    checkoutWithStripe(); // Trigger the checkout process
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('checkout-button').addEventListener('click', function() {
+        checkoutWithStripe(); // Trigger the checkout process
+    });
 });
+
+async function checkoutWithStripe() {
+    try {
+        // Log the entire cart for inspection
+        console.log('Cart items to send:', cart);
+
+        // Map cart items to a structure that Stripe expects
+        const cartItems = cart.map(item => {
+            console.log(`Item: ${item.name}, Price: ${item.price}, Quantity: ${item.quantity}`); // Log each item
+            return {
+                price_data: {
+                    currency: 'aed',
+                    product_data: {
+                        name: item.name,
+                        images: [item.image],
+                        description: `Size: ${item.size}, Color: ${item.color}`,
+                    },
+                    unit_amount: Math.round(item.price * 100), // Stripe expects price in cents
+                },
+                quantity: item.quantity,
+            };
+        });
+
+        // Log formatted cart items to see if they are correct
+        console.log('Formatted cart items for Stripe:', cartItems);
+
+        // Send cart data to your backend for session creation
+        const response = await fetch('/api/create-checkout-session', { // Use the /api/ prefix
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cartItems })
+        });
+        
+        
+        if (!response.ok) {
+            throw new Error('Failed to create checkout session');
+        }
+
+        // Get the session object from the response
+        const session = await response.json();
+
+        // Initialize Stripe and redirect to checkout
+        const stripe = Stripe('pk_test_51Q6qZ8Rxk79NacxxmxK6wWgu9j4c9S6s8P65w0usB7WISHIEKMGyr2bfgo0EDdsXD23D7LjtIz7jt7fvlfyc72v600ZMyI8pef');
+        await stripe.redirectToCheckout({ sessionId: session.id });
+    } catch (error) {
+        console.error('Error during checkout:', error);
+        alert('An error occurred. Please try again.');
+    }
+}
 
 function populateProductOptions() {
     const productContainer = document.getElementById('product-container'); // Ensure you have a container in your HTML
@@ -84,60 +135,7 @@ async function updateStock(productId, size, color, quantity) {
 function calculateTotalCartPrice() {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
 }
-async function checkoutWithStripe() {
-    try {
-        // Log the entire cart for inspection
-        console.log('Cart items to send:', cart);
 
-        // Map cart items to a structure that Stripe expects
-        const cartItems = cart.map(item => {
-            console.log(`Item: ${item.name}, Price: ${item.price}, Quantity: ${item.quantity}`); // Log each item
-            return {
-                price_data: {
-                    currency: 'aed',
-                    product_data: {
-                        name: item.name,
-                        images: [item.image],
-                        description: `Size: ${item.size}, Color: ${item.color}`,
-                    },
-                    unit_amount: Math.round(item.price * 100), // Stripe expects price in cents
-                },
-                quantity: item.quantity,
-            };
-        });
-
-        // Log formatted cart items to see if they are correct
-        console.log('Formatted cart items for Stripe:', cartItems);
-
-        // Send cart data to your backend for session creation
-        const response = await fetch('/api/create-checkout-session', { // Use the /api/ prefix
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cartItems })
-        });
-        
-        
-        if (!response.ok) {
-            throw new Error('Failed to create checkout session');
-        }
-
-        // Get the session object from the response
-        const session = await response.json();
-
-        // Initialize Stripe and redirect to checkout
-        const stripe = Stripe('pk_test_51Q6qZ8Rxk79NacxxmxK6wWgu9j4c9S6s8P65w0usB7WISHIEKMGyr2bfgo0EDdsXD23D7LjtIz7jt7fvlfyc72v600ZMyI8pef');
-        await stripe.redirectToCheckout({ sessionId: session.id });
-    } catch (error) {
-        console.error('Error during checkout:', error);
-        alert('An error occurred. Please try again.');
-    }
-}
-
-
-
-document.getElementById('checkout-button').addEventListener('click', function() {
-    checkoutWithStripe(); // Trigger the checkout process
-});
 
 // Function to open the cart popup
 function openCart() {
