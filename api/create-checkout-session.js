@@ -29,11 +29,12 @@ app.post('/api/create-checkout-session', async (req, res) => {
             },
             metadata: {
                 cartItems: JSON.stringify(cartItems.map(item => ({
-                    productId: item.productId, // Ensure productId, size, color, and quantity are included
-                    size: item.size,
-                    color: item.color,
-                    quantity: item.quantity
+                    productId: item.productId,   // Include product ID
+                    size: item.size,             // Include size
+                    color: item.color,           // Include color
+                    quantity: item.quantity      // Include quantity
                 })))
+            }
         });
 
         // Send back the session ID
@@ -43,6 +44,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
         res.status(500).send({ error: error.message });
     }
 });
+
 
 
 app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {

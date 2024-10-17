@@ -20,7 +20,6 @@ function calculateTotalCartPrice() {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
 }
 
-
 async function checkoutWithStripe() {
     try {
         // Log the entire cart for inspection
@@ -53,7 +52,12 @@ async function checkoutWithStripe() {
             body: JSON.stringify({ 
                 cartItems, 
                 metadata: {
-                    cartItems: JSON.stringify(cart) // Add cart items as metadata
+                    cartItems: JSON.stringify(cart.map(item => ({
+                        productId: item.productId,   // Include product ID
+                        size: item.size,             // Include size
+                        color: item.color,           // Include color
+                        quantity: item.quantity      // Include quantity
+                    })))
                 }
             })
         });
@@ -73,6 +77,7 @@ async function checkoutWithStripe() {
         alert('An error occurred. Please try again.');
     }
 }
+
 
 
 
