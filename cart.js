@@ -14,18 +14,23 @@ async function fetchInventory(productId) {
         const response = await fetch(`/api/inventory?productId=${productId}`); // Your API endpoint
         if (!response.ok) throw new Error('Failed to fetch inventory');
 
-        inventory = await response.json(); // Store fetched inventory in the global variable
-        console.log('Fetched Inventory:', inventory);
+        const inventoryData = await response.json();
+        console.log('Fetched Inventory:', inventoryData); // Debug: Check the fetched data
 
-        if (inventory.length > 0) {
-            updateStockAndOptions(inventory[0]); // Assuming the API returns an array
+        // Check if we got a product back
+        if (Array.isArray(inventoryData) && inventoryData.length > 0) {
+            const product = inventoryData[0]; // Assuming the API returns an array with a single product
+            updateStockAndOptions(product); // Update size and color options
+            updatePriceAndStockDisplay(product); // Initial price and stock display
         } else {
-            console.error('Product not found');
+            console.error('Product not found'); // Handle no product found scenario
         }
+
     } catch (error) {
         console.error('Error fetching inventory:', error);
     }
 }
+
 // Function to populate size and color options
 function updateStockAndOptions(product) {
     const sizeSelect = document.getElementById('size');
@@ -142,16 +147,16 @@ function updateCart() {
 
 // Function to add product to the cart
 async function addToCart(productId) {
+    // Ensure productId is a number for comparison
     const product = inventory.find(p => p.id === parseInt(productId, 10)); // Ensure we have the right product
+
+    if (!product) {
+        alert('Product not found.');
+        return; // Exit if product is not found
+    }
 
     const size = document.getElementById('size').value.toLowerCase(); // Get selected size
     const color = document.getElementById('color').value.toLowerCase(); // Get selected color
-
-    // Ensure the product exists before accessing its properties
-    if (!product) {
-        alert('Product not found.');
-        return;
-    }
 
     const availableStock = product.stock[size][color];
     const existingProduct = cart.find(item => item.productId === productId && item.size === size && item.color === color);
@@ -184,6 +189,7 @@ async function addToCart(productId) {
     updateCart();
     openCart(); // Open cart after adding
 }
+
 // Function to remove an item from the cart
 function removeFromCart(index) {
     cart.splice(index, 1);
