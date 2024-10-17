@@ -176,9 +176,18 @@ function removeFromCart(index) {
     updateCart();
 }
 
+// Function to change quantity of items in the cart
 function changeQuantity(index, change) {
     const item = cart[index];
-    const product = products[item.productId]; // Get the product details
+
+    // Use the inventory variable to find the product details
+    const product = inventory.find(p => p.id === item.productId);
+
+    if (!product) {
+        alert('Product not found in inventory.');
+        return;
+    }
+
     const stock = product.stock[item.size][item.color];
 
     // Change quantity only if within stock limits

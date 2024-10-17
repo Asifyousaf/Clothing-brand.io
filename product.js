@@ -1,34 +1,26 @@
-async function fetchProductFromSupabase(productId) {
+let inventory = [];
+async function fetchProduct(productId) {
     try {
-        const response = await fetch(`/api/inventory?productId=${productId}`); // Call your Supabase API
+        const response = await fetch(`/api/inventory?productId=${productId}`);
         if (!response.ok) throw new Error('Failed to fetch product data');
-        const productData = await response.json(); // Get the product data
-        return productData;
+
+        const productData = await response.json();
+        if (Array.isArray(productData) && productData.length > 0) {
+            const product = productData[0];
+            inventory.push(product); // Add product to inventory array if needed
+            updateStockAndOptions(product); // Update the UI
+            updatePriceAndStockDisplay(product); // Update the UI
+            return product; // Optionally return the product for further use
+        } else {
+            console.error('Product not found');
+            return null;
+        }
     } catch (error) {
-        console.error('Error fetching product from Supabase:', error);
+        console.error('Error fetching product:', error);
         return null;
     }
 }
-async function fetchInventory(productId) {
-    try {
-        const response = await fetch(`/api/inventory?productId=${productId}`);
-        if (!response.ok) throw new Error('Failed to fetch inventory');
 
-        const inventoryData = await response.json();
-        console.log('Fetched Inventory:', inventoryData);
-
-        if (Array.isArray(inventoryData) && inventoryData.length > 0) {
-            const product = inventoryData[0];
-            inventory.push(product);  // Add product to inventory here
-            updateStockAndOptions(product);
-            updatePriceAndStockDisplay(product);
-        } else {
-            console.error('Product not found');
-        }
-    } catch (error) {
-        console.error('Error fetching inventory:', error);
-    }
-}
 
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('DOM fully loaded and parsed');
