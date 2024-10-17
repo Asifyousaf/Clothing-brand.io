@@ -4,13 +4,20 @@ async function fetchProductFromSupabase(productId) {
     try {
         // Check if the product is already in the local inventory
         let product = inventory.find(item => item.id === productId);
-        
+
         if (!product) {
+            console.log('Product not found in local inventory, fetching from API...');  // Log for missing product in local storage
+            
             // Fetch the product from the API if not in local inventory
             const response = await fetch(`/api/inventory?productId=${productId}`);
             if (!response.ok) throw new Error('Failed to fetch product data');
 
             product = await response.json(); // Get the product data
+            
+            // Ensure the product data format is correct (e.g., if the API returns an array)
+            if (Array.isArray(product)) {
+                product = product[0];  // Assuming the product is the first element in the array
+            }
 
             // Add the fetched product to the inventory
             inventory.push(product);
@@ -19,11 +26,41 @@ async function fetchProductFromSupabase(productId) {
 
         return product; // Return the product data (either from local or fetched)
     } catch (error) {
-        console.error('Error fetching product from Supabase:', error);
-        return null;
+        console.error('Error fetching product from Supabase:', error);  // Log the error to the console
+        return null;  // Return null in case of failure
     }
 }
+console.log('Current Inventory:', JSON.parse(localStorage.getItem('inventory')));
 
+async function changeQuantity(index, change) {
+    const item = cart[index];
+
+    // Retrieve inventory from localStorage
+    let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+
+    // Find product in inventory
+    const product = inventory.find(p => p.id === item.productId);
+
+    if (!product) {
+        alert('Product not found in inventory.');
+        return;
+    }
+
+    const stock = product.stock[item.size][item.color];
+
+    if (change === 1 && item.quantity < stock) {
+        item.quantity += 1;
+    } else if (change === -1 && item.quantity > 1) {
+        item.quantity -= 1;
+    } else if (change === -1 && item.quantity === 1) {
+        // Remove item if quantity is 0
+        removeFromCart(index);
+        return;
+    }
+
+    updateCart();
+    localStorage.setItem('cart', JSON.stringify(cart)); // Update cart in localStorage
+}
 
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('DOM fully loaded and parsed');
