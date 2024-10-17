@@ -19,7 +19,6 @@ hamMenu.addEventListener("click", () => {
 function calculateTotalCartPrice() {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
 }
-
 async function checkoutWithStripe() {
     try {
         // Log the entire cart for inspection
@@ -29,16 +28,13 @@ async function checkoutWithStripe() {
         const cartItems = cart.map(item => {
             console.log(`Item: ${item.name}, Price: ${item.price}, Quantity: ${item.quantity}`); // Log each item
             return {
-                price_data: {
-                    currency: 'aed',
-                    product_data: {
-                        name: item.name,
-                        images: [item.image],
-                        description: `Size: ${item.size}, Color: ${item.color}`,
-                    },
-                    unit_amount: Math.round(item.price * 100), // Stripe expects price in cents
-                },
-                quantity: item.quantity,
+                productId: item.productId, // Make sure productId is included
+                name: item.name,
+                image: item.image,
+                price: item.price,
+                size: item.size,
+                color: item.color,
+                quantity: item.quantity
             };
         });
 
@@ -46,19 +42,11 @@ async function checkoutWithStripe() {
         console.log('Formatted cart items for Stripe:', cartItems);
 
         // Send cart data to your backend for session creation
-        const response = await fetch('/api/create-checkout-session', { // Use the /api/ prefix
+        const response = await fetch('/api/create-checkout-session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-                cartItems, 
-                metadata: {
-                    cartItems: JSON.stringify(cart.map(item => ({
-                        productId: item.productId,   // Include product ID
-                        size: item.size,             // Include size
-                        color: item.color,           // Include color
-                        quantity: item.quantity      // Include quantity
-                    })))
-                }
+                cartItems // Directly send structured cartItems
             })
         });
 
@@ -77,6 +65,7 @@ async function checkoutWithStripe() {
         alert('An error occurred. Please try again.');
     }
 }
+
 
 
 

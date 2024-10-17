@@ -19,7 +19,18 @@ app.post('/api/create-checkout-session', async (req, res) => {
         // Create a Stripe session and pass cartItems as line_items
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
-            line_items: cartItems, // Pass cartItems as line_items to Stripe
+            line_items: cartItems.map(item => ({
+                price_data: {
+                    currency: 'aed',
+                    product_data: {
+                        name: item.name, // Ensure you have a name property in cart items
+                        images: [item.image], // Ensure you have an image property
+                        description: `Size: ${item.size}, Color: ${item.color}`, // Size and color for description
+                    },
+                    unit_amount: Math.round(item.price * 100), // Stripe expects price in cents
+                },
+                quantity: item.quantity,
+            })),
             mode: 'payment',
             success_url: 'https://cybertronicbot.com/success?session_id={CHECKOUT_SESSION_ID}', // Success URL
             cancel_url: 'https://cybertronicbot.com/cancel', // Cancel URL
@@ -36,6 +47,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
                 })))
             }
         });
+        
         console.log('Cart Items on Server:', cartItems);
 
         // Send back the session ID
@@ -46,14 +58,12 @@ app.post('/api/create-checkout-session', async (req, res) => {
     }
 });
 
-
-
 app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     console.log('Webhook received:', req.body); // Log incoming request
     let event;
 
     const signature = req.headers['stripe-signature'];
-    const endpointSecret = 'whsec_jpk9R320UxDDfTM28wFdxpAIHkEo3pJ4'; // replace with your webhook signing secret
+    const endpointSecret = 'whsec_jpk9R320UxDDfTM28wFdxpAIHkEo3pJ4'; // Replace with your webhook signing secret
 
     try {
         event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
@@ -68,6 +78,7 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
         case 'checkout.session.completed':
             const session = event.data.object;
             console.log('Payment succeeded:', session);
+            // Here you could call your stock update function if needed
             break;
         default:
             console.log(`Unhandled event type ${event.type}`);
@@ -75,7 +86,6 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
 
     res.json({ received: true });
 });
-
 
 // Start the server
 app.listen(3000, () => console.log('Server is running on port 3000'));
