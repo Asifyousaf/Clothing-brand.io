@@ -27,6 +27,9 @@ app.post('/api/create-checkout-session', async (req, res) => {
             shipping_address_collection: {
                 allowed_countries: ['AE', 'SA', 'EG'], // Add other country codes as needed
             },
+            metadata: {
+                cartItems: JSON.stringify(cartItems) // Pass cart items as metadata
+            }
         });
 
         // Send back the session ID

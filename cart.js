@@ -20,50 +20,7 @@ function calculateTotalCartPrice() {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
 }
 
-// Import the Supabase client
-const { createClient } = require('@supabase/supabase-js');
 
-// Initialize the Supabase client with your project details
-const supabaseUrl = 'https://YOUR_SUPABASE_URL.supabase.co';
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';  // You should store this in environment variables for security
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-// Function to update stock in Supabase after a successful checkout
-async function updateStockInSupabase(cartItems) {
-    try {
-        for (const item of cartItems) {
-            const { productId, size, color, quantity } = item;
-
-            // Fetch the current stock from Supabase
-            const { data: product, error } = await supabase
-                .from('products')
-                .select('stock')
-                .eq('id', productId)
-                .single();
-            
-            if (error) throw new Error('Error fetching product stock');
-
-            // Decrease the stock
-            const updatedStock = product.stock[size][color] - quantity;
-            if (updatedStock < 0) throw new Error('Insufficient stock');
-
-            // Update stock in Supabase
-            product.stock[size][color] = updatedStock;
-
-            const { error: updateError } = await supabase
-                .from('products')
-                .update({ stock: product.stock })
-                .eq('id', productId);
-            
-            if (updateError) throw new Error('Error updating stock in Supabase');
-        }
-        console.log('Stock successfully updated');
-    } catch (error) {
-        console.error('Error updating stock:', error);
-    }
-}
-
-// Modified checkout function that integrates stock update
 async function checkoutWithStripe() {
     try {
         // Log the entire cart for inspection
@@ -71,20 +28,15 @@ async function checkoutWithStripe() {
 
         // Map cart items to a structure that Stripe expects
         const cartItems = cart.map(item => {
-            const productData = {
-                name: item.name,
-                description: `Size: ${item.size}, Color: ${item.color}`,
-            };
-
-            // Only add the 'images' field if the image URL is not empty
-            if (item.image && item.image.trim() !== "") {
-                productData.images = [item.image];
-            }
-
+            console.log(`Item: ${item.name}, Price: ${item.price}, Quantity: ${item.quantity}`); // Log each item
             return {
                 price_data: {
                     currency: 'aed',
-                    product_data: productData,
+                    product_data: {
+                        name: item.name,
+                        images: [item.image],
+                        description: `Size: ${item.size}, Color: ${item.color}`,
+                    },
                     unit_amount: Math.round(item.price * 100), // Stripe expects price in cents
                 },
                 quantity: item.quantity,
@@ -98,7 +50,12 @@ async function checkoutWithStripe() {
         const response = await fetch('/api/create-checkout-session', { // Use the /api/ prefix
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cartItems })
+            body: JSON.stringify({ 
+                cartItems, 
+                metadata: {
+                    cartItems: JSON.stringify(cart) // Add cart items as metadata
+                }
+            })
         });
 
         if (!response.ok) {
@@ -111,23 +68,11 @@ async function checkoutWithStripe() {
         // Initialize Stripe and redirect to checkout
         const stripe = Stripe('pk_test_51Q6qZ8Rxk79NacxxmxK6wWgu9j4c9S6s8P65w0usB7WISHIEKMGyr2bfgo0EDdsXD23D7LjtIz7jt7fvlfyc72v600ZMyI8pef');
         await stripe.redirectToCheckout({ sessionId: session.id });
-
-        // Once the purchase is successful, update stock in Supabase
-        stripe.redirectToCheckout({ sessionId: session.id }).then(async (result) => {
-            if (result.error) {
-                throw new Error('Stripe checkout failed');
-            }
-
-            // If checkout is successful, update stock in the Supabase database
-            await updateStockInSupabase(cart);
-        });
-
     } catch (error) {
         console.error('Error during checkout:', error);
         alert('An error occurred. Please try again.');
     }
 }
-
 
 
 
