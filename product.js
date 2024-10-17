@@ -1,47 +1,42 @@
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
 
-// Ensure the cart and product details are updated on page load
-window.onload = async function () {
-    updateCart(); // Update cart from localStorage
-
-    const productId = document.querySelector('.product-page-container').dataset.productId; // Get product ID
-    const product = await fetchProductFromSupabase(productId); // Fetch inventory for the product
-
-    if (product) {
-        loadProductDetails(product); // Load the product details into the page
-    } else {
-        console.error('Product not found');
-    }
+// Update the cart on page load
+window.onload = function () {
+    updateCart();
+    const productId = document.querySelector('.product-page-container').dataset.productId;
+    fetchProductFromSupabase(productId).then(product => {
+        if (product) {
+            loadProductDetails(product);
+        }
+    });
 };
 
-// Fetch product details from Supabase
+// Function to fetch product data from Supabase
 async function fetchProductFromSupabase(productId) {
     try {
-        let product = inventory.find(item => item.id === productId);
+        let product = inventory.find(item => item.id === parseInt(productId, 10));
 
         if (!product) {
             console.log('Product not found in local inventory, fetching from API...');
             const response = await fetch(`/api/inventory?productId=${productId}`);
             if (!response.ok) throw new Error('Failed to fetch product data');
-
             const responseData = await response.json();
             product = Array.isArray(responseData) ? responseData[0] : responseData;
 
-            if (!inventory.find(item => item.id === product.id)) {
-                inventory.push(product); // Add to inventory
-                localStorage.setItem('inventory', JSON.stringify(inventory)); // Save to localStorage
+            if (product) {
+                inventory.push(product);
+                localStorage.setItem('inventory', JSON.stringify(inventory));
             }
         }
-
-        return product; // Return product data
+        return product;
     } catch (error) {
-        console.error('Error fetching product:', error);
+        console.error('Error fetching product from Supabase:', error);
         return null;
     }
 }
 
-// Load product details onto the page
+// Load product details into the page
 function loadProductDetails(product) {
     const sizeSelect = document.getElementById('size');
     const colorSelect = document.getElementById('color');
@@ -69,10 +64,10 @@ function loadProductDetails(product) {
     sizeSelect.addEventListener('change', () => updatePrice(product));
     colorSelect.addEventListener('change', () => updatePrice(product));
 
-    updatePrice(product); // Update the price and stock initially
+    updatePrice(product);
 }
 
-// Update the price and stock information based on selected size and color
+// Update price and stock info when size or color changes
 function updatePrice(product) {
     const selectedSize = document.getElementById('size').value;
     const selectedColor = document.getElementById('color').value;
@@ -105,7 +100,48 @@ function updatePrice(product) {
     }
 }
 
-// Update the cart UI
+// Add product to cart
+async function addToCart(productId) {
+    const product = inventory.find(p => p.id === parseInt(productId, 10));
+    if (!product) {
+        alert('Product not found.');
+        return;
+    }
+
+    const size = document.getElementById('size').value.toLowerCase();
+    const color = document.getElementById('color').value.toLowerCase();
+    const availableStock = product.stock[size][color];
+    const existingProduct = cart.find(item => item.productId === productId && item.size === size && item.color === color);
+
+    if (!existingProduct) {
+        if (availableStock <= 0) {
+            alert(`Cannot add more items. Only ${availableStock} in stock.`);
+            return;
+        }
+
+        cart.push({
+            productId: productId,
+            name: product.name,
+            price: product.prices[size][color],
+            quantity: 1,
+            size: size,
+            color: color,
+            image: product.image
+        });
+    } else {
+        if (existingProduct.quantity >= availableStock) {
+            alert(`Cannot add more. Only ${availableStock} in stock.`);
+            return;
+        }
+        existingProduct.quantity += 1;
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCart();
+    openCart();
+}
+
+// Update cart display
 function updateCart() {
     const cartItemsContainer = document.getElementById('cart-items');
     cartItemsContainer.innerHTML = '';
@@ -144,17 +180,24 @@ function updateCart() {
 
         cartItemsContainer.appendChild(itemDiv);
         total += item.price * item.quantity;
-
-        // Add quantity change functionality
-        quantityControl.querySelector('.quantity-minus').addEventListener('click', () => changeQuantity(index, -1));
-        quantityControl.querySelector('.quantity-plus').addEventListener('click', () => changeQuantity(index, 1));
     });
 
     document.getElementById('cart-total-price').innerText = `$${total.toFixed(2)}`;
     localStorage.setItem('cart', JSON.stringify(cart));
+
+    const quantityMinusButtons = document.querySelectorAll('.quantity-minus');
+    const quantityPlusButtons = document.querySelectorAll('.quantity-plus');
+
+    quantityMinusButtons.forEach((button, index) => {
+        button.addEventListener('click', () => changeQuantity(index, -1));
+    });
+
+    quantityPlusButtons.forEach((button, index) => {
+        button.addEventListener('click', () => changeQuantity(index, 1));
+    });
 }
 
-// Change quantity in cart
+// Change quantity in the cart
 async function changeQuantity(index, change) {
     const item = cart[index];
     const product = inventory.find(p => p.id === item.productId);
@@ -176,22 +219,16 @@ async function changeQuantity(index, change) {
     }
 
     updateCart();
+    localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-// Remove an item from the cart
+// Remove item from cart
 function removeFromCart(index) {
     cart.splice(index, 1);
     updateCart();
 }
 
-// Event listeners for opening and closing cart
-document.getElementById('cart-button').addEventListener('click', function (event) {
-    event.preventDefault();
-    openCart();
-});
-
-document.getElementById('cart-popup-wrapper').addEventListener('click', closeCartOnClickOutside);
-
+// Open and close cart functions
 function openCart() {
     document.getElementById('cart-popup').classList.add('show');
     document.getElementById('cart-popup-wrapper').classList.add('show');
@@ -201,8 +238,15 @@ function closeCart() {
     document.getElementById('cart-popup').classList.remove('show');
     setTimeout(() => {
         document.getElementById('cart-popup-wrapper').classList.remove('show');
-    }, 400); // Matches CSS transition
+    }, 400);
 }
+
+document.getElementById('cart-button').addEventListener('click', function(event) {
+    event.preventDefault();
+    openCart();
+});
+
+document.getElementById('cart-popup-wrapper').addEventListener('click', closeCartOnClickOutside);
 
 function closeCartOnClickOutside(event) {
     if (event.target === document.getElementById('cart-popup-wrapper')) {
