@@ -1,5 +1,5 @@
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
-let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+let inventory = []; // Start with an empty inventory array
 
 // Update the cart on page load
 window.onload = function () {
@@ -15,19 +15,18 @@ window.onload = function () {
 // Function to fetch product data from Supabase
 async function fetchProductFromSupabase(productId) {
     try {
-        let product = inventory.find(item => item.id === parseInt(productId, 10));
+        // Always fetch from the API for the latest data
+        const response = await fetch(`/api/inventory?productId=${productId}`);
+        if (!response.ok) throw new Error('Failed to fetch product data');
+        
+        const responseData = await response.json();
+        const product = Array.isArray(responseData) ? responseData[0] : responseData;
 
-        if (!product) {
-            console.log('Product not found in local inventory, fetching from API...');
-            const response = await fetch(`/api/inventory?productId=${productId}`);
-            if (!response.ok) throw new Error('Failed to fetch product data');
-            const responseData = await response.json();
-            product = Array.isArray(responseData) ? responseData[0] : responseData;
-
-            if (product) {
-                inventory.push(product);
-                localStorage.setItem('inventory', JSON.stringify(inventory));
-            }
+        if (product) {
+            // Update local inventory with the latest data
+            inventory = inventory.filter(item => item.id !== product.id); // Remove old product if it exists
+            inventory.push(product); // Add updated product
+            localStorage.setItem('inventory', JSON.stringify(inventory)); // Update localStorage
         }
         return product;
     } catch (error) {
@@ -66,7 +65,6 @@ function loadProductDetails(product) {
 
     updatePrice(product);
 }
-
 // Update price and stock info when size or color changes
 function updatePrice(product) {
     const selectedSize = document.getElementById('size').value;
@@ -99,7 +97,6 @@ function updatePrice(product) {
         addToCartBtn.disabled = true;
     }
 }
-
 // Add product to cart
 async function addToCart(productId) {
     const product = inventory.find(p => p.id === parseInt(productId, 10));
