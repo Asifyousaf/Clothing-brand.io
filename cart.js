@@ -1,3 +1,4 @@
+let inventory = [];
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 updateCart(); // Ensure cart is updated based on localStorage
 // Ensure the cart is updated when the page loads
@@ -6,6 +7,7 @@ window.onload = function() {
     const productId = document.querySelector('.product-page-container').dataset.productId; // Get product ID
     fetchInventory(productId); // Fetch inventory for the product based on the ID
 };
+// Function to fetch inventory data
 // Function to fetch inventory data
 async function fetchInventory(productId) {
     try {
@@ -16,7 +18,7 @@ async function fetchInventory(productId) {
         console.log('Fetched Inventory:', inventory);
 
         if (inventory.length > 0) {
-            updateProductDetails(inventory[0]); // Assuming the API returns an array
+            updateStockAndOptions(inventory[0]); // Assuming the API returns an array
         } else {
             console.error('Product not found');
         }
@@ -137,12 +139,19 @@ function updateCart() {
         button.addEventListener('click', () => changeQuantity(index, 1));
     });
 }
+
 // Function to add product to the cart
 async function addToCart(productId) {
     const product = inventory.find(p => p.id === parseInt(productId, 10)); // Ensure we have the right product
 
     const size = document.getElementById('size').value.toLowerCase(); // Get selected size
     const color = document.getElementById('color').value.toLowerCase(); // Get selected color
+
+    // Ensure the product exists before accessing its properties
+    if (!product) {
+        alert('Product not found.');
+        return;
+    }
 
     const availableStock = product.stock[size][color];
     const existingProduct = cart.find(item => item.productId === productId && item.size === size && item.color === color);
