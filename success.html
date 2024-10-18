@@ -45,7 +45,7 @@
     <button id="back-button" onclick="window.location.href='https://cybertronicbot.com'">Back to Website</button>
 
     <script>
-    window.onload = function() {
+   window.onload = function() {
     localStorage.removeItem('cart'); // Clear the cart from local storage
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -54,12 +54,22 @@
 
     if (!sessionId) {
         document.getElementById('order-details').innerText = 'No session ID provided.';
+        console.error('No session ID provided in URL.');
         return;
     }
 
+    console.log(`Fetching session details for session ID: ${sessionId}`);
+
     fetch(`/api/checkout-session?session_id=${sessionId}`)
-        .then(response => response.json())
+        .then(response => {
+            console.log('Fetch response:', response);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch session data. Status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
+            console.log('Session data:', data); // Log the received session data
             if (data.error) throw new Error(data.error);
 
             const session = data.session;
@@ -80,9 +90,10 @@
         })
         .catch(err => {
             document.getElementById('order-details').innerText = 'Error loading order details.';
-            console.error('Error:', err);
+            console.error('Error fetching session details:', err);
         });
 };
+
 
 
     </script>
