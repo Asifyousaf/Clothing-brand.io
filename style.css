@@ -8,6 +8,28 @@
         padding:0;
         overflow-x: hidden;
     }
+  /* Full scrollbar styling */
+::-webkit-scrollbar {
+    width: 12px; /* Width of the scrollbar */
+}
+
+/* Track (background) */
+::-webkit-scrollbar-track {
+    background: #0000A8; /* Color of the track */
+}
+
+/* Handle (thumb) */
+::-webkit-scrollbar-thumb {
+    background-color: #ffffff; /* Color of the scroll thumb */
+    border-radius: 10px;     /* Roundness of the scroll thumb */
+    border: 3px solid #0000A8; /* Space around thumb */
+}
+
+/* Handle (thumb) on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color when hovered */
+}
+
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
@@ -812,23 +834,28 @@ body {
     }
 }
 
-    
 
 .featured-products {
     text-align: center;
     background-position: center;
-    background-image: url('img/Bannerart.jpg');
+    background-image: url('img/baannerart2.png');
     background-size: cover; /* Ensures the image covers the entire background */
     background-repeat: no-repeat; /* Prevents the image from repeating */
     width: 100vw; /* Full width of the viewport */
-    height: 80vh; /* Full height of the viewport */
+    height: 100vh; /* Full height of the viewport */
     display: flex;
     padding: 20px;
     justify-content: center;
     align-items: center;
     overflow: hidden;
 }
-
+/* Media query for screens 600px or smaller */
+@media (max-width: 1077px) {
+    .featured-products {
+        width: 100vw;
+        height: 30vh;
+    }
+}
 
     /* ----------------banner ------------------ */
     .banner {
