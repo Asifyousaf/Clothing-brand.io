@@ -60,7 +60,7 @@
 
         console.log(`Fetching session details for session ID: ${sessionId}`);
 
-        fetch(`/api/checkout-session?session_id=${sessionId}`)
+        fetch(`/api/create-checkout-session?session_id=${sessionId}`)
             .then(response => {
                 console.log('Fetch response:', response);
                 if (!response.ok) {
