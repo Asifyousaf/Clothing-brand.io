@@ -13,60 +13,41 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            background-image: url('img/bg2.png'); /* Background image */
+            background-size: cover; /* Cover the whole background */
+            background-position: center; /* Center the background image */
             color: #333;
             text-align: center;
             padding: 20px;
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         h1 {
             color: #28a745; /* Green for success */
             font-size: 2em;
-            margin-bottom: 20px; /* Reduced gap between text and checkmark */
+            margin-bottom: 20px; /* Adjust the space between the title and checkmark */
         }
 
-        /* Centering the SVG */
+        /* Centering the SVG (checkmark) */
         .wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 10px; /* Reduced gap */
+            margin-bottom: 30px; /* Space between checkmark and order details */
         }
 
-        /* Styling for the checkmark icon */
-        .checkmark {
-            width: 50px; /* Slightly smaller size */
-            height: 50px; /* Match width */
-            stroke-width: 2;
-            stroke: #28a745; /* Green stroke for the checkmark */
-            fill: none;
-            animation: scale 0.3s ease-in-out both;
+        /* Styling for the checkmark image */
+        .checkmark-img {
+            width: 80px; /* Adjust size of the checkmark */
+            height: 80px;
         }
 
-        .checkmark__check {
-            stroke-dasharray: 48;
-            stroke-dashoffset: 48;
-            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-        }
-
-        @keyframes stroke {
-            100% {
-                stroke-dashoffset: 0;
-            }
-        }
-
-        @keyframes scale {
-            0%, 100% {
-                transform: none;
-            }
-            50% {
-                transform: scale3d(1.1, 1.1, 1);
-            }
-        }
-
-        /* Order Details */
+        /* Order Details Styling */
         #order-details {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.9); /* White background with transparency */
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -95,10 +76,14 @@
             color: white;
             border: none;
             border-radius: 5px;
-            padding: 10px 20px;
+            padding: 6px 12px; /* Smaller padding for a more compact button */
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px; /* Smaller font size for a more compact button */
             margin-top: 20px;
+            max-width: 200px; /* Limit the maximum width of the button */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         button:hover {
@@ -108,13 +93,11 @@
 </head>
 <body>
 
-    <h1>Thank you for your purchase!</h1>
+    <h1>Your payment was successful!</h1>
 
-    <!-- Checkmark Icon -->
+    <!-- Checkmark Icon (Using the external SVG URL) -->
     <div class="wrapper">
-        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-        </svg>
+        <img class="checkmark-img" src="img/tick.svg" alt="Success Checkmark"/>
     </div>
 
     <!-- Order Details -->
