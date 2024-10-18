@@ -54,7 +54,8 @@
     if (!sessionId) {
         document.getElementById('order-details').innerText = 'No session ID provided.';
     } else {
-        fetch(`/api/create-checkout-session?session_id=${sessionId}`)
+        fetch(`/api/checkout-session?session_id=${sessionId}`)
+
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
