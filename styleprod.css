@@ -274,7 +274,7 @@ html, body {
  .clothing-container {
     text-align: center;
     padding: 40px 20px;
-    background-image: url('img/peakpx.jpg'); /* BG1 Image */   
+   
 }
 .product-container {
     display: flex;
