@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,60 +47,54 @@
 
     <script>
  window.onload = function() {
-       // Clear the cart from local storage
-       localStorage.removeItem('cart');
+        localStorage.removeItem('cart'); // Clear the cart from local storage
 
-       // Get the session ID from the URL query parameters
-       const urlParams = new URLSearchParams(window.location.search);
-       const sessionId = urlParams.get('session_id');
-       console.log('Session ID:', sessionId);
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session_id');
+        console.log('Session ID:', sessionId); // Log the session ID
 
-       // If no session ID is found, display an error
-       if (!sessionId) {
-           document.getElementById('order-details').innerText = 'No session ID provided.';
-           console.error('No session ID provided in URL.');
-           return;
-       }
+        if (!sessionId) {
+            document.getElementById('order-details').innerText = 'No session ID provided.';
+            console.error('No session ID provided in URL.');
+            return;
+        }
 
-       console.log(`Fetching session details for session ID: ${sessionId}`);
+        console.log(`Fetching session details for session ID: ${sessionId}`);
 
-       // Fetch session details from the server
-       fetch(`/apicreate-checkout-session?session_id=${sessionId}`)
-           .then(response => {
-               console.log('Fetch response:', response);
-               if (!response.ok) {
-                   throw new Error(`Failed to fetch session data. Status: ${response.status}`);
-               }
-               return response.json();
-           })
-           .then(data => {
-               console.log('Session data:', data);
-               if (data.error) throw new Error(data.error);
+        fetch(`/api/checkout-session?session_id=${sessionId}`)
+            .then(response => {
+                console.log('Fetch response:', response);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch session data. Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Session data:', data); // Log the received session data
+                if (data.error) throw new Error(data.error);
 
-               const session = data.session;
-               const lineItems = data.lineItems; // Accessing line items
-               const orderDetails = document.getElementById('order-details');
+                const session = data.session;
+                const orderDetails = document.getElementById('order-details');
 
-               // Populate the order details with session data
-               orderDetails.innerHTML = `
-                   <h2>Order Summary</h2>
-                   <p><strong>Order ID:</strong> ${session.id}</p>
-                   <p><strong>Email:</strong> ${session.customer_details.email}</p>
-                   <p><strong>Total:</strong> ${(session.amount_total / 100).toFixed(2)} ${session.currency.toUpperCase()}</p>
-                   <h3>Items:</h3>
-                   <ul>
-                       ${lineItems.data.map(item => `
-                           <li>${item.description} - ${item.quantity} x ${(item.price.unit_amount / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
-                       `).join('')}
-                   </ul>
-               `;
-           })
-           .catch(err => {
-               document.getElementById('order-details').innerText = 'Error loading order details.';
-               console.error('Error fetching session details:', err);
-           });
-   };
-
+                // Format the order details into HTML
+                orderDetails.innerHTML = `
+                    <h2>Order Summary</h2>
+                    <p><strong>Order ID:</strong> ${session.id}</p>
+                    <p><strong>Email:</strong> ${session.customer_details.email}</p>
+                    <p><strong>Total:</strong> ${(session.amount_total / 100).toFixed(2)} ${session.currency.toUpperCase()}</p>
+                    <h3>Items:</h3>
+                    <ul>
+                        ${data.lineItems.data.map(item => `
+                            <li>${item.description} - ${item.quantity} x ${(item.price.unit_amount / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
+                        `).join('')}
+                    </ul>
+                `;
+            })
+            .catch(err => {
+                document.getElementById('order-details').innerText = 'Error loading order details.';
+                console.error('Error fetching session details:', err);
+            });
+    };
     </script>
 </body>
 </html>
