@@ -57,6 +57,19 @@ app.post('/api/create-checkout-session', async (req, res) => {
         res.status(500).send({ error: error.message });
     }
 });
+app.get('/api/checkout-session', async (req, res) => {
+    const sessionId = req.query.session_id; // Get session ID from the query parameter
+    try {
+        const session = await stripe.checkout.sessions.retrieve(sessionId, {
+            expand: ['line_items'] // Request line items in the session response
+        }); 
+        res.json({ session }); // Send session data back to the client
+    } catch (error) {
+        console.error('Error fetching session data:', error);
+        res.status(500).json({ error: 'Failed to fetch session data' });
+    }
+});
+
 
 app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     console.log('Webhook received:', req.body); // Log incoming request
