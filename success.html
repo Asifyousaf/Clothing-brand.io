@@ -1,12 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Success</title>
-    <link rel="stylesheet" href="style.css"> <!-- Add your custom stylesheet here -->
     <style>
+        /* Reset margin and padding */
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
@@ -14,9 +18,53 @@
             text-align: center;
             padding: 20px;
         }
+
         h1 {
-            color: #ffffff; /* Green for success */
+            color: #28a745; /* Green for success */
+            font-size: 2em;
+            margin-bottom: 20px; /* Reduced gap between text and checkmark */
         }
+
+        /* Centering the SVG */
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px; /* Reduced gap */
+        }
+
+        /* Styling for the checkmark icon */
+        .checkmark {
+            width: 50px; /* Slightly smaller size */
+            height: 50px; /* Match width */
+            stroke-width: 2;
+            stroke: #28a745; /* Green stroke for the checkmark */
+            fill: none;
+            animation: scale 0.3s ease-in-out both;
+        }
+
+        .checkmark__check {
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes scale {
+            0%, 100% {
+                transform: none;
+            }
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+
+        /* Order Details */
         #order-details {
             background-color: #fff;
             border-radius: 8px;
@@ -24,7 +72,24 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             margin: 20px auto;
             max-width: 600px;
+            text-align: left;
         }
+
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .order-id {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 16px;
+            word-wrap: break-word; /* Handle long Order ID gracefully */
+            white-space: normal;
+        }
+
         button {
             background-color: #007bff; /* Bootstrap Primary Color */
             color: white;
@@ -35,66 +100,79 @@
             font-size: 16px;
             margin-top: 20px;
         }
+
         button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
+
     <h1>Thank you for your purchase!</h1>
+
+    <!-- Checkmark Icon -->
+    <div class="wrapper">
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+    </div>
+
+    <!-- Order Details -->
     <div id="order-details">Loading order details...</div>
+
+    <!-- Back Button -->
     <button id="back-button" onclick="window.location.href='https://cybertronicbot.com'">Back to Website</button>
 
     <script>
- window.onload = function() {
-        localStorage.removeItem('cart'); // Clear the cart from local storage
+        window.onload = function() {
+            localStorage.removeItem('cart'); // Clear the cart from local storage
 
-        const urlParams = new URLSearchParams(window.location.search);
-        const sessionId = urlParams.get('session_id');
-        console.log('Session ID:', sessionId); // Log the session ID
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+            console.log('Session ID:', sessionId);
 
-        if (!sessionId) {
-            document.getElementById('order-details').innerText = 'No session ID provided.';
-            console.error('No session ID provided in URL.');
-            return;
-        }
+            if (!sessionId) {
+                document.getElementById('order-details').innerText = 'No session ID provided.';
+                console.error('No session ID provided in URL.');
+                return;
+            }
 
-        console.log(`Fetching session details for session ID: ${sessionId}`);
+            console.log(`Fetching session details for session ID: ${sessionId}`);
 
-        fetch(`/api/create-checkout-session?session_id=${sessionId}`)
-            .then(response => {
-                console.log('Fetch response:', response);
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch session data. Status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Session data:', data); // Log the received session data
-                if (data.error) throw new Error(data.error);
+            fetch(`/api/create-checkout-session?session_id=${sessionId}`)
+                .then(response => {
+                    console.log('Fetch response:', response);
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch session data. Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Session data:', data); 
+                    if (data.error) throw new Error(data.error);
 
-                const session = data.session;
-                const orderDetails = document.getElementById('order-details');
+                    const session = data.session;
+                    const orderDetails = document.getElementById('order-details');
 
-                // Format the order details into HTML
-                orderDetails.innerHTML = `
-                    <h2>Order Summary</h2>
-                    <p><strong>Order ID:</strong> ${session.id}</p>
-                    <p><strong>Email:</strong> ${session.customer_details.email}</p>
-                    <p><strong>Total:</strong> ${(session.amount_total / 100).toFixed(2)} ${session.currency.toUpperCase()}</p>
-                    <h3>Items:</h3>
-                    <ul>
-                        ${data.lineItems.data.map(item => `
-                            <li>${item.description} - ${item.quantity} x ${(item.price.unit_amount / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
-                        `).join('')}
-                    </ul>
-                `;
-            })
-            .catch(err => {
-                document.getElementById('order-details').innerText = 'Error loading order details.';
-                console.error('Error fetching session details:', err);
-            });
-    };
+                    // Format the order details into HTML
+                    orderDetails.innerHTML = `
+                        <h2>Order Summary</h2>
+                        <p><strong>Email:</strong> ${session.customer_details.email}</p>
+                        <p><strong>Total:</strong> ${(session.amount_total / 100).toFixed(2)} ${session.currency.toUpperCase()}</p>
+                        <h3>Items:</h3>
+                        <ul>
+                            ${data.lineItems.data.map(item => `
+                                <li>${item.description} - ${item.quantity} x ${(item.price.unit_amount / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
+                            `).join('')}
+                        </ul>
+                        <p><strong>Order ID:</strong> <span class="order-id">${session.id}</span></p>
+                    `;
+                })
+                .catch(err => {
+                    document.getElementById('order-details').innerText = 'Error loading order details.';
+                    console.error('Error fetching session details:', err);
+                });
+        };
     </script>
 </body>
 </html>
