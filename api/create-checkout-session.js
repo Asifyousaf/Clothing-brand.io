@@ -59,7 +59,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
         res.status(500).send({ error: error.message });
     }
 });
-app.get('/api/create-checkout-session', async (req, res) => {
+app.get('/api/checkout-session', async (req, res) => {
     const sessionId = req.query.session_id;  // Extract session ID from the query string
     console.log('Fetching session for ID:', sessionId); 
 
