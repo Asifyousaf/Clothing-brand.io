@@ -50,12 +50,17 @@ async function checkoutWithStripe() {
             })
         });
 
+        // Log the response status and body
+        console.log('Response status:', response.status);
+        const responseBody = await response.json();
+        console.log('Response body:', responseBody);
+
         if (!response.ok) {
-            throw new Error('Failed to create checkout session');
+            throw new Error(`Failed to create checkout session: ${responseBody.error || responseBody}`);
         }
 
         // Get the session object from the response
-        const session = await response.json();
+        const session = responseBody;
 
         // Initialize Stripe and redirect to checkout
         const stripe = Stripe('pk_test_51Q6qZ8Rxk79NacxxmxK6wWgu9j4c9S6s8P65w0usB7WISHIEKMGyr2bfgo0EDdsXD23D7LjtIz7jt7fvlfyc72v600ZMyI8pef');
@@ -65,6 +70,7 @@ async function checkoutWithStripe() {
         alert('An error occurred. Please try again.');
     }
 }
+
 
 
 
