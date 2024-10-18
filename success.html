@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif; /* Clean and professional font */
             background-image: url('img/bg2.png'); /* Background image */
             background-size: cover; /* Cover the whole background */
             background-position: center; /* Center the background image */
@@ -57,6 +57,7 @@
             text-align: left;
             font-size: 16px;
             line-height: 1.6;
+            margin-bottom: 30px;
         }
 
         p {
@@ -65,13 +66,17 @@
         }
 
         .order-id {
-            background-color: #f1f1f1;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 10px 0;
+            padding: 15px; /* Adjust padding for the Order ID */
             font-size: 16px;
+            color: #333;
+            background-color: transparent; /* No background */
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
             word-wrap: break-word; /* Handle long Order ID gracefully */
             white-space: normal;
+            width: 100%; /* Ensure it fits the width of the container */
+            box-sizing: border-box; /* Prevent overflow */
         }
 
         button {
@@ -79,7 +84,7 @@
             color: white;
             border: none;
             border-radius: 5px;
-            padding: 8px 16px; /* Button padding */
+            padding: 6px 12px; /* Button padding */
             cursor: pointer;
             font-size: 14px; /* Smaller font size for a more compact button */
             margin-top: 20px;
@@ -93,19 +98,25 @@
             background-color: #0056b3;
         }
 
-        /* Additional text styling */
-        h2 {
-            font-size: 1.5em;
-            margin-bottom: 20px;
-            text-align: left;
-        }
+        /* Make the page responsive */
+        @media only screen and (max-width: 600px) {
+            h1 {
+                font-size: 2em; /* Reduce font size on small screens */
+            }
 
-        .order-summary {
-            margin-top: 10px;
-        }
+            #order-details {
+                padding: 15px; /* Less padding for small screens */
+                font-size: 14px; /* Smaller font size */
+            }
 
-        .order-summary p {
-            margin: 5px 0;
+            .checkmark-img {
+                width: 60px;
+                height: 60px;
+            }
+
+            button {
+                padding: 5px 10px; /* Smaller button on small screens */
+            }
         }
 
     </style>
@@ -168,7 +179,7 @@
                                     <li>${item.description} - ${item.quantity} x ${(item.price.unit_amount / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
                                 `).join('')}
                             </ul>
-                            <p><strong>Order ID:</strong> <span class="order-id">${session.id}</span></p>
+                            <p><strong>Order ID:</strong> <input class="order-id" value="${session.id}" readonly /></p>
                         </div>
                     `;
                 })
