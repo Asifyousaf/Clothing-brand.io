@@ -112,104 +112,6 @@ body {
 }
 
 
-.button1 {
-    border: none;
-    outline: 0;
-    padding: 10px;
-    margin: 2rem;
-    font-size: 1rem;
-    color: white;
-    background-color: #0000A8;
-    text-align: center;
-    cursor: pointer;
-    width: 15rem;
-    border-radius: 4px;
-}
-
-button:hover {
-    background-color: #3b3b58;
-}
-
-/* Team Section */
-
-.team {
-    padding: 30px 0;
-    text-align: center;
-}
-
-.team h1 {
-    color: white; /* Text color */
-    font-size: 2.5rem; /* Font size */
-    margin-bottom: 20px; /* Space below the heading */
-    padding: 20px; /* Padding around the text */
-    background:rgb(2, 50, 155); /* Gradient background */
-    border-radius: 10px; /* Rounded corners */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Shadow effect for depth */
-    display: inline-block; /* Makes the background fit the text */
-}
-
-.team-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.card {
-    background-color: white;
-    border-radius: 6px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-    width: 18rem;
-    height: 25rem;
-    margin-top: 10px;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
-}
-
-.card-img {
-    width: 18rem;
-    height: 12rem;
-}
-
-.card-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-}
-
-.card-info button {
-    margin: 2rem 1rem;
-}
-
-.card-name {
-    font-size: 2rem;
-    margin: 10px 0;
-}
-
-.card-role {
-    font-size: 1rem;
-    color: #888;
-    margin: 5px 0;
-}
-
-.card-email {
-    font-size: 1rem;
-    color: #555;
-}
-
-/* Footer */
-footer {
-    background-color: #222;
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-}
 
 @media (max-width: 768px) {
     .about-img {
@@ -281,10 +183,9 @@ footer {
             <button class="checkout-btn" onclick="checkout()">Buy Now</button>
     
             <!-- Terms and Conditions Link and Content -->
-            <span class="terms-and-conditions-link" onclick="toggleTerms()">Terms and Conditions</span>
             <div id="terms-conditions" class="terms-and-conditions">
-                <p>By proceeding, you agree to our <a href="policy.html">terms and conditions</a>.</p>
-            </div>  
+                <p>By proceeding, you agree to our <a href="policy.html" target="_blank">terms and conditions</a>.</p>
+            </div>
         </div>
     </div>
     </div>
@@ -340,112 +241,68 @@ footer {
                     <img src="img/company.png" alt="Geeksforgeeks">
                 </div>
                 <div>
-                <p> At Fashion Forward, we believe that clothing is more than just fabric; it’s a form of self-expression. Our brand is dedicated to providing stylish and comfortable apparel that empowers individuals to embrace their unique identities.<br>
-                    <br>
+                <p> Cybertronic is a premium streetwear brand that fuses cutting-edge street style with timeless vintage
+                    fabrics and luxurious materials. We are redefining modern street fashion with a nod to the past,
+                    offering quality, style, and authenticit <br>
                     We curate a diverse range of clothing that caters to all styles, from casual wear to chic ensembles, ensuring there's something for everyone. With a commitment to quality and sustainability, we prioritize ethical practices in our production processes, ensuring that each piece is made with care for both the planet and our customers.<br>
                     <br>
-                    Our mission is to inspire confidence through fashion, helping our community look and feel their best every day. Join us on this journey of style and sustainability as we celebrate individuality, creativity, and the power of personal expression.
-                </p>
+                    Our Vision and Mission
+Vision: To create a unique, high-quality streetwear experience, merging the raw energy of urban
+culture with the timeless charm of vintage fabrics.
+Mission: At Cybertronic, we aim to design streetwear that speaks to individuals who appreciate
+authenticity, sustainability, and standout fashion. Our materials are thoughtfully sourced, ensuring
+each piece embodies both richness and comfort</p>
                 </div>
             </div>
         </section>
-    
-        <section class="team">
-            <h1>Meet Our Team</h1>
-            <div class="team-cards">
-              
-                <!-- Cards here -->
-                <!-- Card 1 -->
-              
-                <div class="card">
-                    <div class="card-img">
-                        <img src=
-    "https://media.geeksforgeeks.org/wp-content/uploads/20230824122630/
-     business-office-business-woman-professional.jpg" alt="User 1">
-                    </div>
-                    <div class="card-info">
-                        <h2 class="card-name">Jane</h2>
-                        <p class="card-role">CEO and Founder</p>
-                        <p class="card-email">jane@example.com</p>
-                        <p><button class="button1">Contact</button></p>
-                    </div>
-                </div>
-    
-                <!-- Card 2 -->
-              
-                <div class="card">
-                    <div class="card-img">
-                        <img src=
-    "https://media.geeksforgeeks.org/wp-content/uploads/20230822183347/
-     man-portrait-businessman-male.jpg" alt="User 2">
-                    </div>
-                    <div class="card-info">
-                        <h2 class="card-name">Miller</h2>
-                        <p class="card-role">Co-Founder</p>
-                        <p class="card-email">Miller@example.com</p>
-                        <p><button class="button1">Contact</button></p>
-                    </div>
-                </div>
-              
-                <!-- Card 3 -->
-              
-                <div class="card">
-                    <div class="card-img">
-                        <img src=
-    "https://media.geeksforgeeks.org/wp-content/uploads/20230824122630/
-     business-office-business-woman-professional.jpg" alt="User 3">
-                    </div>
-                    <div class="card-info">
-                        <h2 class="card-name">Joe</h2>
-                        <p class="card-role">Co-Founder</p>
-                        <p class="card-email">Joe@example.com</p>
-                        <p><button class="button1">Contact</button></p>
-                    </div>
-                </div>
-            </div>
-        </section>
+      
 
     <!-- Footer Section -->
 
-    <footer class="footer-container">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>About Us</h3>
-                <p>Leading the digital frontier with innovative designs and cutting-edge technology.</p>
+    <footer class="footer">
+        <div class="containerf">
+          <div class="row">
+            <div class="footer-col">
+              <h4>Cybertronic</h4>
+              <ul></ul>
             </div>
-    
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">Support</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
+            <div class="footer-col">
+              <h4>Quick Links</h4>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="clothing.html">Clothing</a></li>
+                <li><a href="collection.html">Collection</a></li>
+                <li><a href="about.html">about</a></li>
+              </ul>
             </div>
-    
-            <div class="footer-column">
-                <h3>Legal</h3>
-                <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Use</a></li>
-                    <li><a href="#">License Agreement</a></li>
-                </ul>
+            <div class="footer-col">
+              <h4>Legal</h4>
+              <ul>
+                <li><a href="policy.html">terms & conditions</a></li>
+              </ul>
             </div>
-    
-            <div class="footer-column">
-                <h3>Connect</h3>
-                <ul>
-                    <li><a href="#">Facebook</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Instagram</a></li>
-                </ul>
+            <div class="footer-col">
+              <h4>Follow Us</h4>
+              <div class="social-links">
+                <a href="https://www.instagram.com/cybertronicllc/" target="_blank">
+                  <img src="img/insta.jpeg" alt="Instagram" />
+                </a>
+                <a href="https://www.tiktok.com/@cybertronicc" target="_blank">
+                  <img src="img/tiktok.png" alt="TikTok" />
+                </a>
+              </div>
+              
+              <!-- Payment icons row, now under the social links -->
+              <div class="payment-icons">
+                <img src="img/visa.png" alt="Visa">
+                <img src="img/card.png" alt="MasterCard">
+                <img src="img/apple-pay.png" alt="Apple">
+                <img src="img/google-pay.png" alt="Google-pay">
+              </div>
             </div>
+          </div>
         </div>
-        <div class="footer-bottom">
-            <p>© 2024 Cybertronic. All rights reserved.</p>
-        </div>
-    </footer>
+      </footer>
 
     <script src="scroll.js"></script>
     <script src="cart.js"></script>

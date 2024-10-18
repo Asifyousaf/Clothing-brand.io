@@ -814,12 +814,21 @@ body {
 
     
 
-    .featured-products {
-        text-align: center;
-        padding: 20px;
-        background-color: #0000A8;
-        
-    }
+.featured-products {
+    text-align: center;
+    background-position: center;
+    background-image: url('img/Bannerart.jpg');
+    background-size: cover; /* Ensures the image covers the entire background */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    width: 100vw; /* Full width of the viewport */
+    height: 80vh; /* Full height of the viewport */
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
 
     /* ----------------banner ------------------ */
     .banner {
@@ -876,7 +885,6 @@ body {
 /* ----------------category ------------------ */
 /* Flexbox Container */
 .category-container {
-    background-color: #0000A8; /* Background color */
     display: flex;
     flex-wrap: wrap; /* Allow items to wrap */
     justify-content: center; /* Center items for better alignment */
@@ -1405,72 +1413,136 @@ body {
 
 
  /* ----------------fOOTER ------------------ */
-.footer-container {
-   background-color: rgba(0, 0, 0, 0.8); /* Dark color with 60% opacity */
-    color: #cccccc;
-    font-family: 'Courier New', Courier, monospace; /* Mimics a retro, typewriter-like font */
-    padding: 20px 0;
-    width: 100%; /* Ensure the footer takes up full width */
+
+ /* Container */
+.containerf {
+    font-family: 'PixelFont', sans-serif;
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    width: 100%;
+    padding: 50px 100px;
+    height: 100%;
     box-sizing: border-box;
+
+    /* Transparent black background */
+    background: rgba(0, 0, 0, 0.5); /* 50% transparent black */
 }
-    .footer-content {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 30px;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
+ .row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  ul {
+    list-style: none;
+  }
+  
+  .footer-col {
+    width: 250px;
+    padding: 0 15px;
+  }
+  
+  .footer-col h4 {
+    font-size: 38px;
+    color: #ffffff;
+    text-transform: capitalize;
+    margin-bottom: 35px;
+    font-weight: 500;
+    position: relative;
+  }
+  
+  .footer-col h4::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    background-color: #ff0000;
+    height: 2px;
+    box-sizing: border-box;
+    width: 50px;
+  }
+  
+  .footer-col ul li:not(:last-child) {
+    margin-bottom: 10px;
+  }
+  
+  .footer-col ul li a {
+    font-size: 20px;
+    text-transform: capitalize;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 300;
+    color: #bbbbbb;
+    display: block;
+    transition: all 0.3s ease;
+  }
+  
+  .footer-col ul li a:hover {
+    color: #ffffff;
+    padding-left: 8px;
+  }
+  
+  .footer-col .social-links a {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 0 10px 10px 0;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 50%;
+    color: #ffffff;
+    transition: all 0.5s ease;
+  }
+  
+  .footer-col .social-links a:hover {
+    color: #24262b;
+    background-color: #ffffff;
+  }
+  
+  /* Payment icons now positioned under Follow Us section */
+  .payment-icons {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 20px;
+  }
+  
+  .payment-icons img {
+    height: 40px; /* Set the size of the icons */
+    margin-right: 15px; /* Space between icons */
+    transition: transform 0.3s ease; /* Optional hover effect */
+  }
+  
+  .payment-icons img:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 767px) {
+    .footer-col {
+      width: 50%;
+      margin-bottom: 30px;
     }
-
-    .footer-column {
-        flex: 1;
-        min-width: 150px;
+  }
+  
+  @media (max-width: 574px) {
+    .footer-col {
+      width: 100%;
     }
+  }
+  .social-links a img {
+    height: 40px; /* Set the height of the icons */
+    width: 40px; /* Set the width of the icons */
+    margin-right: 10px; /* Add space between the icons */
+    transition: transform 0.3s ease; /* Optional hover effect */
+  }
+  
+  .social-links a img:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+  }
 
-    .footer-column h3 {
-        font-size: 1.1em;
-        margin-bottom: 15px;
-        color: #fff;
-    }
+  
 
-    .footer-column ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    .footer-column ul li {
-        margin-bottom: 8px;
-    }
-
-    .footer-column ul li a {
-        color: #9d9d9d;
-        text-decoration: none;
-        font-size: 0.9em;
-    }
-
-    .footer-column ul li a:hover {
-        color: #ffffff;
-        text-decoration: underline;
-    }
-
-    .footer-bottom {
-        text-align: center;
-        border-top: 1px solid #333;
-        padding-top: 15px;
-    }
-
-    @media (max-width: 768px) {
-        .footer-content {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .footer-column {
-            text-align: center;
-            max-width: 90%;
-        }
-    }
 
 
 /* Updated Cart Popup CSS for smooth sliding */
@@ -1654,7 +1726,6 @@ body {
 }
 /* Terms and Conditions */
 .terms-and-conditions {
-    display: none;
     font-size: 12px;
     color: #666;
     margin-top: 10px;
