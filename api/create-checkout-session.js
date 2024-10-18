@@ -58,16 +58,17 @@ app.post('/api/create-checkout-session', async (req, res) => {
     }
 });
 app.get('/api/checkout-session', async (req, res) => {
-    const sessionId = req.query.session_id;
-    console.log('Fetching session for ID:', sessionId); // Log the session ID for debugging
+    const sessionId = req.query.session_id;  // Extract session ID from the query string
+    console.log('Fetching session for ID:', sessionId); 
 
     try {
         const session = await stripe.checkout.sessions.retrieve(sessionId, {
-            expand: ['line_items'] // Make sure to expand the line items
+            expand: ['line_items']  // Expand line items to retrieve detailed product info
         });
-        res.json({ session });
+        const lineItems = session.line_items;  // Get the detailed line items
+        res.json({ session, lineItems });  // Send back session and line item details
     } catch (error) {
-        console.error('Error fetching session data:', error); // Log any errors from Stripe
+        console.error('Error fetching session data:', error); 
         res.status(500).json({ error: 'Failed to fetch session data' });
     }
 });
