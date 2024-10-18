@@ -4,59 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Success</title>
+    <link rel="stylesheet" href="style.css"> <!-- Add your custom stylesheet here -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #ffffff; /* Green for success */
+        }
+        #order-details {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        button {
+            background-color: #007bff; /* Bootstrap Primary Color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
 </head>
 <body>
     <h1>Thank you for your purchase!</h1>
     <div id="order-details">Loading order details...</div>
+    <button id="back-button" onclick="window.location.href='https://cybertronicbot.com'">Back to Website</button>
 
     <script>
+        window.onload = function() {
+            // Clear the cart and update localStorage
+            localStorage.removeItem('cart'); // Clear the cart from local storage
+            cart = []; // Clear the cart variable
 
-window.onload = function() {
-    // Clear the cart and update localStorage
-    localStorage.removeItem('cart'); // Clear the cart from local storage
-    cart = []; // Clear the cart variable
+            // Get session_id from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
 
-    // Optional: Display a success message or the order details here
-    alert('Thank you for your purchase! Your cart has been cleared.');
-};
+            if (!sessionId) {
+                document.getElementById('order-details').innerText = 'No session ID provided.';
+            } else {
+                // Fetch session data from the server
+                fetch(`/api/checkout-session?session_id=${sessionId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            throw new Error(data.error);
+                        }
 
-        // Get session_id from the URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const sessionId = urlParams.get('session_id');
-    
-        if (!sessionId) {
-            document.getElementById('order-details').innerText = 'No session ID provided.';
-        } else {
-            // Fetch session data from the server
-            fetch(`/api/checkout-session?session_id=${sessionId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        throw new Error(data.error);
-                    }
-    
-                    const session = data.session;
-                    const orderDetails = document.getElementById('order-details');
-    
-                    // Render order details on the success page
-                    orderDetails.innerHTML = `
-                        <h2>Order Summary</h2>
-                        <p><strong>Order ID:</strong> ${session.id}</p>
-                        <p><strong>Email:</strong> ${session.customer_details.email}</p>
-                        <p><strong>Total:</strong> ${session.amount_total / 100} ${session.currency.toUpperCase()}</p>
-                        <h3>Items:</h3>
-                        <ul>
-                            ${session.line_items.data.map(item => `
-                                <li>${item.description} - ${item.quantity} x ${(item.amount_total / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
-                            `).join('')}
-                        </ul>
-                    `;
-                })
-                .catch(err => {
-                    document.getElementById('order-details').innerText = 'Error loading order details.';
-                });
-        }
+                        const session = data.session;
+                        const orderDetails = document.getElementById('order-details');
+
+                        // Render order details on the success page
+                        orderDetails.innerHTML = `
+                            <h2>Order Summary</h2>
+                            <p><strong>Order ID:</strong> ${session.id}</p>
+                            <p><strong>Email:</strong> ${session.customer_details.email}</p>
+                            <p><strong>Total:</strong> ${(session.amount_total / 100).toFixed(2)} ${session.currency.toUpperCase()}</p>
+                            <h3>Items:</h3>
+                            <ul>
+                                ${session.line_items.data.map(item => `
+                                    <li>${item.description} - ${item.quantity} x ${(item.amount_total / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
+                                `).join('')}
+                            </ul>
+                        `;
+                    })
+                    .catch(err => {
+                        document.getElementById('order-details').innerText = 'Error loading order details.';
+                    });
+            }
+        };
     </script>
-    
 </body>
 </html>
