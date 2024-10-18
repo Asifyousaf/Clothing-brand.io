@@ -10,6 +10,16 @@
     <div id="order-details">Loading order details...</div>
 
     <script>
+
+window.onload = function() {
+    // Clear the cart and update localStorage
+    localStorage.removeItem('cart'); // Clear the cart from local storage
+    cart = []; // Clear the cart variable
+
+    // Optional: Display a success message or the order details here
+    alert('Thank you for your purchase! Your cart has been cleared.');
+};
+
         // Get session_id from the URL
         const urlParams = new URLSearchParams(window.location.search);
         const sessionId = urlParams.get('session_id');
