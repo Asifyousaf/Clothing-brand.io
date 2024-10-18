@@ -45,17 +45,17 @@
     <button id="back-button" onclick="window.location.href='https://cybertronicbot.com'">Back to Website</button>
 
     <script>
-       window.onload = function() {
+    window.onload = function() {
     localStorage.removeItem('cart'); // Clear the cart from local storage
 
     const urlParams = new URLSearchParams(window.location.search);
     const sessionId = urlParams.get('session_id');
+    console.log('Session ID:', sessionId); // Log the session ID
 
     if (!sessionId) {
         document.getElementById('order-details').innerText = 'No session ID provided.';
     } else {
-        fetch(`/api/checkout-session?session_id=${sessionId}`)
-
+        fetch(`/api/checkout-session?session_id=${sessionId}`) // Fetch the session data
             .then(response => response.json())
             .then(data => {
                 if (data.error) {
@@ -80,10 +80,12 @@
                 `;
             })
             .catch(err => {
+                console.error('Error fetching session data:', err); // Log the error for debugging
                 document.getElementById('order-details').innerText = 'Error loading order details.';
             });
     }
 };
+
 
     </script>
 </body>
