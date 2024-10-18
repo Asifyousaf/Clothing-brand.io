@@ -3,8 +3,10 @@ const cors = require('cors');
 const stripe = require('stripe')('sk_test_51Q6qZ8Rxk79NacxxJgyYInUBdiJ2Pcqm8otxx0l4TBywHa9BM2clTwi9Siiilxzh7dIcmqMOiG5f0IlJsfOMauIQ00ZgqTu36r');
 
 const app = express();
+app.use(cors({
+    origin: 'https://cybertronicbot.com', // Ensure the front-end domain is allowed
+}));
 
-app.use(cors());
 app.use(express.json());
 
 app.post('/api/create-checkout-session', async (req, res) => {
