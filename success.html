@@ -186,6 +186,9 @@
                                     <li>${item.description} - ${item.quantity} x ${(item.price.unit_amount / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
                                 `).join('')}
                             </ul>
+                            <h3>Shipping Details</h3>
+                            <p><strong>Address:</strong> ${session.shipping.address.line1}, ${session.shipping.address.city}, ${session.shipping.address.country}</p>
+                        <p><strong>Phone:</strong> ${session.customer_details.phone}</p>
                             <p><strong>Order ID:</strong> <span class="order-id">${session.id}</span></p>
                         </div>
                     `;
