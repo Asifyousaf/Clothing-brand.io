@@ -177,37 +177,33 @@
             // Check if shipping address exists
             const shippingAddress = session.shipping && session.shipping.address ? session.shipping.address : null;
 
-            // Format the order details into HTML
             orderDetails.innerHTML = `
-                <h2>Order Summary</h2>
-                <div class="order-summary">
-                    <p><strong>Email:</strong> ${session.customer_details.email}</p>
-                    <p><strong>Total:</strong> ${(session.amount_total / 100).toFixed(2)} ${session.currency.toUpperCase()}</p>
-                    
-                    <h3>Items:</h3>
-                    <ul>
-                        ${data.lineItems.data.map(item => `
-                            <li>${item.description} - ${item.quantity} x ${(item.price.unit_amount / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
-                        `).join('')}
-                    </ul>
-                    
-                    <h3>Shipping Details</h3>
-                    <p><strong>Address:</strong></p>
-                    <p>${shippingAddress.line1 || 'N/A'}</p>
-                    ${shippingAddress.line2 ? `<p>${shippingAddress.line2}</p>` : ''}
-                    <p>${shippingAddress.city || 'N/A'}, ${shippingAddress.state || 'N/A'}</p>
-                    <p>${shippingAddress.postal_code || 'N/A'}, ${shippingAddress.country || 'N/A'}</p>
-
-                    <h3>Contact Details</h3>
-                    <p><strong>Phone:</strong> ${session.customer_details.phone}</p>
-                    <p><strong>Order ID:</strong> <span class="order-id">${session.id}</span></p>
-                </div>
-            `;
-        })
-        .catch(err => {
-            document.getElementById('order-details').innerText = 'Error loading order details.';
-            console.error('Error fetching session details:', err);
-        });
+            <h2>Order Summary</h2>
+            <div class="order-summary">
+                <p><strong>Email:</strong> ${session.customer_details.email}</p>
+                <p><strong>Total:</strong> ${(session.amount_total / 100).toFixed(2)} ${session.currency.toUpperCase()}</p>
+                
+                <h3>Items:</h3>
+                <ul>
+                    ${data.lineItems && data.lineItems.data ? data.lineItems.data.map(item => `
+                        <li>${item.description} - ${item.quantity} x ${(item.price.unit_amount / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
+                    `).join('') : '<li>No items found for this order.</li>'}
+                </ul>
+                
+                <p><strong>Address:</strong></p>
+        <p>
+            ${[
+                shippingAddress.line1,
+                shippingAddress.line2,
+                `${shippingAddress.city || ''} ${shippingAddress.state || ''}`,
+                `${shippingAddress.postal_code || ''} ${shippingAddress.country || ''}`
+            ].filter(Boolean).join(', ') || 'N/A'}
+        </p>
+                <h3>Contact Details</h3>
+                <p><strong>Phone:</strong> ${session.customer_details.phone}</p>
+                <p><strong>Order ID:</strong> <span class="order-id">${session.id}</span></p>
+            </div>
+        `;
 };
 
     </script>
