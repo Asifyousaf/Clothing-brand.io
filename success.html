@@ -193,13 +193,13 @@
         <h3>Shipping Details</h3>
         <p><strong>Address:</strong></p>
         <p>
-            ${[
-                shippingAddress.line1,
-                shippingAddress.line2,
-                `${shippingAddress.city || ''} ${shippingAddress.state || ''}`,
-                `${shippingAddress.postal_code || ''} ${shippingAddress.country || ''}`
-            ].filter(Boolean).join(', ') || 'N/A'}
-        </p>
+    ${[
+        shippingDetails.address.line1,
+        shippingDetails.address.line2,
+        `${shippingDetails.address.city || ''}, ${shippingDetails.address.state || ''}`,
+        `${shippingDetails.address.country || ''}`
+    ].filter(Boolean).join(', ') || 'N/A'}
+</p>
 
         <h3>Contact Details</h3>
         <p><strong>Phone:</strong> ${session.customer_details.phone}</p>
