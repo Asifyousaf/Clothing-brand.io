@@ -144,7 +144,7 @@
     <button id="back-button" onclick="window.location.href='https://cybertronicbot.com'">Back to Website</button>
 
     <script>
-        window.onload = function() {
+          window.onload = function() {
             localStorage.removeItem('cart'); // Clear the cart from local storage
 
             const urlParams = new URLSearchParams(window.location.search);
@@ -160,30 +160,38 @@
             console.log(`Fetching session details for session ID: ${sessionId}`);
 
             fetch(`/api/create-checkout-session?session_id=${sessionId}`)
-    .then(response => response.json())
-    .then(data => {
-        const session = data.session;
+                .then(response => {
+                    console.log('Fetch response:', response);
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch session data. Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Session data:', data); 
+                    if (data.error) throw new Error(data.error);
 
-        const orderDetails = document.getElementById('order-details');
+                    const session = data.session;
+                    const orderDetails = document.getElementById('order-details');
 
-        // Display order details, including address and phone number
-        orderDetails.innerHTML = `
-            <h2>Order Summary</h2>
-            <p><strong>Email:</strong> ${session.customer_details.email}</p>
-            <p><strong>Total:</strong> ${(session.amount_total / 100).toFixed(2)} ${session.currency.toUpperCase()}</p>
-            <h3>Items:</h3>
-            <ul>
-                ${data.lineItems.data.map(item => `
-                    <li>${item.description} - ${item.quantity} x ${(item.price.unit_amount / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
-                `).join('')}
-            </ul>
-            <p><strong>Order ID:</strong> <span class="order-id">${session.id}</span></p>
+                    // Format the order details into HTML with better alignment and spacing
+                    orderDetails.innerHTML = `
+                        <h2>Order Summary</h2>
+                        <p><strong>Email:</strong> ${session.customer_details.email}</p>
+                        <p><strong>Total:</strong> ${(session.amount_total / 100).toFixed(2)} ${session.currency.toUpperCase()}</p>
+                        <h3>Items:</h3>
+                        <ul>
+                            ${data.lineItems.data.map(item => `
+                                <li>${item.description} - ${item.quantity} x ${(item.price.unit_amount / 100).toFixed(2)} ${session.currency.toUpperCase()}</li>
+                            `).join('')}
+                        </ul>
+                        <p><strong>Order ID:</strong> <span class="order-id">${session.id}</span></p>
 
-            <h3>Shipping Details</h3>
-            <p><strong>Address:</strong> ${session.shipping.address.line1}, ${session.shipping.address.city}, ${session.shipping.address.country}</p>
-            <p><strong>Phone:</strong> ${session.customer_details.phone}</p>
-        `;
-    })
+                        <h3>Shipping Details</h3>
+                        <p><strong>Address:</strong> ${session.shipping.address.line1}, ${session.shipping.address.city}, ${session.shipping.address.country}</p>
+                        <p><strong>Phone:</strong> ${session.customer_details.phone}</p>
+                    `;
+                })
                 .catch(err => {
                     document.getElementById('order-details').innerText = 'Error loading order details.';
                     console.error('Error fetching session details:', err);
