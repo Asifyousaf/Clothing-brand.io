@@ -193,7 +193,14 @@
         <h3>Shipping Details</h3>
         <p><strong>Address:</strong></p>
         <p>
-            ${session.customer_details.address}
+    ${shippingAddress ? `
+        ${shippingAddress.line1 || ''},<br>
+        ${shippingAddress.line2 || ''},<br>
+        ${shippingAddress.city || ''},<br>
+        ${shippingAddress.state || ''},<br>
+        ${shippingAddress.postal_code || ''},<br>
+        ${shippingAddress.country || ''}
+    ` : 'No shipping address available.'}
 </p>
 
         <h3>Contact Details</h3>
