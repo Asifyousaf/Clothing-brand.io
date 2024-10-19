@@ -57,20 +57,22 @@ const server = http.createServer((req, res) => {
         res.end(JSON.stringify({ error: `Method ${req.method} Not Allowed` }));
     }
 });
-// Insert order into Supabase
 async function insertOrderInSupabase(session, cartItems) {
     try {
+        // Log session details for debugging
+        console.log('Session details:', session);
+        
         const { email, phone } = session.customer_details;
         const { amount_total, currency, id: orderId, payment_status } = session;
 
         // Shipping address information from the session
         const shipping_address = {
-            line1: session.shipping.address.line1,
-            line2: session.shipping.address.line2 || '',
-            city: session.shipping.address.city,
-            state: session.shipping.address.state || '',
-            postal_code: session.shipping.address.postal_code,
-            country: session.shipping.address.country
+            line1: session.shipping?.address?.line1 || '',
+            line2: session.shipping?.address?.line2 || '',
+            city: session.shipping?.address?.city || '',
+            state: session.shipping?.address?.state || '',
+            postal_code: session.shipping?.address?.postal_code || '',
+            country: session.shipping?.address?.country || ''
         };
 
         const orderData = {
@@ -84,16 +86,22 @@ async function insertOrderInSupabase(session, cartItems) {
             shipping_address: shipping_address
         };
 
+        // Attempt to insert order data into Supabase
         const { error } = await supabase
             .from('orders')
             .insert(orderData);
 
-        if (error) throw new Error('Error inserting order data into Supabase');
-        console.log(`Order ${orderId} inserted into Supabase.`);
+        if (error) {
+            console.error('Error inserting order data into Supabase:', error);
+            throw new Error('Error inserting order data into Supabase');
+        } else {
+            console.log(`Order ${orderId} successfully inserted into Supabase.`);
+        }
     } catch (err) {
         console.error('Error inserting order:', err.message);
     }
 }
+
 
 async function updateStockInSupabase(cartItems) {
     try {
