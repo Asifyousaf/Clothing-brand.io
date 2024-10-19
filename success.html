@@ -192,13 +192,11 @@
                     </ul>
                     
                     <h3>Shipping Details</h3>
-                    ${shippingAddress ? `
-                        <p><strong>Address:</strong></p>
-                        <p>${shippingAddress.line1 || ''}</p>
-                        ${shippingAddress.line2 ? `<p>${shippingAddress.line2}</p>` : ''}
-                        <p>${shippingAddress.city || ''}, ${shippingAddress.state || ''}</p>
-                        <p>${shippingAddress.postal_code || ''}, ${shippingAddress.country || ''}</p>
-                    ` : '<p>No shipping address available.</p>'}
+                    <p><strong>Address:</strong></p>
+                    <p>${shippingAddress.line1 || 'N/A'}</p>
+                    ${shippingAddress.line2 ? `<p>${shippingAddress.line2}</p>` : ''}
+                    <p>${shippingAddress.city || 'N/A'}, ${shippingAddress.state || 'N/A'}</p>
+                    <p>${shippingAddress.postal_code || 'N/A'}, ${shippingAddress.country || 'N/A'}</p>
 
                     <h3>Contact Details</h3>
                     <p><strong>Phone:</strong> ${session.customer_details.phone}</p>
