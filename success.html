@@ -194,10 +194,10 @@
         <p><strong>Address:</strong></p>
         <p>
     ${[
-        shippingDetails.address.line1,
-        shippingDetails.address.line2,
-        `${shippingDetails.address.city || ''}, ${shippingDetails.address.state || ''}`,
-        `${shippingDetails.address.country || ''}`
+        shipping_Details.address.line1,
+        shipping_Details.address.line2,
+        `${shipping_Details.address.city || ''}, ${shipping_Details.address.state || ''}`,
+        `${shipping_Details.address.country || ''}`
     ].filter(Boolean).join(', ') || 'N/A'}
 </p>
 
