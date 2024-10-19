@@ -160,24 +160,24 @@
     console.log(`Fetching session details for session ID: ${sessionId}`);
 
     fetch(`/api/create-checkout-session?session_id=${sessionId}`)
-        .then(response => {
-            console.log('Fetch response:', response);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch session data. Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Session data:', data); 
-            if (data.error) throw new Error(data.error);
+    .then(data => {
+    console.log('Session data:', data); // Log the entire session data to inspect it
+    
+    const session = data.session;
+    const orderDetails = document.getElementById('order-details');
 
-            const session = data.session;
-            const orderDetails = document.getElementById('order-details');
+    // Debugging
+    console.log('Shipping:', session.shipping);
+    console.log('Customer details:', session.customer_details);
 
-            // Check if shipping address exists
-            const shippingAddress = session.shipping && session.shipping.address ? session.shipping.address : null;
+    // Check if shipping address exists
+    const shippingAddress = session.shipping && session.shipping.address ? session.shipping.address : null;
 
-            orderDetails.innerHTML = `
+    if (shippingAddress) {
+        console.log('Shipping Address:', shippingAddress);
+    } else {
+        console.log('No shipping address found in the session.');
+    }           orderDetails.innerHTML = `
     <h2>Order Summary</h2>
     <div class="order-summary">
         <p><strong>Email:</strong> ${session.customer_details.email}</p>
