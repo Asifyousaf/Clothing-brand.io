@@ -9,7 +9,6 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 const endpointSecret = 'whsec_jpk9R320UxDDfTM28wFdxpAIHkEo3pJ4'; // Your webhook signing secret
 
-
 const server = http.createServer((req, res) => {
     if (req.method === 'POST' && req.url === '/api/update-stock') {
         let body = '';
@@ -36,12 +35,15 @@ const server = http.createServer((req, res) => {
                 const cartItems = session.metadata.cartItems ? JSON.parse(session.metadata.cartItems) : [];
 
                 try {
-                    // Update stock and insert order into Supabase
-        await updateStockInSupabase(cartItems);
-        await insertOrderInSupabase(session, cartItems);
-        console.log('Stock and order updated successfully.');
+                    // Insert order and update stock
+                    await insertOrderInSupabase(session, cartItems);
+                    await updateStockInSupabase(cartItems);
+                    console.log('Stock and order updated successfully.');
                 } catch (err) {
-                    console.error('Error updating stock:', err.message);
+                    console.error('Error processing order:', err.message);
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Error processing order' }));
+                    return;
                 }
 
                 res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -57,11 +59,10 @@ const server = http.createServer((req, res) => {
         res.end(JSON.stringify({ error: `Method ${req.method} Not Allowed` }));
     }
 });
+
+// Function to insert the order in Supabase
 async function insertOrderInSupabase(session, cartItems) {
     try {
-        // Log session details for debugging
-        console.log('Session details:', session);
-        
         const { email, phone } = session.customer_details;
         const { amount_total, currency, id: orderId, payment_status } = session;
 
@@ -102,7 +103,7 @@ async function insertOrderInSupabase(session, cartItems) {
     }
 }
 
-
+// Function to update stock in Supabase
 async function updateStockInSupabase(cartItems) {
     try {
         for (const item of cartItems) {
