@@ -66,15 +66,7 @@ async function insertOrderInSupabase(session, cartItems) {
         const { email, phone } = session.customer_details;
         const { amount_total, currency, id: orderId, payment_status } = session;
 
-        // Shipping address information from the session
-        const shipping_address = {
-            line1: session.shipping?.address?.line1 || '',
-            line2: session.shipping?.address?.line2 || '',
-            city: session.shipping?.address?.city || '',
-            state: session.shipping?.address?.state || '',
-            postal_code: session.shipping?.address?.postal_code || '',
-            country: session.shipping?.address?.country || ''
-        };
+ 
 
         const orderData = {
             order_id: orderId,
@@ -84,7 +76,7 @@ async function insertOrderInSupabase(session, cartItems) {
             currency: currency,
             cart_items: cartItems,
             payment_status: payment_status,
-            shipping_address: shipping_address
+ 
         };
 
         // Attempt to insert order data into Supabase
