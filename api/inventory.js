@@ -7,13 +7,18 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default async function handler(req, res) {
-    const { productId } = req.query; // Extract the productId from query parameters
+    const { productId, fetchOrders } = req.query; // Extract productId and fetchOrders from query parameters
 
     try {
         let data;
         let error;
 
-        if (productId) {
+        if (fetchOrders) {
+            // Fetch orders if 'fetchOrders' is true
+            ({ data, error } = await supabase
+                .from('orders')
+                .select('*')); // Fetch all orders
+        } else if (productId) {
             // Fetch specific product by ID
             ({ data, error } = await supabase
                 .from('products')
