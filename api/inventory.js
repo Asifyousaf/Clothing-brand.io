@@ -17,7 +17,7 @@ export default async function handler(req, res) {
             // Fetch orders if 'fetchOrders' is true
             ({ data, error } = await supabase
                 .from('orders')
-                .select('*')); // Fetch all orders
+                .select('id, email, total_amount, currency, items, phone, shipping_address, created_at')); // Fetch specified fields from orders
         } else if (productId) {
             // Fetch specific product by ID
             ({ data, error } = await supabase
