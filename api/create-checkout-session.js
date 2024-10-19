@@ -40,6 +40,9 @@ app.post('/api/create-checkout-session', async (req, res) => {
             shipping_address_collection: {
                 allowed_countries: ['AE', 'SA', 'EG'], // Add other country codes as needed
             },
+            phone_number_collection: {
+                enabled: true,  // Enable phone number collection
+            },
             metadata: {
                 cartItems: JSON.stringify(cartItems.map(item => ({
                     productId: item.productId,   // Include product ID
