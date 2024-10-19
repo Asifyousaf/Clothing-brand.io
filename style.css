@@ -7,28 +7,8 @@
         margin:0;
         padding:0;
         overflow-x: hidden;
+        
     }
-  /* Full scrollbar styling */
-::-webkit-scrollbar {
-    width: 12px; /* Width of the scrollbar */
-}
-
-/* Track (background) */
-::-webkit-scrollbar-track {
-    background: #0000A8; /* Color of the track */
-}
-
-/* Handle (thumb) */
-::-webkit-scrollbar-thumb {
-    background-color: #ffffff; /* Color of the scroll thumb */
-    border-radius: 10px;     /* Roundness of the scroll thumb */
-    border: 3px solid #0000A8; /* Space around thumb */
-}
-
-/* Handle (thumb) on hover */
-::-webkit-scrollbar-thumb:hover {
-    background: #555; /* Color when hovered */
-}
 
 body {
     margin: 0;
@@ -120,7 +100,6 @@ body {
 /* Add this CSS for the loading screen */
 .loading-screen {
     display: none; /* Hide loading screen by default */
-
     position: fixed; /* Ensure it covers the entire screen */
     top: 0;
     left: 0;
@@ -351,7 +330,7 @@ body {
     text-align: center;
     position: relative;
     top: 45%; /* Move up from the center */
-    left: 48%; /* Move left from the center */
+    left: 65%; /* Move left from the center */
     transform: translate(-50%, -50%); /* Adjust for the element's own size */
 }
 
@@ -371,15 +350,12 @@ body {
 
 @media (max-width: 768px) {
     .logo-text{
+        left: 50%;
          transform: translate(-50%,-20%); /* Adjust for the element's own size */
     }
 }
 
-@media (max-width: 500px) {
-    .logo-text{
-        font-size: 27px; /* Negative values move it up */
-    }
-}
+
 
 
 
@@ -482,6 +458,29 @@ body {
 .off-screen-menu.active {
     right: 0;
 }
+@media (max-width: 500px) {
+    .ham-menu span:nth-child(1) {
+        top: 30%;
+    }
+    .ham-menu span:nth-child(3) {
+        top: 70%;
+    }
+    .ham-menu span{
+        height: 3px;
+        width: 85%;
+        background-color: rgb(255, 255, 255); /* Change to black lines */
+        border-radius: 25px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-20%, -10%);
+        transition: .3s ease;
+    }
+    .logo-text{
+        transform: translate(-50%, -10%);
+        font-size: 27px; /* Negative values move it up */
+    }
+}
 /* Media Queries for Responsiveness */
 @media only screen and (max-width: 991px) and (min-width: 768px) {
     .logo-center {
@@ -503,9 +502,11 @@ body {
     }
 
     .ham-menu {
+        transform: translateY( -10%);
         display: block;
     }
     .cart-button-small-screen {
+        transform: translate(-10%,-30%);
         display: block;
     }
 }

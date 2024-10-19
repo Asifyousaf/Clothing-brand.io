@@ -179,7 +179,7 @@ function updateCart() {
         total += item.price * item.quantity;
     });
 
-    document.getElementById('cart-total-price').innerText = `$${total.toFixed(2)}`;
+    document.getElementById('cart-total-price').innerText = `AED ${total.toFixed(2)}`;
     localStorage.setItem('cart', JSON.stringify(cart));
 
     const quantityMinusButtons = document.querySelectorAll('.quantity-minus');
