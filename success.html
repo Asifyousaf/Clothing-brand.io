@@ -193,12 +193,7 @@
         <h3>Shipping Details</h3>
         <p><strong>Address:</strong></p>
         <p>
-    ${[
-        shipping_Details.address.line1,
-        shipping_Details.address.line2,
-        `${shipping_Details.address.city || ''}, ${shipping_Details.address.state || ''}`,
-        `${shipping_Details.address.country || ''}`
-    ].filter(Boolean).join(', ') || 'N/A'}
+            ${session.customer_details.address}
 </p>
 
         <h3>Contact Details</h3>
