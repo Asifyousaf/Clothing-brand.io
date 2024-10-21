@@ -538,30 +538,35 @@ body {
 }
 
 
-
     /* -- landing page -- */
     .section-landing {
-        background-image: url('img/bg1.png'); /* Default background image */
-        background-size: cover;
-        background-position: center;
+        
         height: 100vh; /* Full viewport height */
         color: #fff;
         position: relative;
         text-align: center; /* Center the text horizontally */
     }
+    .bg-img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -60%);
+        height: auto;
+    }
     
     /* Landing Content Styling */
     .landing-content h1 {
+        font-family: 'PixelFont', sans-serif;
         position: absolute;
         text-shadow: 2px 2px black;
         top: 35%; /* Adjusts the position above the button */
         left: 50%; /* Center horizontally */
         font-family: sans-serif;
-        transform: translate(6%, -50%);
+        transform: translate(-50%, 520%);
         text-align: left; /* Center text */
         font-size: 64px; /* Default font size */
         margin: 0;
-        width: auto; /* Adjust width */
+       
     }
     
   .landing-content #btn1 {
@@ -571,7 +576,7 @@ body {
     font-family: 'PixelFont', sans-serif;
     top: 50%; /* Position button vertically */
     left: 50%; /* Center button horizontally */
-    transform: translate(30%, -50%);
+    transform: translate(-50%, 640%);
     padding: 10px 20px;
     font-size: 1.5em;
     cursor: pointer;
@@ -583,7 +588,9 @@ body {
     box-shadow: none; /* Inset state initially */
     transition: box-shadow 0.1s ease, border 0.1s ease, background-color 0.1s ease;
 }
-
+.bg-img2{
+    display: none;
+}
 /* Hover effect for raised button */
 .landing-content #btn1:hover {
     box-shadow: 2px 2px 0px #000000; /* Raised button effect */
@@ -597,24 +604,37 @@ body {
     
     /* Media Query for Responsive Design */
     @media (max-width: 768px) {
+        .bg-img2{
+            position: absolute;
+            top: 50%;
+            display: block;
+            left: 50%;
+            transform: translate(-50%, -60%);
+            height: 400px;
+        }
+        .bg-img{
+            display: none;
+        }
         .section-landing {
-            background-image: url('img/bg3png.png'); /* Change background image for smaller screens */
+        
             background-size: cover;
             background-position: center;
-            text /* Center text */
+     
         }
     
         .landing-content h1 {
+            width: 260px;
+            font-family: 'PixelFont', sans-serif;
             top: 70%; /* Move text a bit higher */
             font-size: 48px; /* Reduce font size for smaller screens */
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -20%);
             flex-direction: column;
             align-items: center; /* Center-align content horizontally */
             text-align: center; /* Center-align the text */
         }
     
         .landing-content #btn1 {
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, 60%);
             top: 79%; /* Adjust button position */
             padding: 8px 16px; /* Slightly smaller padding */
             font-size: 1.2em; /* Reduce font size for smaller screens */
@@ -625,14 +645,14 @@ body {
        .landing-content h1 {
             top: 70%; /* Move text a bit higher */
             font-size: 48px; /* Reduce font size for smaller screens */
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -10%);
             flex-direction: column;
             align-items: center; /* Center-align content horizontally */
             text-align: center; /* Center-align the text */
         }
     
         .landing-content #btn1 {
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, 60%);
             top: 79%; /* Adjust button position */
             padding: 8px 16px; /* Slightly smaller padding */
             font-size: 1.2em; /* Reduce font size for smaller screens */
@@ -809,11 +829,17 @@ body {
     scroll-behavior: smooth;
     width: 100%;
 }
-
+.clothing-slider-wrapper .image-container {
+    width: 100%; /* Example: Make the image-container take full width */
+    height: 88%; /* Example: Ensure it fills the parent item */
+    position: relative;
+    overflow: hidden; /* Ensure no overflow */
+}
 .clothing-grid-slider .item {
     flex-shrink: 0;
-    width: 280px; /* Adjust based on image size */
-    max-width: 280px;
+    width: 300px; /* Adjust the width for a more square shape */
+    max-width: 300px;
+    height: 440px; /* Set height equal to width for a square shape */
 }
 
 .slider-arrow {
@@ -867,6 +893,7 @@ body {
     .clothing-slider-wrapper {
         display: flex; /* Show slider on mobile */
     }
+    
 }
 
 @media (min-width: 769px) {
