@@ -233,30 +233,88 @@ html, body {
     align-items: center;
 }
 
+/* Increase the size of the product image */
 .product-image {
-    width: 400px;   /* Fixed width */
-    height: 400px;  /* Fixed height */
-    object-fit: contain;  /* Ensures the image fits within the square without distortion */
-    border: 1px solid #ccc; /* Optional border */
+    width: 500px; /* Increase width */
+    height: 500px; /* Increase height */
+    object-fit: contain;
+    border: 1px solid #ccc;
     margin-bottom: 20px;
+}
+/* Adjustments for mobile screens */
+@media (max-width: 768px) {
+    .product-image {
+        width: 430px; /* 90% of viewport width for mobile devices */
+        height: 300px; /* Height equal to width to maintain square aspect ratio */
+        object-fit: contain; /* Ensure the image fits within the square */
+        border: 1px solid #ccc; /* Optional border */
+    }
+
+    #product-name{
+        font-size: 20px;
+
+    }
+    .product-details-section h1 {
+        font-size: 30px; /* Smaller font for the product name on mobile */
+    }
+    .product-page-container {
+        display: flex;
+        gap: 20px;
+        padding: 0px;
+        justify-content: center;
+    }
+
+    .product-details-section p {
+        font-size: 1rem; /* Smaller font for the description on mobile */
+    }
+}
+@media (max-width: 400px) {
+    .product-image {
+        width: 300px; /* 90% of viewport width for mobile devices */
+        height: 300px; /* Height equal to width to maintain square aspect ratio */
+        object-fit: contain; /* Ensure the image fits within the square */
+        border: 1px solid #ccc; /* Optional border */
+    }
+
+    #product-name{
+        font-size: 20px;
+
+    }
+    #product-description{
+        font-size: 15px;
+    }
+    .product-page-container {
+        display: flex;
+        gap: 20px;
+        padding: 0px;
+        justify-content: center;
+    }
+    .product-details-section{
+        padding-bottom: 100px;
+    }
+    .product-details-section p {
+        font-size: 1rem; /* Smaller font for the description on mobile */
+    }
 }
 
 
+/* Adjust the title (product name) size */
 .product-details-section h1 {
-    font-size: 2.8rem;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    margin-bottom: 20px;
-    color: #FFFFFF; /* White color for contrast against dark backgrounds */
-    text-shadow: 6px 6px 14px rgba(0, 0, 0, 10); /* Add a subtle shadow for better readability */
+    font-size: 2rem; /* Smaller font size for the title */
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-bottom: 15px;
+    color: #FFFFFF;
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 10); 
 }
 
+/* Adjust the description size */
 .product-details-section p {
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 1.4rem;
-    text-shadow: 6px 6px 14px rgba(0, 0, 0, 10);
-    margin-bottom: 20px;
-    color: #DDDDDD; /* Light grey to contrast against the dark background */
-    line-height: 1.5; /* Improve readability with better spacing */
+    font-size: 1.2rem; /* Smaller font size for the description */
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #DDDDDD;
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 10);
+    line-height: 1.4;
+    margin-bottom: 15px;
 }
 
 

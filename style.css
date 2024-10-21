@@ -264,6 +264,15 @@ body {
 
 /* -- Navigation Bar -- */
 /* -- Navigation Bar -- */
+/* Add a spacer to prevent the layout from jumping */
+/* The spacer to maintain layout space */
+.navbar-spacer {
+    height: 30px; /* Same height as the navbar */
+    display: none; /* Hide the spacer by default */
+}/* Show the spacer when the navbar is fixed */
+.navbar.scrolled + .navbar-spacer {
+    display: block; /* Display the spacer when scrolled */
+}
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -349,9 +358,22 @@ body {
 }
 
 @media (max-width: 768px) {
-    .logo-text{
-        left: 50%;
-         transform: translate(-50%,-20%); /* Adjust for the element's own size */
+    .navbar-spacer {
+        height: 130px; /* Same height as the navbar */
+        display: none; /* Hide the spacer by default */
+    }/* Show the spacer when the navbar is fixed */
+   .logo-center {
+    left: 0%;
+    transform: translateX(-54%);
+    margin-top: 51px;
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+    .logo-center img {
+        height: 120px;
+        width: auto;
+        display: block;
+        
     }
 }
 
@@ -477,7 +499,7 @@ body {
         transition: .3s ease;
     }
     .logo-text{
-        transform: translate(-50%, -10%);
+        transform: translate(-60%, -5%);
         font-size: 27px; /* Negative values move it up */
     }
 }
@@ -499,6 +521,10 @@ body {
 @media (max-width: 768px) {
     .nav-left, .nav-right {
         display: none;
+    }
+    .logo-text{
+        transform: translate(-60%, -5%);
+        font-size: 27px; /* Negative values move it up */
     }
 
     .ham-menu {
@@ -705,7 +731,7 @@ body {
 .item {
     position: relative;
     width: calc(33.333% - 25px);
-    max-width: 280px;
+    max-width: 380px;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
@@ -723,14 +749,14 @@ body {
 .image-container {
     position: relative;
     width: 100%;
-    height: 300px;
+    height: 400px;
     display: block;
 }
 
 /* Image styles */
 .image-container img {
     width: 100%;
-    height: auto;
+    height: 390px;
     position: absolute;
     top: 0;
     left: 0;
@@ -818,7 +844,21 @@ body {
 .clothing-grid-slider::-webkit-scrollbar {
     display: none;  /* Chrome, Safari, and Opera */
 }
-
+/* Responsive styles */
+@media (max-width: 1000px) {
+    .item {
+    position: relative;
+    width: calc(43.333% - 25px);
+    max-width: 380px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+}
 /* Responsive styles */
 @media (max-width: 768px) {
     .clothing-grid {
@@ -928,7 +968,7 @@ body {
     height: 400px; /* Default height for square items */
     overflow: hidden;
     transition: transform 0.3s ease;
-    background: url('img/peakpx.jpg') center/cover no-repeat; /* Background image */
+    background-color: whitesmoke;
     box-shadow: 0 2px 0 rgba(255, 255, 255, 0.8); /* Create a thin line effect */
 }
 
@@ -950,7 +990,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 60%; /* Adjust the size of the product image */
+    width: 30%; /* Adjust the size of the product image */
     height: auto;
     z-index: 1; /* Ensure the product image is on top */
 }
@@ -972,15 +1012,28 @@ body {
     transition: opacity 0.3s ease;
     z-index: 2; /* Overlay on top of everything */
 }
-
+/* Back image styles */
+.back {
+    display: block; /* Ensures the image is displayed */
+    width: 100%; /* Adjust to fill the container */
+    height: 150px; /* Set a specific height for the back image */
+    object-fit: cover; /* Maintain aspect ratio, cropping if necessary */
+    position: absolute; /* Overlap the front image */
+    top: 0; /* Position at the top of the container */
+    left: 0; /* Position at the left of the container */
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.3s ease; /* Smooth transition */
+}
 .category-item:hover .overlay {
     opacity: 1; /* Show overlay on hover */
 }
 
 /* Text and button in overlay */
 .overlay h2 {
+    font-family:'PixelFont', sans-serif; ;
     font-size: 2rem;
     margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .overlay button {
@@ -1023,7 +1076,24 @@ body {
         height: 250px; /* Adjust height for mobile */
     }
 }
+/* For screen sizes below 600px, always show the overlay */
+@media (max-width: 600px) {
+    .category-item .overlay {
+        opacity: 1; /* Always show the overlay */
+    }
+    /* Resize the button */
+    .overlay button {
+        padding: 6px 6px; /* Adjust padding for button */
+        font-size: 1.2rem; /* Adjust font size for button */
+        border-radius: 4px; /* Optional: Add rounded corners */
+    }
 
+    /* Resize the overlay text */
+    .overlay h2 {
+        font-size: 1.5rem; /* Adjust font size for the text */
+        margin-bottom: 8px; /* Adjust margin as needed */
+    }
+}
     
     /* ----------------FEATURED PRODUCTS------------------ */
     /* Styling for the header text */

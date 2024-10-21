@@ -46,21 +46,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('scroll', function() {
         const navbar = document.querySelector('.navbar');
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-
-    window.addEventListener('scroll', function() {
-        const navbar = document.querySelector('.navbar');
         const logoContainer = document.querySelector('.logo-center');
         const logoText = document.createElement('span');
-
-        if (window.scrollY > 100) {
+        if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
-
             if (!document.querySelector('.logo-text')) {
                 logoText.classList.add('logo-text');
                 logoText.innerText = 'CyberTronic';
@@ -68,11 +57,12 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } else {
             navbar.classList.remove('scrolled');
-
             if (document.querySelector('.logo-text')) {
                 document.querySelector('.logo-text').remove();
             }
         }
     });
+
+
 
 });
