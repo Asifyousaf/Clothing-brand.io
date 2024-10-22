@@ -33,6 +33,8 @@ async function fetchProductFromSupabase(productId) {
         }
         return product;
     } catch (error) {
+        console.log(`Current Product ID: ${productId}`);
+
         console.error('Error fetching product from Supabase:', error);
         return null;
     }
