@@ -39,10 +39,7 @@ async function fetchProductFromSupabase(productId) {
         return null;
     }
 }
-const colorToImageMap = {
-    "black": "img/emg/tshirt-black.png",
-    "white": "img/emg/tshirt-white.png"
-};
+
 
 // Load product details into the page
 function loadProductDetails(product) {
@@ -55,17 +52,7 @@ function loadProductDetails(product) {
     sizeSelect.innerHTML = '';
     colorSelect.innerHTML = '';
 
-    // Create a dynamic color-to-image mapping for the current product
-    const colorToImageMap = {};
-
-    // Example for mapping images based on product ID or other identifiers
-    if (product.id === 34) {  // Example product ID for a shirt
-        colorToImageMap["black"] = "img/emg/shirt-black.png";
-        colorToImageMap["white"] = "img/emg/shirt-white.png";
-    } else if (product.id === 26) {  // Example product ID for shorts
-        colorToImageMap["black"] = "img/emg/ShortsB(01Black).png";
-        colorToImageMap["blue"] = "img/emg/ShortsF(01Blue).png";
-    }
+   
 
     product.sizes.forEach(size => {
         const option = document.createElement('option');
@@ -84,10 +71,7 @@ function loadProductDetails(product) {
 
     sizeSelect.addEventListener('change', () => updatePrice(product));
     
-    // Set event listener to change image based on selected color
-    colorSelect.addEventListener('change', function () {
-        changeProductImage(colorToImageMap);  // Pass the current product's image mapping
-    });
+
 
     updatePrice(product); // Call updatePrice initially to set default values
 }
