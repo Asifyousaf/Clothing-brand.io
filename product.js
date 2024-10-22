@@ -39,7 +39,10 @@ async function fetchProductFromSupabase(productId) {
         return null;
     }
 }
-
+const colorToImageMap = {
+    "black": "img/emg/tshirt-black.png",
+    "white": "img/emg/tshirt-white.png"
+};
 
 // Load product details into the page
 function loadProductDetails(product) {
@@ -52,7 +55,17 @@ function loadProductDetails(product) {
     sizeSelect.innerHTML = '';
     colorSelect.innerHTML = '';
 
-   
+    // Create a dynamic color-to-image mapping for the current product
+    const colorToImageMap = {};
+
+    // Example for mapping images based on product ID or other identifiers
+    if (product.id === 34) {  // Example product ID for a shirt
+        colorToImageMap["black"] = "img/emg/shirt-black.png";
+        colorToImageMap["white"] = "img/emg/shirt-white.png";
+    } else if (product.id === 26) {  // Example product ID for shorts
+        colorToImageMap["black"] = "img/emg/ShortsB(01Black).png";
+        colorToImageMap["blue"] = "img/emg/ShortsF(01Blue).png";
+    }
 
     product.sizes.forEach(size => {
         const option = document.createElement('option');
@@ -71,46 +84,38 @@ function loadProductDetails(product) {
 
     sizeSelect.addEventListener('change', () => updatePrice(product));
     
-
+    // Set event listener to change image based on selected color
+    colorSelect.addEventListener('change', function () {
+        changeProductImage(colorToImageMap);  // Pass the current product's image mapping
+    });
 
     updatePrice(product); // Call updatePrice initially to set default values
 }
 
+// Function to update the image based on selected color
 function changeProductImage() {
     const selectedColor = document.getElementById('color').value;
     
     // Get all preview images
-    const previewImages = document.querySelectorAll('.preview');
-
-    // Hide or show images based on the selected color
-    previewImages.forEach(img => {
+    const previews = document.querySelectorAll('.preview');
+    
+    // Hide all preview images first
+    previews.forEach(img => img.style.display = 'none');
+    
+    // Show only the images that match the selected color
+    previews.forEach(img => {
         if (img.getAttribute('data-color') === selectedColor) {
-            img.style.display = 'block';  // Show image if it matches the selected color
-        } else {
-            img.style.display = 'none';  // Hide image if it doesn't match
+            img.style.display = 'block';
         }
     });
-
-    // Update the main product image with the first visible image
-    const firstVisibleImage = document.querySelector('.preview[data-color="' + selectedColor + '"]');
+    
+    // Change the main product image to the first matching preview image
+    const firstVisibleImage = document.querySelector(`.preview[data-color="${selectedColor}"]`);
     if (firstVisibleImage) {
         document.getElementById('main-product-image').src = firstVisibleImage.src;
     }
 }
 
-// Set event listener to change image based on selected color
-document.getElementById('color').addEventListener('change', changeProductImage);
-
-window.onload = function () {
-    updateCart();
-    const productId = document.querySelector('.product-page-container').dataset.productId;
-    fetchProductFromSupabase(productId).then(product => {
-        if (product) {
-            loadProductDetails(product);
-            changeProductImage(); // Update image when the page loads
-        }
-    });
-};
 
 // Update price and stock info when size or color changes
 function updatePrice(product) {
@@ -139,12 +144,6 @@ function updatePrice(product) {
         addToCartBtn.disabled = true;
     }
 }
-// Change main product image based on the clicked preview image
-function changeMainImage(previewImage) {
-    const mainImageElement = document.getElementById('main-product-image');
-    mainImageElement.src = previewImage.src;  // Update the main image with the clicked preview image
-    document.getElementById('color').value = previewImage.dataset.color;  // Update the color selection based on the image
-}
 
 // Add product to cart
 async function addToCart(productId) {
@@ -160,9 +159,8 @@ async function addToCart(productId) {
     const existingProduct = cart.find(item => item.productId === productId && item.size === size && item.color === color);
     // Get the image from the currently displayed product image
        // Get the image from the currently displayed product image
-        // Get the image from the currently displayed product image
-        const imageElement = document.getElementById('main-product-image');
-        const imageSrc = imageElement ? imageElement.src : '';
+       const imageElement = document.getElementById('main-product-image');
+       const imageSrc = imageElement ? imageElement.src : '';
     if (!existingProduct) {
         if (availableStock <= 0) {
             alert(`Cannot add more items. Only ${availableStock} in stock.`);
