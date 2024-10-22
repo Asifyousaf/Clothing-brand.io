@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleprod.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Cybertronic shorts - Cybertronic</title>
+    <link rel="icon" href="img/company.png" type="image/png">
+</head>
+<body>
+     <!-- Page Preloder -->
+<!-- Loading Screen -->
+<div id="loadingScreen" class="loading-screen">
+    <div class="hourglass"></div>
+</div>
+
+<!-- The rest of your page content goes here -->
+<div class="page-content">
+    <!-- Your page content -->
+</div>
+
+ <!-- Announcement Bar -->
+ <div class="textscroll">
+    <div class="toptext" id="scrollingText">
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+        <h1>Warning.</h1>
+    </div>
+</div>
+<!-- Navigation Bar -->
+<div class="navbar">
+    <!-- Navigation Links on the Left -->
+    <ul class="nav-left" id="nav-left">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="clothing.html">Clothing</a></li>
+        <li><a href="collection.html">Collection</a></li>
+    </ul>
+
+    <!-- Center Logo -->
+    <!-- Center Logo -->
+<div class="logo-center">
+<a href="index.html" id="logo-container">
+<img src="img/company.png" alt="Logo" id="logo-img">
+</a>
+</div>
+
+    <!-- Cart Button and About on the Right -->
+    <ul class="nav-right" id="nav-right">
+        <li><a id="cart-button"  onclick="openCart()">Cart</a></li>
+        <li><a href="about.html">About</a></li>
+    </ul>
+
+    <!-- Hamburger Menu (on the top-right) -->
+    <div class="ham-menu" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div> 
+
+    <!-- Small Screen Cart Button -->
+    <div class="cart-button-small-screen">
+        <a id="cart-button"  onclick="openCart()">Cart</a>
+    </div>
+
+    <!-- Off-screen Menu -->
+    <div class="off-screen-menu">
+        <a href="index.html">Home</a>
+        <a href="clothing.html">Clothing</a>
+        <a href="collection.html">Collection</a>
+        <a href="about.html">About</a>
+    </div>
+    
+</div>
+<!-- Spacer to avoid layout shift when navbar becomes fixed -->
+<div class="navbar-spacer"></div>
+
+<!-- Main Product Page Section -->
+<div class="product-page-container" data-product-id="31">
+    <div class="product-image-section">
+        <!-- Main product image -->
+        <img src="img/emg/ShortsF(01Black).png" alt="Product Image" class="product-image" id="main-product-image">
+        
+        <!-- Preview images section -->
+        <div class="preview-images">
+            <img src="img/emg/ShortsB(01Black).png" alt="Preview 2" class="preview" onclick="changeImage('img/emg/ShortsB(01Black).png')">
+            <img src="img/emg/ShortsF(01Blue).png" alt="Preview 2" class="preview" onclick="changeImage('img/emg/ShortsF(01Blue).png')">
+            <img src="img/emg/ShortsB(01Blue).png" alt="Preview 2" class="preview" onclick="changeImage('img/emg/ShortsB(01Blue).png')">
+        </div>
+    </div>
+    
+    <div class="product-details-section">
+        <h1 id="product-name">Shorts Cybertronic</h1>
+        <p id="product-description">Cybertronic shorts in black with a bold logo design across the back. Comfortable and stylish, perfect for casual wear or active use.</p>
+        
+        <div class="product-options">
+            <label for="size">Size:</label>
+            <select id="size"></select>
+        </div>
+        
+        <div class="product-options">
+            <label for="color">Color:</label>
+            <select id="color" onchange="changeProductImage()">
+                <option value="Black" data-image="img/emg/ShortsF(01Black).png">Black</option>
+                <option value="Blue" data-image="img/emg/ShortsF(01Blue).png">Blue</option>
+            </select>
+        </div>
+        
+        
+        <p id="stock-info">Stock: <span id="stock-quantity">N/A</span></p>
+        <div class="product-price">
+            <p>Price: <span id="product-price">$0.00</span></p>
+        </div>
+        <button id="add-to-cart-btn" onclick="addToCart('36')">Add to Cart</button>
+    </div>
+    
+
+</div>
+ <!-- Announcement Bar -->
+ <div class="textscroll">
+    <div class="toptext" id="scrollingText">
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+        <h1>You May Also Like.</h1>
+    </div>
+</div>
+<!-- You May Like Section -->
+<div class="you-may-like">
+    <div class="clothing-container">
+          <!-- Grid layout for larger screens -->
+          <div class="clothing-grid" id="clothingGrid">
+            <!-- Product 1 -->
+            <div class="item">
+                <div class="fade-bg"></div>
+                <a href="Product.html" class="image-container">
+                    <img src="img/emg/Fsleeves-Full(01).png" alt="Product 1" class="front" style="height: 500px;
+                    transform: translateY(-10%);">
+                    <img src="img/emg/Fsleeves-B(01).png" alt="Product 1 Back" class="back">
+                </a>
+                <p class="product-name">Inferno Beast Longsleeve</p>
+                <span class="product-price">AED 100 </span>
+            </div>
+             <!-- Product 1 -->
+            <div class="item">
+                <div class="fade-bg"></div>
+                <a href="Product2.html" class="image-container">
+                    <img src="img/emg/T-shirtZ(01).png" alt="Product 1" class="front">
+                    <img src="img/emg/T-shirtF(01).png" alt="Product 1 Back" class="back">
+                </a>
+                <p class="product-name">Double-Face tee</p>
+                <span class="product-price">AED 200</span>
+            </div>
+             <!-- Product 1 -->
+            <div class="item">
+                <div class="fade-bg"></div>
+                <a href="Product3.html" class="image-container">
+                    <img src="img/emg/Trousers-Z(01).png" alt="Product 1" class="front">
+                    <img src="img/emg/Trousers-M(01).png" alt="Product 1 Back" class="back">
+                </a>
+                <p class="product-name">Bleedskin Trouser</p>
+                <span class="product-price">AED 109</span>
+            </div>
+             <!-- Product 1 -->
+            <div class="item">
+                <div class="fade-bg"></div>
+                <a href="Product.html" class="image-container">
+                    <img src="https://via.placeholder.com/280x300" alt="Product 1" class="front">
+                    <img src="https://via.placeholder.com/280x300" alt="Product 1 Back" class="back">
+                </a>
+                <p class="product-name">Product 1</p>
+                <span class="product-price">AED 10</span>
+            </div>
+            <!-- Add more products similarly -->
+        </div>
+         <!-- Slider layout for smaller screens -->
+         <div class="clothing-slider-wrapper" id="clothingSlider">
+            <button class="slider-arrow left-arrow" onclick="slideLeft()">&#10094;</button>
+            <div class="clothing-grid-slider" id="sliderGrid">
+                <!-- Product 1 -->
+                <div class="item">
+                    <div class="fade-bg"></div>
+                <a href="Product.html" class="image-container">
+                    <img src="img/emg/Fsleeves-Full(01).png" alt="Product 1" class="front">
+                    <img src="img/emg/Fsleeves-B(01).png" alt="Product 1 Back" class="back">
+                </a>
+                <p class="product-name">Inferno Beast Longsleeve</p>
+                <span class="product-price">AED 100 </span>
+                </div>
+                <div class="item">
+                    <div class="fade-bg"></div>
+                    <a href="Product.html" class="image-container">
+                        <img src="img/emg/T-shirtZ(01).png" alt="Product 1" class="front">
+                    <img src="img/emg/T-shirtF(01).png" alt="Product 1 Back" class="back">
+                    </a>
+                    <p class="product-name">Product 1</p>
+                    <span class="product-price">AED 10</span>
+                </div>
+                <div class="item">
+                    <div class="fade-bg"></div>
+                    <a href="Product.html" class="image-container">
+                        <img src="img/emg/Trousers-Z(01).png" alt="Product 1" class="front">
+                        <img src="img/emg/Trousers-M(01).png" alt="Product 1 Back" class="back">
+                    </a>
+                    <p class="product-name">Product 1</p>
+                    <span class="product-price">AED 10</span>
+                </div>
+                <div class="item">
+                    <div class="fade-bg"></div>
+                    <a href="Product.html" class="image-container">
+                        <img src="https://via.placeholder.com/280x300" alt="Product 1" class="front">
+                        <img src="https://via.placeholder.com/280x300" alt="Product 1 Back" class="back">
+                    </a>
+                    <p class="product-name">Product 1</p>
+                    <span class="product-price">AED 10</span>
+                </div>
+                <!-- Add more products similarly -->
+            </div>
+            <button class="slider-arrow right-arrow" onclick="slideRight()">&#10095;</button>
+        </div>
+    </div>
+</div>
+<div id="cart-popup-wrapper" class="cart-popup-wrapper" onclick="closeCartOnClickOutside(event)">
+    <div id="cart-popup" class="cart-popup">
+        <div class="cart-popup-content">
+            <span class="close-btn" onclick="closeCart()">×</span>
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div class="cart-total">
+                <p>Total: <span id="cart-total-price">$0.00</span></p>
+            </div>
+            
+           <!-- Add this button to your product or cart page -->
+<button id="checkout-button" class="checkout-btn">Checkout with Stripe</button>
+
+
+    
+            <!-- Terms and Conditions Link and Content -->
+            <div id="terms-conditions" class="terms-and-conditions">
+                <p>By proceeding, you agree to our <a href="policy.html" target="_blank">terms and conditions</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer Section -->
+<footer class="footer">
+    <div class="containerf">
+      <div class="row">
+        <div class="footer-col">
+          <h4>Cybertronic</h4>
+          <ul></ul>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="clothing.html">Clothing</a></li>
+            <li><a href="collection.html">Collection</a></li>
+            <li><a href="about.html">about</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="policy.html">terms & conditions</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="https://www.instagram.com/cybertronicllc/" target="_blank">
+              <img src="img/insta.jpeg" alt="Instagram" />
+            </a>
+            <a href="https://www.tiktok.com/@cybertronicc" target="_blank">
+              <img src="img/tiktok.png" alt="TikTok" />
+            </a>
+          </div>
+          
+          <!-- Payment icons row, now under the social links -->
+          <div class="payment-icons">
+            <img src="img/visa.png" alt="Visa">
+            <img src="img/card.png" alt="MasterCard">
+            <img src="img/apple-pay.png" alt="Apple">
+            <img src="img/google-pay.png" alt="Google-pay">
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+<script type="module" src="script.js"></script>
+<script src="scroll.js"></script>
+<script src="cart.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="product.js"></script>
+<script>
+
+
+function updateStockAndOptions(product) {
+    // Populate size options
+    const sizeSelect = document.getElementById('size');
+    product.sizes.forEach(size => {
+        const option = document.createElement('option');
+        option.value = size.toLowerCase();
+        option.textContent = size;
+        sizeSelect.appendChild(option);
+    });
+
+    // Populate color options
+    const colorSelect = document.getElementById('color');
+    product.colors.forEach(color => {
+        const option = document.createElement('option');
+        option.value = color.toLowerCase();
+        option.textContent = color;
+        colorSelect.appendChild(option);
+    });
+
+    // Update stock display based on initial selections
+    updatePriceAndStockDisplay(product);
+    
+    // Event listeners to update price and stock when selections change
+    sizeSelect.addEventListener('change', () => updatePriceAndStockDisplay(product));
+    colorSelect.addEventListener('change', () => updatePriceAndStockDisplay(product));
+}
+
+function updatePriceAndStockDisplay(product) {
+    const selectedSize = document.getElementById('size').value;
+    const selectedColor = document.getElementById('color').value;
+
+    // Update price
+    const price = product.prices[selectedSize][selectedColor];
+    document.getElementById('product-price').innerText = `$${price.toFixed(2)}`;
+
+    // Update stock info
+    const stock = product.stock[selectedSize][selectedColor];
+    document.getElementById('stock-quantity').innerText = stock;
+
+    const addToCartBtn = document.getElementById('add-to-cart-btn');
+    addToCartBtn.disabled = stock <= 0; // Disable button if out of stock
+}
+
+function changeImage(imageSrc) {
+    document.getElementById('main-product-image').src = imageSrc;
+}
+
+function changeProductImage() {
+    // Get the selected color option
+    const colorSelect = document.getElementById('color');
+    const selectedOption = colorSelect.options[colorSelect.selectedIndex];
+
+    // Get the image URL from the selected option's data attribute
+    const newImageSrc = selectedOption.getAttribute('data-image');
+
+    // Update the main product image
+    const mainImage = document.getElementById('main-product-image');
+    mainImage.src = newImageSrc;
+}
+
+</script>
+
+
+</body>
+</html>

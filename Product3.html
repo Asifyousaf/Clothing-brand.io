@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styleprod.css">
     <link rel="stylesheet" href="style.css">
-    <title>Product Page</title>
+    <title>Bleedskin Sweatpants - Cybertronic</title>
     <link rel="icon" href="img/company.png" type="image/png">
 </head>
 <body>
@@ -93,7 +93,7 @@
 <div class="navbar-spacer"></div>
 
 <!-- Main Product Page Section -->
-<div class="product-page-container" data-product-id="24">
+<div class="product-page-container" data-product-id="36">
     <div class="product-image-section">
         <!-- Main product image -->
         <img src="img/emg/Trousers-B(01).png" alt="Product Image" class="product-image" id="main-product-image">
@@ -123,7 +123,7 @@
         <div class="product-price">
             <p>Price: <span id="product-price">$0.00</span></p>
         </div>
-        <button id="add-to-cart-btn" onclick="addToCart('24')">Add to Cart</button>
+        <button id="add-to-cart-btn" onclick="addToCart('36')">Add to Cart</button>
     </div>
     
 
@@ -154,43 +154,95 @@
 <!-- You May Like Section -->
 <div class="you-may-like">
     <div class="clothing-container">
-        <div class="clothing-grid">
+          <!-- Grid layout for larger screens -->
+          <div class="clothing-grid" id="clothingGrid">
+            <!-- Product 1 -->
             <div class="item">
                 <div class="fade-bg"></div>
-                <a href="product-page-2.html" class="image-container">
-                    <img src="img/f-shirt.png" alt="Shirt 2" class="front">
-                    <img src="img/f-shirt2.png" alt="Shirt 2 Back" class="back">
+                <a href="Product.html" class="image-container">
+                    <img src="img/emg/Fsleeves-Full(01).png" alt="Product 1" class="front" style="height: 500px;
+                    transform: translateY(-10%);">
+                    <img src="img/emg/Fsleeves-B(01).png" alt="Product 1 Back" class="back">
                 </a>
-                <p>Shirt 2</p>
-                <span>$10</span>
+                <p class="product-name">Inferno Beast Longsleeve</p>
+                <span class="product-price">AED 100 </span>
             </div>
+             <!-- Product 1 -->
             <div class="item">
                 <div class="fade-bg"></div>
-                <a href="product-page-3.html" class="image-container">
-                    <img src="img/f-shirt.png" alt="Shirt 3" class="front">
-                    <img src="img/f-shirt.png" alt="Shirt 3 Back" class="back">
+                <a href="Product2.html" class="image-container">
+                    <img src="img/emg/T-shirtZ(01).png" alt="Product 1" class="front">
+                    <img src="img/emg/T-shirtF(01).png" alt="Product 1 Back" class="back">
                 </a>
-                <p>Shirt 3</p>
-                <span>$10</span>
+                <p class="product-name">Double-Face tee</p>
+                <span class="product-price">AED 200</span>
             </div>
+             <!-- Product 1 -->
             <div class="item">
                 <div class="fade-bg"></div>
-                <a href="product-page-4.html" class="image-container">
-                    <img src="img/shirt1.png" alt="Shirt 4" class="front">
-                    <img src="img/shirt1.png" alt="Shirt 4 Back" class="back">
+                <a href="Product3.html" class="image-container">
+                    <img src="img/emg/Trousers-Z(01).png" alt="Product 1" class="front">
+                    <img src="img/emg/Trousers-M(01).png" alt="Product 1 Back" class="back">
                 </a>
-                <p>Shirt 4</p>
-                <span>$10</span>
+                <p class="product-name">Bleedskin Trouser</p>
+                <span class="product-price">AED 109</span>
             </div>
+             <!-- Product 1 -->
             <div class="item">
                 <div class="fade-bg"></div>
-                <a href="product-page-5.html" class="image-container">
-                    <img src="img/shirt1.png" alt="Shirt 5" class="front">
-                    <img src="img/shirt1.png" alt="Shirt 5 Back" class="back">
+                <a href="Product.html" class="image-container">
+                    <img src="https://via.placeholder.com/280x300" alt="Product 1" class="front">
+                    <img src="https://via.placeholder.com/280x300" alt="Product 1 Back" class="back">
                 </a>
-                <p>Shirt 5</p>
-                <span>$10</span>
+                <p class="product-name">Product 1</p>
+                <span class="product-price">AED 10</span>
             </div>
+            <!-- Add more products similarly -->
+        </div>
+         <!-- Slider layout for smaller screens -->
+         <div class="clothing-slider-wrapper" id="clothingSlider">
+            <button class="slider-arrow left-arrow" onclick="slideLeft()">&#10094;</button>
+            <div class="clothing-grid-slider" id="sliderGrid">
+                <!-- Product 1 -->
+                <div class="item">
+                    <div class="fade-bg"></div>
+                <a href="Product.html" class="image-container">
+                    <img src="img/emg/Fsleeves-Full(01).png" alt="Product 1" class="front">
+                    <img src="img/emg/Fsleeves-B(01).png" alt="Product 1 Back" class="back">
+                </a>
+                <p class="product-name">Inferno Beast Longsleeve</p>
+                <span class="product-price">AED 100 </span>
+                </div>
+                <div class="item">
+                    <div class="fade-bg"></div>
+                    <a href="Product.html" class="image-container">
+                        <img src="img/emg/T-shirtZ(01).png" alt="Product 1" class="front">
+                    <img src="img/emg/T-shirtF(01).png" alt="Product 1 Back" class="back">
+                    </a>
+                    <p class="product-name">Product 1</p>
+                    <span class="product-price">AED 10</span>
+                </div>
+                <div class="item">
+                    <div class="fade-bg"></div>
+                    <a href="Product.html" class="image-container">
+                        <img src="img/emg/Trousers-Z(01).png" alt="Product 1" class="front">
+                        <img src="img/emg/Trousers-M(01).png" alt="Product 1 Back" class="back">
+                    </a>
+                    <p class="product-name">Product 1</p>
+                    <span class="product-price">AED 10</span>
+                </div>
+                <div class="item">
+                    <div class="fade-bg"></div>
+                    <a href="Product.html" class="image-container">
+                        <img src="https://via.placeholder.com/280x300" alt="Product 1" class="front">
+                        <img src="https://via.placeholder.com/280x300" alt="Product 1 Back" class="back">
+                    </a>
+                    <p class="product-name">Product 1</p>
+                    <span class="product-price">AED 10</span>
+                </div>
+                <!-- Add more products similarly -->
+            </div>
+            <button class="slider-arrow right-arrow" onclick="slideRight()">&#10095;</button>
         </div>
     </div>
 </div>

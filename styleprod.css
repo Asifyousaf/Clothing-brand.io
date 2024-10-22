@@ -243,6 +243,9 @@ html, body {
 }
 /* Adjustments for mobile screens */
 @media (max-width: 768px) {
+    #add-to-cart-btn{
+        margin: 30px;
+    }
     .product-image {
         width: 430px; /* 90% of viewport width for mobile devices */
         height: 300px; /* Height equal to width to maintain square aspect ratio */
@@ -281,7 +284,7 @@ html, body {
 
     }
     #product-description{
-        font-size: 15px;
+        font-size: 11px;
     }
     .product-page-container {
         display: flex;
@@ -297,7 +300,9 @@ html, body {
     }
 }
 
-
+#product-description{
+    font-size: 22px;
+}
 /* Adjust the title (product name) size */
 .product-details-section h1 {
     font-size: 2rem; /* Smaller font size for the title */
