@@ -121,6 +121,7 @@
                 <option value="Black" data-image="img/emg/ShortsF(01Black).png">Black</option>
                 <option value="Blue" data-image="img/emg/ShortsF(01Blue).png">Blue</option>
             </select>
+            
         </div>
         
         
@@ -380,16 +381,17 @@ function changeImage(imageSrc) {
 
 function changeProductImage() {
     // Get the selected color option
-    const colorSelect = document.getElementById('color');
-    const selectedOption = colorSelect.options[colorSelect.selectedIndex];
+    var colorSelect = document.getElementById("color");
+    var selectedOption = colorSelect.options[colorSelect.selectedIndex];
 
-    // Get the image URL from the selected option's data attribute
-    const newImageSrc = selectedOption.getAttribute('data-image');
+    // Get the image URL from the data-image attribute of the selected option
+    var newImageUrl = selectedOption.getAttribute("data-image");
 
-    // Update the main product image
-    const mainImage = document.getElementById('main-product-image');
-    mainImage.src = newImageSrc;
+    // Update the main product image source
+    var mainProductImage = document.getElementById("main-product-image");
+    mainProductImage.src = newImageUrl;
 }
+
 
 </script>
 
