@@ -144,6 +144,12 @@ function updatePrice(product) {
         addToCartBtn.disabled = true;
     }
 }
+// Change main product image based on the clicked preview image
+function changeMainImage(previewImage) {
+    const mainImageElement = document.getElementById('main-product-image');
+    mainImageElement.src = previewImage.src;  // Update the main image with the clicked preview image
+    document.getElementById('color').value = previewImage.dataset.color;  // Update the color selection based on the image
+}
 
 // Add product to cart
 async function addToCart(productId) {
