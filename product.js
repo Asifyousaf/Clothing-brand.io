@@ -111,7 +111,8 @@ async function addToCart(productId) {
     const color = document.getElementById('color').value.toLowerCase();
     const availableStock = product.stock[size][color];
     const existingProduct = cart.find(item => item.productId === productId && item.size === size && item.color === color);
-
+    // Get the image from the currently displayed product image
+    const imageSrc = document.getElementById('main-product-image').src;
     if (!existingProduct) {
         if (availableStock <= 0) {
             alert(`Cannot add more items. Only ${availableStock} in stock.`);
@@ -125,7 +126,7 @@ async function addToCart(productId) {
             quantity: 1,
             size: size,
             color: color,
-            image: product.image
+            image: imageSrc  // Use the image from the HTML page
         });
     } else {
         if (existingProduct.quantity >= availableStock) {
