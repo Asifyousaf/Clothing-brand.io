@@ -99,11 +99,10 @@
         <img src="img/emg/ShortsF(01Black).png" alt="Product Image" class="product-image" id="main-product-image">
         
         <!-- Preview images section -->
-        <div class="preview-images" id="preview-images">
-            <img src="img/emg/ShortsF(01Black).png" alt="Preview Front Black" class="preview" data-color="black">
-            <img src="img/emg/ShortsB(01Black).png" alt="Preview Back Black" class="preview" data-color="black">
-            <img src="img/emg/ShortsF(01Blue).png" alt="Preview Front Blue" class="preview" data-color="blue">
-            <img src="img/emg/ShortsB(01Blue).png" alt="Preview Back Blue" class="preview" data-color="blue">
+        <div class="preview-images">
+            <img src="img/emg/ShortsB(01Black).png" alt="Preview 2" class="preview" onclick="changeImage('img/emg/ShortsB(01Black).png')">
+            <img src="img/emg/ShortsF(01Blue).png" alt="Preview 2" class="preview" onclick="changeImage('img/emg/ShortsF(01Blue).png')">
+            <img src="img/emg/ShortsB(01Blue).png" alt="Preview 2" class="preview" onclick="changeImage('img/emg/ShortsB(01Blue).png')">
         </div>
     </div>
     
@@ -119,7 +118,8 @@
         <div class="product-options">
             <label for="color">Color:</label>
             <select id="color" onchange="changeProductImage()">
-          
+                <option value="Black" data-image="img/emg/ShortsF(01Black).png">Black</option>
+                <option value="Blue" data-image="img/emg/ShortsF(01Blue).png">Blue</option>
             </select>
         </div>
         
