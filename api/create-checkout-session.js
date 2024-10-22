@@ -4,7 +4,7 @@ const stripe = require('stripe')('sk_test_51Q6qZ8Rxk79NacxxJgyYInUBdiJ2Pcqm8otxx
 
 const app = express();
 app.use(cors({
-    origin: 'https://cybertronicbot.com', // Ensure the front-end domain is allowed
+    origin: 'https://cybertronicbot.com', 
 }));
 
 app.use(express.json());
@@ -25,9 +25,9 @@ app.post('/api/create-checkout-session', async (req, res) => {
                 price_data: {
                     currency: 'aed',
                     product_data: {
-                        name: item.name, // Ensure you have a name property in cart items
-                        images: [item.image], // Ensure you have an image property
-                        description: `Size: ${item.size}, Color: ${item.color}`, // Size and color for description
+                        name: item.name, 
+                        images: [item.image], 
+                        description: `Size: ${item.size}, Color: ${item.color}`, 
                     },
                     unit_amount: Math.round(item.price * 100), // Stripe expects price in cents
                 },
