@@ -93,18 +93,29 @@ function loadProductDetails(product) {
 }
 
 // Function to update the image based on selected color
-function changeProductImage(colorToImageMap) {
-    const colorSelect = document.getElementById('color');
-    const selectedColor = colorSelect.value.toLowerCase();  // Get the selected color
-    const imageSrc = colorToImageMap[selectedColor];  // Get the image from the map
-
-    if (imageSrc) {
-        // Update the main product image with the selected color's image
-        document.getElementById('main-product-image').src = imageSrc;
-    } else {
-        console.error("Image not found for the selected color.");
+function changeProductImage() {
+    const selectedColor = document.getElementById('color').value;
+    
+    // Get all preview images
+    const previews = document.querySelectorAll('.preview');
+    
+    // Hide all preview images first
+    previews.forEach(img => img.style.display = 'none');
+    
+    // Show only the images that match the selected color
+    previews.forEach(img => {
+        if (img.getAttribute('data-color') === selectedColor) {
+            img.style.display = 'block';
+        }
+    });
+    
+    // Change the main product image to the first matching preview image
+    const firstVisibleImage = document.querySelector(`.preview[data-color="${selectedColor}"]`);
+    if (firstVisibleImage) {
+        document.getElementById('main-product-image').src = firstVisibleImage.src;
     }
 }
+
 
 // Update price and stock info when size or color changes
 function updatePrice(product) {
@@ -147,7 +158,9 @@ async function addToCart(productId) {
     const availableStock = product.stock[size][color];
     const existingProduct = cart.find(item => item.productId === productId && item.size === size && item.color === color);
     // Get the image from the currently displayed product image
-    const imageSrc = document.getElementById('main-product-image').src;
+       // Get the image from the currently displayed product image
+       const imageElement = document.getElementById('main-product-image');
+       const imageSrc = imageElement ? imageElement.src : '';
     if (!existingProduct) {
         if (availableStock <= 0) {
             alert(`Cannot add more items. Only ${availableStock} in stock.`);
