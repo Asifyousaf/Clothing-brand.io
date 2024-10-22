@@ -118,8 +118,7 @@
         <div class="product-options">
             <label for="color">Color:</label>
             <select id="color" onchange="changeProductImage()">
-                <option value="Black" data-image="img/emg/ShortsF(01Black).png">Black</option>
-                <option value="Blue" data-image="img/emg/ShortsF(01Blue).png">Blue</option>
+          
             </select>
         </div>
         
@@ -370,22 +369,24 @@ function updatePriceAndStockDisplay(product) {
     addToCartBtn.disabled = stock <= 0; // Disable button if out of stock
 }
 
-function changeImage(imageSrc) {
-    document.getElementById('main-product-image').src = imageSrc;
-}
-
 function changeProductImage() {
-    // Get the selected color option
     const colorSelect = document.getElementById('color');
-    const selectedOption = colorSelect.options[colorSelect.selectedIndex];
-
-    // Get the image URL from the selected option's data attribute
-    const newImageSrc = selectedOption.getAttribute('data-image');
-
+    const selectedColor = colorSelect.options[colorSelect.selectedIndex];
+    const selectedImage = selectedColor.getAttribute('data-image');
+    
     // Update the main product image
-    const mainImage = document.getElementById('main-product-image');
-    mainImage.src = newImageSrc;
+    if (selectedImage) {
+        document.getElementById('main-product-image').src = selectedImage;
+    } else {
+        console.error("No image found for the selected color.");
+    }
 }
+
+
+        function changeImage(imageSrc) {
+            // Change the main product image to the clicked preview image
+            document.getElementById('main-product-image').src = imageSrc;
+        }
 
 </script>
 
