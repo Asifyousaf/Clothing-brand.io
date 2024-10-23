@@ -67,50 +67,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 async function submitEmail(event) {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault();
 
-    const email = document.getElementById('footerEmail').value; // Get the email from input field
+    const email = document.getElementById('footerEmail').value;
 
     if (!email) {
-        alert("Please enter a valid email."); // Validate if email is not empty
+        alert("Please enter a valid email.");
         return;
     }
 
     try {
-        // Send a POST request to your email subscription API endpoint
         const response = await fetch('/api/email-subscription', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email }) // Send the email to the backend
+            body: JSON.stringify({ email })
         });
 
-        // Check if the response is ok (status code 200-299)
-        if (!response.ok) {
-            const errorText = await response.text(); // Fetch the error response as text
-            console.error("HTTP Error:", response.status, response.statusText, errorText);
-            alert(`Error: ${response.status} - ${response.statusText}\n${errorText.substring(0, 200)}`);
-            throw new Error(`HTTP Error: ${response.status}`);
-        }
-
-        // Ensure the response is in JSON format
-        const contentType = response.headers.get('content-type');
-        if (!contentType || !contentType.includes('application/json')) {
-            const errorText = await response.text(); // Read the response as text
-            console.error("Invalid response type:", contentType, errorText);
-            alert(`Invalid response type\n${errorText.substring(0, 200)}`);
-            throw new Error("Invalid content type");
-        }
-
-        const result = await response.json(); // Parse JSON response
-
-        if (result.success) {
-            alert("Thanks for subscribing!"); // Success message
-            document.getElementById('footerEmailForm').reset(); // Clear the form
+        if (response.ok) {
+            const result = await response.json();
+            if (result.success) {
+                alert("Thanks for subscribing!");
+                document.getElementById('footerEmailForm').reset(); // Clear the form
+            } else {
+                alert("Error: " + result.error);
+            }
         } else {
-            console.error("Server Error:", result.error);
-            alert(`Error: ${result.error}`);
+            const errorText = await response.text();
+            alert(`Error: ${response.status} - ${response.statusText}\n${errorText}`);
         }
     } catch (error) {
         console.error("Error submitting email:", error);

@@ -6,8 +6,27 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const server = http.createServer((req, res) => {
-    if (req.method === 'POST' && req.url === '/api/email-subscription') { 
+// Simple email validation
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+}
+
+// Function to insert email into Supabase
+async function addEmailToSupabase(email) {
+    const { error } = await supabase
+        .from('email_subscribers') // Your Supabase table name
+        .insert([{ email }]);
+
+    if (error) {
+        console.error('Supabase insert error:', error.message);
+        throw new Error('Failed to save email.');
+    }
+}
+
+// HTTP server
+const server = http.createServer(async (req, res) => {
+    if (req.method === 'POST' && req.url === '/api/email-subscription') {
         let body = '';
 
         req.on('data', chunk => {
@@ -28,11 +47,9 @@ const server = http.createServer((req, res) => {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ success: true }));
             } catch (err) {
-                console.error('Error saving email:', err.message);
-                res.writeHead(500, { 'Content-Type': 'application/json' }); // Always return JSON
-                res.end(JSON.stringify({ error: 'Error saving email' }));
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Failed to save email.' }));
             }
-            
         });
     } else {
         res.writeHead(405, { 'Content-Type': 'application/json' });
@@ -40,24 +57,6 @@ const server = http.createServer((req, res) => {
     }
 });
 
-// Function to insert the email into the Supabase database
-async function addEmailToSupabase(email) {
-    const { data, error } = await supabase
-      .from('email_subscribers') // Your table name for email subscribers
-      .insert([{ email }]); // Insert the email
-    
-    if (error) {
-        throw error; // Handle errors
-    }
-    return data;
-}
-
-// Basic email validation function
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLowerCase());
-}
-
 server.listen(3000, () => {
-    console.log('Server listening on port 3000');
+    console.log('Server running on port 3000');
 });
