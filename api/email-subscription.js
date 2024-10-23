@@ -5,6 +5,11 @@ const supabaseUrl = 'https://vfcajbxgvievqettjanj.supabase.co'; // Directly add 
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmY2FqYnhndmlldnFldHRqYW5qIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcyOTEwMzQ0NiwiZXhwIjoyMDQ0Njc5NDQ2fQ.NPOWDNnIHoW_iZqf4H5KgbfJSWOe6lZIU1kPagrQrxo'; // Service role key
 
 const supabase = createClient(supabaseUrl, supabaseKey);
+const cors = require('cors');
+const express = require('express');
+const app = express();
+
+app.use(cors());
 
 
 const server = http.createServer((req, res) => {
@@ -42,14 +47,15 @@ const server = http.createServer((req, res) => {
     }
 });
 
-// Function to insert the email into the Supabase database
 async function addEmailToSupabase(email) {
+    console.log('Attempting to add email:', email);
     const { data, error } = await supabase
-        .from('email_subscribers') // Your table name
-        .insert([{ email }]); // Insert the email
+        .from('email_subscribers')
+        .insert([{ email }]);
 
     if (error) {
-        throw error; // Handle errors properly
+        console.error('Supabase error:', error);
+        throw error;
     }
     return data;
 }
