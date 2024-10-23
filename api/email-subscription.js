@@ -1,9 +1,9 @@
 const http = require('http');
 const { createClient } = require('@supabase/supabase-js');
 
-const supabaseUrl = 'https://vfcajbxgvievqettjanj.supabase.co'; // Your Supabase URL
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmY2FqYnhndmlldnFldHRqYW5qIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcyOTEwMzQ0NiwiZXhwIjoyMDQ0Njc5NDQ2fQ.NPOWDNnIHoW_iZqf4H5KgbfJSWOe6lZIU1kPagrQrxo'; // Service role key
-
+// Supabase configuration
+const supabaseUrl = 'https://vfcajbxgvievqettjanj.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmY2FqYnhndmlldnFldHRqYW5qIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcyOTEwMzQ0NiwiZXhwIjoyMDQ0Njc5NDQ2fQ.NPOWDNnIHoW_iZqf4H5KgbfJSWOe6lZIU1kPagrQrxo'; // Supabase service role key
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Simple email validation
@@ -14,14 +14,16 @@ function validateEmail(email) {
 
 // Function to insert email into Supabase
 async function addEmailToSupabase(email) {
-    const { error } = await supabase
-        .from('email_subscribers') // Your Supabase table name
+    const { data, error } = await supabase
+        .from('email_subscribers') // Ensure this table exists in Supabase
         .insert([{ email }]);
 
     if (error) {
-        console.error('Supabase insert error:', error.message);
-        throw new Error('Failed to save email.');
+        console.error('Supabase insert error:', error.message); // Log the exact error
+        throw new Error('Failed to save email.'); // Throw error for the caller to catch
     }
+
+    return data;
 }
 
 // HTTP server
@@ -34,21 +36,26 @@ const server = http.createServer(async (req, res) => {
         });
 
         req.on('end', async () => {
-            const { email } = JSON.parse(body);
-
-            if (!email || !validateEmail(email)) {
-                res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: 'Invalid email address' }));
-                return;
-            }
-
             try {
+                // Parse the body
+                const { email } = JSON.parse(body);
+                console.log('Received email:', email); // Log the incoming email for troubleshooting
+
+                // Validate email
+                if (!email || !validateEmail(email)) {
+                    res.writeHead(400, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Invalid email address' }));
+                    return;
+                }
+
+                // Try to add email to Supabase
                 await addEmailToSupabase(email);
-                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.writeHead(201, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ success: true }));
             } catch (err) {
+                console.error('Error handling request:', err.message); // Log error details
                 res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: 'Failed to save email.' }));
+                res.end(JSON.stringify({ error: 'Internal server error' }));
             }
         });
     } else {
@@ -57,6 +64,7 @@ const server = http.createServer(async (req, res) => {
     }
 });
 
+// Start the server
 server.listen(3000, () => {
     console.log('Server running on port 3000');
 });
