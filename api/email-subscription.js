@@ -29,9 +29,10 @@ const server = http.createServer((req, res) => {
                 res.end(JSON.stringify({ success: true }));
             } catch (err) {
                 console.error('Error saving email:', err.message);
-                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.writeHead(500, { 'Content-Type': 'application/json' }); // Always return JSON
                 res.end(JSON.stringify({ error: 'Error saving email' }));
             }
+            
         });
     } else {
         res.writeHead(405, { 'Content-Type': 'application/json' });

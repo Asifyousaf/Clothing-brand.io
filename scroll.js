@@ -86,14 +86,31 @@ async function submitEmail(event) {
             body: JSON.stringify({ email }) // Send the email to the backend
         });
 
-        const result = await response.json();
+        // Check if the response is ok (status code 200-299)
+        if (!response.ok) {
+            const errorText = await response.text(); // Fetch the error response as text
+            console.error("HTTP Error:", response.status, response.statusText, errorText);
+            alert(`Error: ${response.status} - ${response.statusText}\n${errorText.substring(0, 200)}`);
+            throw new Error(`HTTP Error: ${response.status}`);
+        }
 
-        if (response.ok) {
+        // Ensure the response is in JSON format
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const errorText = await response.text(); // Read the response as text
+            console.error("Invalid response type:", contentType, errorText);
+            alert(`Invalid response type\n${errorText.substring(0, 200)}`);
+            throw new Error("Invalid content type");
+        }
+
+        const result = await response.json(); // Parse JSON response
+
+        if (result.success) {
             alert("Thanks for subscribing!"); // Success message
             document.getElementById('footerEmailForm').reset(); // Clear the form
         } else {
-            console.error("Error:", result.error); // Log the error
-            alert("There was an error. Please try again later.");
+            console.error("Server Error:", result.error);
+            alert(`Error: ${result.error}`);
         }
     } catch (error) {
         console.error("Error submitting email:", error);
