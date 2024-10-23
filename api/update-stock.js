@@ -8,7 +8,6 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const endpointSecret = 'whsec_jpk9R320UxDDfTM28wFdxpAIHkEo3pJ4'; // Your webhook signing secret
-
 const server = http.createServer((req, res) => {
     if (req.method === 'POST' && req.url === '/api/update-stock') {
         let body = '';
@@ -18,6 +17,26 @@ const server = http.createServer((req, res) => {
         });
 
         req.on('end', async () => {
+            // Parse the request body
+            const requestBody = JSON.parse(body);
+
+            // If it's an email subscription request (no Stripe signature header)
+            if (requestBody.email) {
+                try {
+                    await addEmailToSupabase(requestBody.email);
+                    console.log('Email added to Supabase successfully.');
+
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ success: true }));
+                } catch (err) {
+                    console.error('Error adding email to Supabase:', err.message);
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ error: 'Error adding email to Supabase' }));
+                }
+                return; // Exit early since it's an email subscription
+            }
+
+            // This part will handle Stripe webhook requests with the signature validation
             const signature = req.headers['stripe-signature'];
 
             let event;
@@ -35,14 +54,7 @@ const server = http.createServer((req, res) => {
                 const cartItems = session.metadata.cartItems ? JSON.parse(session.metadata.cartItems) : [];
 
                 try {
-
                     await updateStockInSupabase(cartItems);
-
-                     // If the email is present in session.metadata, add it to the Supabase email list
-                     if (session.metadata.email) {
-                        await addEmailToSupabase(session.metadata.email);
-                        console.log('Email added to Supabase successfully.');
-                    }
                     console.log('Stock and order updated successfully.');
                 } catch (err) {
                     console.error('Error processing order:', err.message);

@@ -93,7 +93,7 @@ window.onload = function() {
         const response = await fetch('/api/update-stock', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email })
+            body: JSON.stringify({ email }) // Include email in the request body
         });
 
         const result = await response.json();
@@ -110,5 +110,3 @@ window.onload = function() {
         alert("There was an error. Please try again later.");
     }
 }
-
-  
