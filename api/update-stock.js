@@ -35,9 +35,14 @@ const server = http.createServer((req, res) => {
                 const cartItems = session.metadata.cartItems ? JSON.parse(session.metadata.cartItems) : [];
 
                 try {
-                    // Insert order and update stock
-                    await insertOrderInSupabase(session, cartItems);
+
                     await updateStockInSupabase(cartItems);
+
+                     // If the email is present in session.metadata, add it to the Supabase email list
+                     if (session.metadata.email) {
+                        await addEmailToSupabase(session.metadata.email);
+                        console.log('Email added to Supabase successfully.');
+                    }
                     console.log('Stock and order updated successfully.');
                 } catch (err) {
                     console.error('Error processing order:', err.message);
@@ -60,49 +65,18 @@ const server = http.createServer((req, res) => {
     }
 });
 
-// Function to insert the order in Supabase
-async function insertOrderInSupabase(session, cartItems) {
-    try {
-        const { email, phone } = session.customer_details;
-        const { amount_total, currency, id: orderId, payment_status } = session;
 
-        // Shipping address information from the session
-        const shipping_address = {
-            line1: session.shipping?.address?.line1 || '',
-            line2: session.shipping?.address?.line2 || '',
-            city: session.shipping?.address?.city || '',
-            state: session.shipping?.address?.state || '',
-            postal_code: session.shipping?.address?.postal_code || '',
-            country: session.shipping?.address?.country || ''
-        };
-
-        const orderData = {
-            order_id: orderId,
-            email: email,
-            phone: phone,
-            total_amount: (amount_total / 100),
-            currency: currency,
-            cart_items: cartItems,
-            payment_status: payment_status,
-            shipping_address: shipping_address
-        };
-
-        // Attempt to insert order data into Supabase
-        const { error } = await supabase
-            .from('orders')
-            .insert(orderData);
-
-        if (error) {
-            console.error('Error inserting order data into Supabase:', error);
-            throw new Error('Error inserting order data into Supabase');
-        } else {
-            console.log(`Order ${orderId} successfully inserted into Supabase.`);
-        }
-    } catch (err) {
-        console.error('Error inserting order:', err.message);
+// Function to insert the email into the Supabase database
+async function addEmailToSupabase(email) {
+    const { data, error } = await supabase
+      .from('email_subscribers') // Your table name
+      .insert([{ email }]); // Insert the email
+    
+    if (error) {
+      throw error; // Handle errors
     }
-}
-
+    return data;
+  }
 // Function to update stock in Supabase
 async function updateStockInSupabase(cartItems) {
     try {

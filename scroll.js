@@ -66,3 +66,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 });
+// Show the popup when the page loads
+window.onload = function() {
+    setTimeout(function() {
+      document.getElementById("emailPopup").style.display = "block";
+    }, 4000); // Show after 3 seconds
+  }
+  
+  // Close the popup
+  function closePopup() {
+    document.getElementById("emailPopup").style.display = "none";
+  }
+  
+  // Function to handle email submission
+  async function submitEmail(event) {
+    event.preventDefault();
+  
+    const email = event.target.email.value;
+  
+    // Validate the email input (basic validation)
+    if (!email) {
+      alert("Please enter a valid email.");
+      return;
+    }
+  
+    // Add email to Supabase (this function needs to be implemented)
+    try {
+      await addEmailToSupabase(email);
+      alert("Thanks for subscribing!");
+      closePopup();
+      event.target.reset(); // Clear the form
+    } catch (error) {
+      console.error("Error submitting email:", error);
+      alert("There was an error. Please try again later.");
+    }
+  }
+  
