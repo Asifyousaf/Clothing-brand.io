@@ -73,15 +73,10 @@ window.onload = function() {
     }, 4000); // Show after 3 seconds
   }
   
-function closePopup() {
-    const popup = document.getElementById("emailPopup");
-    if (popup) {
-        popup.style.display = "none"; // Hide the popup
-    } else {
-        console.error("Popup not found when trying to close it!");
-    }
-}
-
+  // Close the popup
+  function closePopup() {
+    document.getElementById("emailPopup").style.display = "none";
+  }
   
   async function submitEmail(event) {
     event.preventDefault();
