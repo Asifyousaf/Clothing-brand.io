@@ -66,50 +66,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 });
+// Show the popup when the page loads
 window.onload = function() {
-    const subscribed = localStorage.getItem("subscribed");
-    const canceledTimestamp = localStorage.getItem("canceled");
+    setTimeout(function() {
+      document.getElementById("emailPopup").style.display = "block";
+    }, 4000); // Show after 3 seconds
+  }
   
-    // If user hasn't subscribed and hasn't canceled within the last 24 hours
-    if (!subscribed && (!canceledTimestamp || Date.now() - canceledTimestamp > 24 * 60 * 60 * 1000)) {
-      setTimeout(function() {
-        document.getElementById("emailPopup").classList.add('show');
-        document.getElementById("emailPopup").classList.remove('hidden');
-      }, 4000); // Show after 4 seconds
-    }
-  };
-  
+  // Close the popup
   function closePopup() {
-    document.getElementById("emailPopup").classList.add('hidden');
-    document.getElementById("emailPopup").classList.remove('show');
+    document.getElementById("emailPopup").style.display = "none";
   }
   
-  async function submitEmail(event) {
-    event.preventDefault();
-    const email = event.target.email.value;
-  
-    if (!email) {
-      alert("Please enter a valid email.");
-      return;
-    }
-  
-    try {
-      const response = await fetch('/api/update-stock', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-  
-      if (response.ok) {
-        localStorage.setItem("subscribed", "true");
-        closePopup();
-        alert("Thanks for subscribing!");
-        event.target.reset();
-      } else {
-        alert("There was an error. Please try again.");
-      }
-    } catch (error) {
-      alert("There was an error. Please try again.");
-    }
+ window.onload = function() {
+  if (!localStorage.getItem("subscribed")) {
+    setTimeout(function() {
+      document.getElementById("emailPopup").style.display = "block";
+    }, 4000);
   }
-  
+}
+
+async function submitEmail(event) {
+  event.preventDefault();
+  const email = event.target.email.value;
+
+  if (!email) {
+    alert("Please enter a valid email.");
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/update-stock', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      localStorage.setItem("subscribed", "true");
+      showCustomAlert();
+      closePopup();
+      event.target.reset();
+    } else {
+      alert("There was an error. Please try again later.");
+    }
+  } catch (error) {
+    alert("There was an error. Please try again later.");
+  }
+}
