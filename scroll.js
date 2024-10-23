@@ -66,47 +66,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 });
-// Show the popup when the page loads
 window.onload = function() {
-    setTimeout(function() {
-      document.getElementById("emailPopup").style.display = "block";
-    }, 4000); // Show after 3 seconds
-  }
+    const subscribed = localStorage.getItem("subscribed");
+    const canceledTimestamp = localStorage.getItem("canceled");
   
-  // Close the popup
+    // If user hasn't subscribed and hasn't canceled within the last 24 hours
+    if (!subscribed && (!canceledTimestamp || Date.now() - canceledTimestamp > 24 * 60 * 60 * 1000)) {
+      setTimeout(function() {
+        document.getElementById("emailPopup").classList.add('show');
+        document.getElementById("emailPopup").classList.remove('hidden');
+      }, 4000); // Show after 4 seconds
+    }
+  };
+  
   function closePopup() {
-    document.getElementById("emailPopup").style.display = "none";
+    document.getElementById("emailPopup").classList.add('hidden');
+    document.getElementById("emailPopup").classList.remove('show');
   }
   
   async function submitEmail(event) {
     event.preventDefault();
-
     const email = event.target.email.value;
-
+  
     if (!email) {
-        alert("Please enter a valid email.");
-        return;
+      alert("Please enter a valid email.");
+      return;
     }
-
+  
     try {
-        // Send a POST request to your backend API
-        const response = await fetch('/api/update-stock', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email }) // Include email in the request body
-        });
-
-        const result = await response.json();
-        if (response.ok) {
-            alert("Thanks for subscribing!");
-            closePopup();
-            event.target.reset();
-        } else {
-            console.error("Error:", result.error);
-            alert("There was an error. Please try again later.");
-        }
+      const response = await fetch('/api/update-stock', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+  
+      if (response.ok) {
+        localStorage.setItem("subscribed", "true");
+        closePopup();
+        alert("Thanks for subscribing!");
+        event.target.reset();
+      } else {
+        alert("There was an error. Please try again.");
+      }
     } catch (error) {
-        console.error("Error submitting email:", error);
-        alert("There was an error. Please try again later.");
+      alert("There was an error. Please try again.");
     }
-}
+  }
+  

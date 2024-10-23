@@ -202,7 +202,7 @@
                         <img src="img/emg/ShortsF(01Black).png" alt="Product 1" class="front">
                         <img src="img/emg/ShortsF(01Blue).png" alt="Product 1 Back" class="back">
                     </a>
-                    <p class="product-name">Product 1</p>
+                    <p class="product-name">Cybertronic shorts</p>
                     <span class="product-price">AED 120</span>
                 </div>
                 <!-- Add more products similarly -->
@@ -383,7 +383,7 @@
         </div>
     </div>
 <!-- Email Popup Form -->
-<div id="emailPopup" class="popup">
+<div id="emailPopup" class="popup hidden">
     <div class="popup-content">
       <span class="close" onclick="closePopup()">&times;</span>
       <h3>Subscribe to Our Newsletter</h3>
@@ -395,6 +395,7 @@
     </div>
   </div>
   
+  
     <!-- Footer Section -->
 
     <footer class="footer">
@@ -402,7 +403,11 @@
           <div class="row">
             <div class="footer-col">
               <h4>Cybertronic</h4>
-              <ul></ul>
+              <h3 id="txt1">Subscribe to Our Newsletter</h3>
+              <form id="footerEmailForm" onsubmit="submitEmail(event)">
+                <input type="email" id="footerEmail" name="email" required>
+                <button type="submit" id="subs">Subscribe</button>
+              </form>
             </div>
             <div class="footer-col">
               <h4>Quick Links</h4>

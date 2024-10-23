@@ -99,9 +99,9 @@
             <img src="img/emg/T-shirtF(01).png" alt="Preview 1" class="preview" onclick="changeImage('img/emg/T-shirtF(01).png')">
             <img src="img/emg/T-shirtB(01).png" alt="Preview 2" class="preview" onclick="changeImage('img/emg/T-shirtB(01).png')">
             <img src="img/emg/T-shirtZ(01).png" alt="Preview 3" class="preview" onclick="changeImage('img/emg/T-shirtZ(01).png')">
-            <img src="img/emg/T-shirtF(02).png" alt="Preview 1" class="preview" onclick="changeImage('img/emg/T-shirtF(01).png')">
-            <img src="img/emg/T-shirtB(02).png" alt="Preview 2" class="preview" onclick="changeImage('img/emg/T-shirtB(01).png')">
-            <img src="img/emg/T-shirtZ(02).png" alt="Preview 3" class="preview" onclick="changeImage('img/emg/T-shirtZ(01).png')">
+            <img src="img/emg/T-shirtF(02).png" alt="Preview 4" class="preview" onclick="changeImage('img/emg/T-shirtF(02).png')">
+            <img src="img/emg/T-shirtB(02).png" alt="Preview 5" class="preview" onclick="changeImage('img/emg/T-shirtB(02).png')">
+            <img src="img/emg/T-shirtZ(02).png" alt="Preview 6" class="preview" onclick="changeImage('img/emg/T-shirtZ(02).png')">
         </div>
     </div>
     
@@ -222,7 +222,11 @@
       <div class="row">
         <div class="footer-col">
           <h4>Cybertronic</h4>
-          <ul></ul>
+          <h3 id="txt1">Subscribe to Our Newsletter</h3>
+          <form id="footerEmailForm" onsubmit="submitEmail(event)">
+            <input type="email" id="footerEmail" name="email" required>
+            <button type="submit" id="subs">Subscribe</button>
+          </form>
         </div>
         <div class="footer-col">
           <h4>Quick Links</h4>
@@ -267,7 +271,12 @@
   <script src="https://js.stripe.com/v3/"></script>
   <script src="product.js"></script>
   <script>
-  
+  const productImageMapping = {
+      
+      black: 'img/emg/T-shirtF(01).png',
+      white: 'img/emg/T-shirtF(02).png'
+    };
+
   
   function updateStockAndOptions(product) {
       // Populate size options
