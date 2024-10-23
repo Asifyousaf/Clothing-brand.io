@@ -67,20 +67,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 // Show the popup when the page loads
+// Show the popup when the page loads
 window.onload = function() {
     setTimeout(function() {
-      document.getElementById("emailPopup").style.display = "block";
-    }, 4000); // Show after 3 seconds
-  }
-  
-  // Close the popup
-  function closePopup() {
+        const popup = document.getElementById("emailPopup");
+        if (popup) {
+            console.log("Popup found, displaying...");
+            popup.style.display = "block"; // Show the popup after 4 seconds
+        } else {
+            console.log("Popup not found!");
+        }
+    }, 4000); // Show after 4 seconds
+}
+
+// Close the popup
+function closePopup() {
     document.getElementById("emailPopup").style.display = "none";
-  }
-  
+}
+
 async function submitEmail(event) {
     event.preventDefault();
-
     const email = event.target.email.value;
 
     if (!email) {
@@ -89,20 +95,19 @@ async function submitEmail(event) {
     }
 
     try {
-        // Send a POST request to your backend API
-        const response = await fetch('/api/update-stock', {
+        const response = await fetch('/api/subscribe-email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
         });
 
         const result = await response.json();
+        
         if (response.ok) {
             alert("Thanks for subscribing!");
             closePopup();
             event.target.reset();
         } else {
-            console.error("Error:", result.error);
             alert("There was an error. Please try again later.");
         }
     } catch (error) {
@@ -110,5 +115,3 @@ async function submitEmail(event) {
         alert("There was an error. Please try again later.");
     }
 }
-
-  
