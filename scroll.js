@@ -67,30 +67,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 async function submitEmail(event) {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault(); // Prevent the default form submission
 
-    const email = document.getElementById('footerEmail').value; // Get email input
+    const email = document.getElementById('footerEmail').value; // Get the email from input field
 
     if (!email) {
-        alert("Please enter a valid email."); // Validate email
+        alert("Please enter a valid email."); // Validate if email is not empty
         return;
     }
 
     try {
-        // Send a POST request to your backend API (adjust the URL)
+        // Send a POST request to your email subscription API endpoint
         const response = await fetch('/api/subscribe-email', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({ email }) // Send the email to the backend
         });
 
         const result = await response.json();
-        
+
         if (response.ok) {
             alert("Thanks for subscribing!"); // Success message
-            document.getElementById('footerEmailForm').reset(); // Reset form
+            document.getElementById('footerEmailForm').reset(); // Clear the form
         } else {
-            console.error("Error:", result.error); // Log errors if any
+            console.error("Error:", result.error); // Log the error
             alert("There was an error. Please try again later.");
         }
     } catch (error) {
