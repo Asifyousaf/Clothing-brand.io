@@ -1954,6 +1954,7 @@ body {
   /* Popup container */
   /* Show Popup */
   /* Popup container */
+  /* Popup container */
   .popup {
     display: none;
     position: fixed;
@@ -1979,5 +1980,10 @@ body {
     cursor: pointer;
   }
   
+  
+  footer input[type="email"] {
+    padding: 10px;
+    margin-right: 10px;
+  }
 
   
