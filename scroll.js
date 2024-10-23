@@ -66,6 +66,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 });
+// Show the popup when the page loads
+window.onload = function() {
+    setTimeout(function() {
+      document.getElementById("emailPopup").style.display = "flex";
+    }, 4000); // Show after 3 seconds
+  }
+  
+function closePopup() {
+    const popup = document.getElementById("emailPopup");
+    if (popup) {
+        popup.style.display = "none"; // Hide the popup
+    } else {
+        console.error("Popup not found when trying to close it!");
+    }
+}
 
   
   async function submitEmail(event) {
