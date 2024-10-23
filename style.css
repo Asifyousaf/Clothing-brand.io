@@ -1951,145 +1951,30 @@ body {
     }
   }
   /* Popup Background */
-/* Popup Background */
-.popup {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  /* Popup container */
+  .popup {
+    display: none;
     position: fixed;
-    top: 0;
+    z-index: 1;
     left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-    z-index: 1000;
-    opacity: 0; /* Initially hidden */
-    pointer-events: none; /* Disable interactions when hidden */
-    transition: opacity 0.5s ease; /* Smooth opacity transition */
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
   }
   
-  /* Popup Content with Transition */
   .popup-content {
-    position: relative;
     background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    width: 400px;
-    max-width: 90%;
-    text-align: center;
-    font-family: 'Arial', sans-serif;
-  
-    /* Add initial transform and transition for scale effect */
-    transform: scale(0.8);
-    transition: transform 0.4s ease, opacity 0.4s ease;
-    opacity: 0; /* Start hidden */
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
   }
   
-  /* Close Button */
-  .popup-content .close {
-    position: absolute;
-    top: 10px; /* Positioned inside the popup */
-    right: 15px; /* Adjusted to keep it inside the content box */
-    font-size: 24px;
-    color: #333;
+  .close {
+    float: right;
+    font-size: 20px;
     cursor: pointer;
   }
   
-  /* Popup Header */
-  .popup-content h3 {
-    font-size: 24px;
-    color: #0000A8; /* Dark blue color */
-    margin-bottom: 20px;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  /* Label */
-  .popup-content label {
-    display: block;
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  /* Email Input Field */
-  .popup-content input[type="email"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  /* Submit Button */
-  .popup-content button {
-    width: 100%;
-    background-color: #0000A8; /* Dark blue button */
-    color: white;
-    border: none;
-    padding: 12px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: 'Arial', sans-serif;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Hover Effect for Button */
-  .popup-content button:hover {
-    background-color: #000077; /* Slightly darker on hover */
-  }
-  
-  /* Media Queries for Smaller Screens */
-  @media (max-width: 768px) {
-    .popup-content {
-      width: 90%; /* Make popup take more space on smaller screens */
-    }
-  
-    .popup-content .close {
-      top: 5px; /* Adjust positioning for smaller screens */
-      right: 10px;
-      font-size: 22px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .popup-content {
-      width: 95%; /* Maximize popup width on small screens */
-      padding: 20px;
-    }
-  
-    .popup-content .close {
-      top: 5px; /* Adjust position on smaller screens */
-      right: 8px;
-      font-size: 20px;
-    }
-  }
-  
-  /* Show Popup */
-  .popup.show {
-    opacity: 1; /* Make the popup visible */
-    pointer-events: auto; /* Enable interactions */
-    transition: opacity 0.5s ease;
-  }
-  
-  .popup.show .popup-content {
-    transform: scale(1); /* Scale up the popup */
-    opacity: 1; /* Make content visible */
-    transition: transform 0.4s ease, opacity 0.4s ease;
-  }
-  
-  /* Hide Popup */
-  .popup.hidden {
-    opacity: 0; /* Fade out */
-    pointer-events: none; /* Disable interactions when hidden */
-  }
-  
-  .popup.hidden .popup-content {
-    transform: scale(0.8); /* Scale down smoothly */
-    opacity: 0; /* Hide the content */
-  }
-  
+
