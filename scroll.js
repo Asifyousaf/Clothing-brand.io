@@ -93,6 +93,8 @@ async function submitEmail(event) {
             } else {
                 alert("Error: " + result.error);
             }
+        } else if (response.status === 409) { // Handle 'already subscribed' case
+            alert("You are already subscribed!");
         } else {
             const errorText = await response.text();
             alert(`Error: ${response.status} - ${response.statusText}\n${errorText}`);
