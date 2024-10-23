@@ -8,6 +8,7 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const endpointSecret = 'whsec_jpk9R320UxDDfTM28wFdxpAIHkEo3pJ4'; // Your webhook signing secret
+
 const server = http.createServer((req, res) => {
     if (req.method === 'POST' && req.url === '/api/update-stock') {
         let body = '';
@@ -17,26 +18,6 @@ const server = http.createServer((req, res) => {
         });
 
         req.on('end', async () => {
-            // Parse the request body
-            const requestBody = JSON.parse(body);
-
-            // If it's an email subscription request (no Stripe signature header)
-            if (requestBody.email) {
-                try {
-                    await addEmailToSupabase(requestBody.email);
-                    console.log('Email added to Supabase successfully.');
-
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ success: true }));
-                } catch (err) {
-                    console.error('Error adding email to Supabase:', err.message);
-                    res.writeHead(500, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ error: 'Error adding email to Supabase' }));
-                }
-                return; // Exit early since it's an email subscription
-            }
-
-            // This part will handle Stripe webhook requests with the signature validation
             const signature = req.headers['stripe-signature'];
 
             let event;
@@ -71,12 +52,31 @@ const server = http.createServer((req, res) => {
                 res.end(JSON.stringify({ error: 'Unhandled event type' }));
             }
         });
+    } else if (req.method === 'POST' && req.url === '/api/subscribe-email') { // New route for email subscription
+        let body = '';
+
+        req.on('data', chunk => {
+            body += chunk;
+        });
+
+        req.on('end', async () => {
+            const { email } = JSON.parse(body);
+
+            try {
+                await addEmailToSupabase(email);
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ success: true }));
+            } catch (err) {
+                console.error('Error saving email:', err.message);
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Error saving email' }));
+            }
+        });
     } else {
         res.writeHead(405, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: `Method ${req.method} Not Allowed` }));
     }
 });
-
 
 // Function to insert the email into the Supabase database
 async function addEmailToSupabase(email) {
@@ -85,10 +85,11 @@ async function addEmailToSupabase(email) {
       .insert([{ email }]); // Insert the email
     
     if (error) {
-      throw error; // Handle errors
+        throw error; // Handle errors
     }
     return data;
-  }
+}
+
 // Function to update stock in Supabase
 async function updateStockInSupabase(cartItems) {
     try {

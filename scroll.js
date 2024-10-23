@@ -66,43 +66,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 });
-// Show the popup when the page loads
-window.onload = function() {
-    setTimeout(function() {
-      document.getElementById("emailPopup").style.display = "flex";
-    }, 4000); // Show after 3 seconds
-  }
-  
-  // Close the popup
-  function closePopup() {
-    document.getElementById("emailPopup").style.display = "none";
-  }
-  
-  async function submitEmail(event) {
-    event.preventDefault();
+async function submitEmail(event) {
+    event.preventDefault(); // Prevent default form submission
 
-    const email = event.target.email.value;
+    const email = document.getElementById('footerEmail').value; // Get email input
 
     if (!email) {
-        alert("Please enter a valid email.");
+        alert("Please enter a valid email."); // Validate email
         return;
     }
 
     try {
-        // Send a POST request to your backend API
-        const response = await fetch('/api/update-stock', {
+        // Send a POST request to your backend API (adjust the URL)
+        const response = await fetch('/api/subscribe-email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email }) // Include email in the request body
+            body: JSON.stringify({ email }) // Send the email to the backend
         });
 
         const result = await response.json();
+        
         if (response.ok) {
-            alert("Thanks for subscribing!");
-            closePopup();
-            event.target.reset();
+            alert("Thanks for subscribing!"); // Success message
+            document.getElementById('footerEmailForm').reset(); // Reset form
         } else {
-            console.error("Error:", result.error);
+            console.error("Error:", result.error); // Log errors if any
+            alert("There was an error. Please try again later.");
         }
     } catch (error) {
         console.error("Error submitting email:", error);
