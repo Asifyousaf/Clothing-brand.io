@@ -100,6 +100,7 @@
         
         <!-- Preview images section -->
         <div class="preview-images">
+            <img src="img/emg/ShortsF(01Black).png" alt="Preview 2" class="preview" onclick="changeImage('img/emg/ShortsF(01Black).png')">
             <img src="img/emg/ShortsB(01Black).png" alt="Preview 2" class="preview" onclick="changeImage('img/emg/ShortsB(01Black).png')">
             <img src="img/emg/ShortsF(01Blue).png" alt="Preview 2" class="preview" onclick="changeImage('img/emg/ShortsF(01Blue).png')">
             <img src="img/emg/ShortsB(01Blue).png" alt="Preview 2" class="preview" onclick="changeImage('img/emg/ShortsB(01Blue).png')">
@@ -117,9 +118,8 @@
         
         <div class="product-options">
             <label for="color">Color:</label>
-            <select id="color" onchange="changeProductImage()">
-                <option value="Black" data-image="img/emg/ShortsF(01Black).png">Black</option>
-                <option value="Blue" data-image="img/emg/ShortsF(01Blue).png">Blue</option>
+            <select id="color">
+
             </select>
             
         </div>
@@ -379,18 +379,7 @@ function changeImage(imageSrc) {
     document.getElementById('main-product-image').src = imageSrc;
 }
 
-function changeProductImage() {
-    // Get the selected color option
-    var colorSelect = document.getElementById("color");
-    var selectedOption = colorSelect.options[colorSelect.selectedIndex];
 
-    // Get the image URL from the data-image attribute of the selected option
-    var newImageUrl = selectedOption.getAttribute("data-image");
-
-    // Update the main product image source
-    var mainProductImage = document.getElementById("main-product-image");
-    mainProductImage.src = newImageUrl;
-}
 
 
 </script>
