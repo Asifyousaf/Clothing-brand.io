@@ -103,7 +103,6 @@ window.onload = function() {
             event.target.reset();
         } else {
             console.error("Error:", result.error);
-            alert("There was an error. Please try again later.");
         }
     } catch (error) {
         console.error("Error submitting email:", error);
