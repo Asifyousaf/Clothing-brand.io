@@ -78,27 +78,37 @@ window.onload = function() {
     document.getElementById("emailPopup").style.display = "none";
   }
   
-  // Function to handle email submission
   async function submitEmail(event) {
     event.preventDefault();
-  
+
     const email = event.target.email.value;
-  
-    // Validate the email input (basic validation)
+
     if (!email) {
-      alert("Please enter a valid email.");
-      return;
+        alert("Please enter a valid email.");
+        return;
     }
-  
-    // Add email to Supabase (this function needs to be implemented)
+
     try {
-      await addEmailToSupabase(email);
-      alert("Thanks for subscribing!");
-      closePopup();
-      event.target.reset(); // Clear the form
+        // Send a POST request to your backend API
+        const response = await fetch('/api/update-stock', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            alert("Thanks for subscribing!");
+            closePopup();
+            event.target.reset();
+        } else {
+            console.error("Error:", result.error);
+            alert("There was an error. Please try again later.");
+        }
     } catch (error) {
-      console.error("Error submitting email:", error);
-      alert("There was an error. Please try again later.");
+        console.error("Error submitting email:", error);
+        alert("There was an error. Please try again later.");
     }
-  }
+}
+
   
