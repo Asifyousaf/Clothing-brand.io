@@ -95,7 +95,7 @@ async function submitEmail(event) {
     }
 
     try {
-        const response = await fetch('/api/subscribe-email', {
+        const response = await fetch('/api/email-subscription', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
