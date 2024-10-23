@@ -8,7 +8,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 
 const server = http.createServer((req, res) => {
-    if (req.method === 'POST' && req.url === '/api/subscribe-email') {
+    if (req.method === 'POST' && req.url === '/api/email-subscription') {
         let body = '';
 
         req.on('data', chunk => {
