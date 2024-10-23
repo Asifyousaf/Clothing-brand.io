@@ -66,17 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 });
-// Show the popup when the page loads
-window.onload = function() {
-    setTimeout(function() {
-      document.getElementById("emailPopup").style.display = "block";
-    }, 4000); // Show after 3 seconds
-  }
-  
-  // Close the popup
-  function closePopup() {
-    document.getElementById("emailPopup").style.display = "none";
-  }
+
   
   async function submitEmail(event) {
     event.preventDefault();
