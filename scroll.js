@@ -72,7 +72,7 @@ async function submitEmail(event) {
     const email = document.getElementById('footerEmail').value;
 
     if (!email) {
-        alert("Please enter a valid email.");
+        showAlert("Please enter a valid email."); // Custom alert
         return;
     }
 
@@ -88,19 +88,31 @@ async function submitEmail(event) {
         if (response.ok) {
             const result = await response.json();
             if (result.success) {
-                alert("Thanks for subscribing!");
+                showAlert("Thanks for subscribing!"); // Custom success alert
                 document.getElementById('footerEmailForm').reset(); // Clear the form
             } else {
-                alert("Error: " + result.error);
+                showAlert("Error: " + result.error); // Custom error alert
             }
-        } else if (response.status === 409) { // Handle 'already subscribed' case
-            alert("You are already subscribed!");
+        } else if (response.status === 409) {
+            showAlert("You are already subscribed!"); // Custom 'already subscribed' alert
         } else {
             const errorText = await response.text();
-            alert(`Error: ${response.status} - ${response.statusText}\n${errorText}`);
+            showAlert(`Error: ${response.status} - ${response.statusText}\n${errorText}`);
         }
     } catch (error) {
         console.error("Error submitting email:", error);
-        alert("There was an error. Please try again later.");
+        showAlert("There was an error. Please try again later.");
     }
+}
+
+function showAlert(message) {
+    const alertBox = document.getElementById('customAlert');
+    const alertMessage = document.getElementById('alertMessage');
+    
+    alertMessage.innerText = message; // Set the alert message
+    alertBox.classList.remove('hidden'); // Show the alert box
+}
+
+function closeAlert() {
+    document.getElementById('customAlert').classList.add('hidden'); // Hide the alert box
 }
