@@ -78,41 +78,37 @@ window.onload = function() {
     document.getElementById("emailPopup").style.display = "none";
   }
   
-  window.onload = function() {
-    if (!localStorage.getItem("subscribed")) {
-      setTimeout(function() {
-        document.getElementById("emailPopup").style.display = "block";
-      }, 4000);
-    }
-  }
-  
-  async function submitEmail(event) {
+async function submitEmail(event) {
     event.preventDefault();
+
     const email = event.target.email.value;
-  
+
     if (!email) {
-      alert("Please enter a valid email.");
-      return;
+        alert("Please enter a valid email.");
+        return;
     }
-  
+
     try {
-      const response = await fetch('/api/update-stock', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-  
-      const result = await response.json();
-      if (response.ok) {
-        localStorage.setItem("subscribed", "true");
-        showCustomAlert();
-        closePopup();
-        event.target.reset();
-      } else {
-        alert("There was an error. Please try again later.");
-      }
+        // Send a POST request to your backend API
+        const response = await fetch('/api/update-stock', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            alert("Thanks for subscribing!");
+            closePopup();
+            event.target.reset();
+        } else {
+            console.error("Error:", result.error);
+            alert("There was an error. Please try again later.");
+        }
     } catch (error) {
-      alert("There was an error. Please try again later.");
+        console.error("Error submitting email:", error);
+        alert("There was an error. Please try again later.");
     }
-  }
+}
+
   
