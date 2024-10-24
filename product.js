@@ -178,7 +178,8 @@ function updateCart() {
         itemDiv.appendChild(removeBtn);
 
         cartItemsContainer.appendChild(itemDiv);
-        total += item.price * item.quantity;
+        totalPrice += item.price.toFixed(2); // Example line that might be causing the error
+
     });
 
     document.getElementById('cart-total-price').innerText = `AED ${total.toFixed(2)}`;
