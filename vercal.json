@@ -10,23 +10,23 @@
 
       {
         "source": "/yu-gi-oh-long-sleeve",
-        "destination": "/PRODUCT.html"
+        "destination": "/Product.html"
       },
       {
         "source": "/cybertronic-socks",
-        "destination": "/PRODUCT1.html"
+        "destination": "/Product1.html"
       },
       {
         "source": "/two-side-effect-t-shirt",
-        "destination": "/PRODUCT2.html"
+        "destination": "/Product2.html"
       },
       {
         "source": "/bidun-tamat-sweatpants",
-        "destination": "/PRODUCT3.html"
+        "destination": "/Product3.html"
       },
       {
         "source": "/cybertronic-shorts",
-        "destination": "/PRODUCT4.html"
+        "destination": "/Product4.html"
       },
       {
         "source": "/policy",
