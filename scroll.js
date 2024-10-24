@@ -116,3 +116,31 @@ function showAlert(message) {
 function closeAlert() {
     document.getElementById('customAlert').classList.add('hidden'); // Hide the alert box
 }
+
+// Open the modal and display the clicked image
+function openModal(imageSrc) {
+    var modal = document.getElementById("imageModal");
+    var modalImage = document.getElementById("modalImage");
+    modal.style.display = "block";
+    modalImage.src = imageSrc; // Set the clicked image as the modal image
+
+    // For mobile, close the modal on clicking the image after zoom
+    if (window.innerWidth <= 768) {  // Check if it's a mobile device
+        modalImage.addEventListener('click', closeModal);  // Close modal on image click
+    }
+}
+
+// Close the modal
+function closeModal() {
+    var modal = document.getElementById("imageModal");
+    modal.style.display = "none";
+    
+    // Remove the click event to avoid closing immediately on desktop
+    var modalImage = document.getElementById("modalImage");
+    modalImage.removeEventListener('click', closeModal);  // Remove listener after closing
+}
+
+// Add event listener for image click (on desktop and mobile)
+document.getElementById('main-product-image').addEventListener('click', function() {
+    openModal(this.src); // Open the clicked image in modal
+});

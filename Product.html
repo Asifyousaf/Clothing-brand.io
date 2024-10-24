@@ -96,15 +96,20 @@
 <div class="product-page-container" data-product-id="25">
     <div class="product-image-section">
         <!-- Main product image -->
-        <img src="img/emg/Fsleeves-F(01).png" alt="Product Image" class="product-image" id="main-product-image">
+        <img src="img/emg/Fsleeves-F(01).png" alt="Product Image" class="product-image zoomable" id="main-product-image">
         
         <!-- Preview images section -->
         <div class="preview-images">
             <img src="img/emg/Fsleeves-F(01).png" alt="Preview 1" class="preview" onclick="changeImage('img/emg/Fsleeves-F(01).png')">
-            <img src="img/emg/Fsleeves-B(01).png" alt="Preview 2" class="preview" onclick="changeImage('img/Fsleeves-B(01).jpeg')">
+            <img src="img/emg/Fsleeves-B(01).png" alt="Preview 2" class="preview" onclick="changeImage('img/emg/Fsleeves-B(01).png')">
         </div>
     </div>
-    
+     
+    <!-- Modal for zoomed image -->
+    <div id="imageModal" class="image-modal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <img class="modal-content zoomable" id="modalImage">
+    </div>
     <div class="product-details-section">
         <h1 id="product-name">Yu Gi Oh! long sleeve</h1>
         <p id="product-description">A black long-sleeve tee with fiery central flames and bold green ogre faces on the sleeves, perfect for standout streetwear style..</p>
@@ -152,51 +157,100 @@
     </div>
 </div>
 <!-- You May Like Section -->
-<div class="clothing-container">
-    <h1>New Arrival</h1>
-      <!-- Grid layout for larger screens -->
-      <div class="clothing-grid" id="clothingGrid">
-        <!-- Product 1 -->
-        <div class="item">
-            <div class="fade-bg"></div>
-            <a href="Product.html" class="image-container">
-                <img src="img/emg/Fsleeves-F(01).png" alt="Product 1" class="front">
-                <img src="img/emg/Fsleeves-B(01).png" alt="Product 1 Back" class="back">
-            </a>
-            <p class="product-name">Inferno Beast Longsleeve</p>
-            <span class="product-price">AED 100 </span>
+<div class="you-may-like">
+    <div class="clothing-container">
+          <!-- Grid layout for larger screens -->
+           <!-- Grid layout for larger screens -->
+           <div class="clothing-grid" id="clothingGrid">
+            <!-- Product 1 -->
+            <div class="item">
+                <div class="fade-bg"></div>
+                <a href="Product.html" class="image-container">
+                    <img src="img/emg/Fsleeves-Full(01).png" alt="Product 1" class="front" style="height: 500px;
+                    transform: translateY(-10%);">
+                    <img src="img/emg/Fsleeves-B(01).png" alt="Product 1 Back" class="back">
+                </a>
+                <p class="product-name">Yu Gi Oh! long sleeve</p>
+                <span class="product-price">AED 369 </span>
+            </div>
+             <!-- Product 1 -->
+            <div class="item">
+                <div class="fade-bg"></div>
+                <a href="Product2.html" class="image-container">
+                    <img src="img/emg/T-shirtZ(01).png" alt="Product 1" class="front">
+                    <img src="img/emg/T-shirtF(01).png" alt="Product 1 Back" class="back">
+                </a>
+                <p class="product-name">Two side effect T-shirt</p>
+                <span class="product-price">AED 123</span>
+            </div>
+             <!-- Product 1 -->
+            <div class="item">
+                <div class="fade-bg"></div>
+                <a href="Product3.html" class="image-container">
+                    <img src="img/emg/Trousers-Z(01).png" alt="Product 1" class="front">
+                    <img src="img/emg/Trousers-M(01).png" alt="Product 1 Back" class="back">
+                </a>
+                <p class="product-name">Bidun tamat Sweatpants</p>
+                <span class="product-price">AED 423</span>
+            </div>
+             <!-- Product 1 -->
+            <div class="item">
+                <div class="fade-bg"></div>
+                <a href="Product4.html" class="image-container">
+                    <img src="img/emg/ShortsF(01Black).png" alt="Product 1" class="front">
+                    <img src="img/emg/ShortsF(01Blue).png" alt="Product 1 Back" class="back">
+                </a>
+                <p class="product-name">Cybertronic shorts</p>
+                <span class="product-price">AED 179</span>
+            </div>
+            <!-- Add more products similarly -->
+            <!-- Add more products similarly -->
         </div>
-         <!-- Product 1 -->
-        <div class="item">
-            <div class="fade-bg"></div>
-            <a href="Product2.html" class="image-container">
-                <img src="img/emg/T-shirtZ(01).png" alt="Product 1" class="front">
-                <img src="img/emg/T-shirtF(01).png" alt="Product 1 Back" class="back">
-            </a>
-            <p class="product-name">Double-Face tee</p>
-            <span class="product-price">AED 200</span>
+         <!-- Slider layout for smaller screens -->
+         <div class="clothing-slider-wrapper" id="clothingSlider">
+            <button class="slider-arrow left-arrow" onclick="slideLeft()">&#10094;</button>
+            <div class="clothing-grid-slider" id="sliderGrid">
+                <!-- Product 1 -->
+                <div class="item">
+                    <div class="fade-bg"></div>
+                <a href="Product.html" class="image-container">
+                    <img src="img/emg/Fsleeves-Full(01).png" alt="Product 1" class="front">
+                    <img src="img/emg/Fsleeves-B(01).png" alt="Product 1 Back" class="back">
+                </a>
+                <p class="product-name">Yu Gi Oh! long sleeve</p>
+                <span class="product-price">AED 369 </span>
+                </div>
+                <div class="item">
+                    <div class="fade-bg"></div>
+                    <a href="Product3.html" class="image-container">
+                        <img src="img/emg/Trousers-Z(01).png" alt="Product 1" class="front">
+                        <img src="img/emg/Trousers-M(01).png" alt="Product 1 Back" class="back">
+                    </a>
+                    <p class="product-name">Bidun tamat Sweatpants</p>
+                    <span class="product-price">AED 423</span>
+                </div>
+                <div class="item">
+                    <div class="fade-bg"></div>
+                    <a href="Product2.html" class="image-container">
+                        <img src="img/emg/T-shirtZ(01).png" alt="Product 1" class="front">
+                        <img src="img/emg/T-shirtF(01).png" alt="Product 1 Back" class="back">
+                    </a>
+                    <p class="product-name">Two side effect T-shir</p>
+                    <span class="product-price">AED 123</span>
+                </div>
+                <div class="item">
+                    <div class="fade-bg"></div>
+                    <a href="Product4.html" class="image-container">
+                        <img src="img/emg/ShortsF(01Black).png" alt="Product 1" class="front">
+                        <img src="img/emg/ShortsF(01Blue).png" alt="Product 1 Back" class="back">
+                    </a>
+                    <p class="product-name">Cybertronic shorts</p>
+                    <span class="product-price">AED 179</span>
+                </div>
+                <!-- Add more products similarly -->
+            </div>
+            <button class="slider-arrow right-arrow" onclick="slideRight()">&#10095;</button>
         </div>
-         <!-- Product 1 -->
-        <div class="item">
-            <div class="fade-bg"></div>
-            <a href="Product3.html" class="image-container">
-                <img src="img/emg/Trousers-Z(01).png" alt="Product 1" class="front">
-                <img src="img/emg/Trousers-M(01).png" alt="Product 1 Back" class="back">
-            </a>
-            <p class="product-name">Bleedskin Trouser</p>
-            <span class="product-price">AED 109</span>
-        </div>
-         <!-- Product 1 -->
-        <div class="item">
-            <div class="fade-bg"></div>
-            <a href="Product.html" class="image-container">
-                <img src="https://via.placeholder.com/280x300" alt="Product 1" class="front">
-                <img src="https://via.placeholder.com/280x300" alt="Product 1 Back" class="back">
-            </a>
-            <p class="product-name">Product 1</p>
-            <span class="product-price">AED 10</span>
-        </div>
-        <!-- Add more products similarly -->
     </div>
 </div>
 <div id="cart-popup-wrapper" class="cart-popup-wrapper" onclick="closeCartOnClickOutside(event)">
@@ -220,6 +274,12 @@
             </div>
         </div>
     </div>
+</div>
+  
+  <!-- Custom Alert Modal -->
+  <div id="customAlert" class="custom-alert hidden">
+    <p id="alertMessage"></p>
+    <button onclick="closeAlert()" class="alert-button">OK</button>
 </div>
 
 <!-- Footer Section -->

@@ -1888,6 +1888,66 @@ body {
 .terms-and-conditions-link:hover {
     text-decoration: underline;
 }
+/* Modal container for the zoomed image */
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000; /* High z-index to make sure it's above everything else */
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Dark background */
+    overflow: hidden; /* Prevent the modal from expanding beyond the screen */
+}
+
+/* Modal image */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    transition: transform 0.3s ease;
+}
+
+/* Zoom on hover in the modal */
+.modal-content.zoomable:hover {
+    transform: scale(1.5); /* Zoom on hover */
+    transition: transform 0.5s ease;
+    cursor: zoom-in;
+}
+
+/* Close button for the modal */
+.close-modal {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 2000; /* Ensures it's always on top, even during zoom */
+    background-color: rgba(0, 0, 0, 0.5); /* Slight background to improve visibility */
+    padding: 10px;
+    border-radius: 50%; /* Makes it a circle button */
+}
+
+/* Ensure zoom works on mobile pinch gestures */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 100%;
+        height: auto;
+        touch-action: pinch-zoom;
+    }
+
+    /* Adjust the close button for smaller screens */
+    .close-modal {
+        font-size: 30px;
+        top: 10px;
+        right: 10px;
+    }
+}
 
 /* Cart popup wrapper covers the entire screen */
 .cart-popup-wrapper {
