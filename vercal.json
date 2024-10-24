@@ -46,7 +46,7 @@
     },
     { 
       "source": "/(.*)", 
-      "destination": "/$1.html" 
+      "destination": "/$1" 
     }
   ]
 }
