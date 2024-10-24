@@ -1,52 +1,59 @@
 {
-  "rewrites": [
+  "redirects": [
     {
       "source": "/yu-gi-oh-long-sleeve",
-      "destination": "/Product.html"
+      "destination": "/Product.html",
+      "statusCode": 308
     },
     {
       "source": "/cybertronic-socks",
-      "destination": "/Product1.html"
+      "destination": "/Product1.html",
+      "statusCode": 308
     },
     {
       "source": "/two-side-effect-t-shirt",
-      "destination": "/Product2.html"
+      "destination": "/Product2.html",
+      "statusCode": 308
     },
     {
       "source": "/bidun-tamat-sweatpants",
-      "destination": "/Product3.html"
+      "destination": "/Product3.html",
+      "statusCode": 308
     },
     {
       "source": "/cybertronic-shorts",
-      "destination": "/Product4.html"
+      "destination": "/Product4.html",
+      "statusCode": 308
     },
     {
       "source": "/policy",
-      "destination": "/policy.html"
+      "destination": "/policy.html",
+      "statusCode": 308
     },
     {
       "source": "/clothing",
-      "destination": "/clothing.html"
+      "destination": "/clothing.html",
+      "statusCode": 308
     },
     {
       "source": "/collection",
-      "destination": "/collection.html"
+      "destination": "/collection.html",
+      "statusCode": 308
     },
     {
       "source": "/about",
-      "destination": "/about.html"
+      "destination": "/about.html",
+      "statusCode": 308
     },
     {
       "source": "/success",
-      "destination": "/success.html"
+      "destination": "/success.html",
+      "statusCode": 308
     },
     {
       "source": "/",
-      "destination": "/index.html"
-    },
-    { 
-      "source": "/(.*)", 
-      "destination": "/$1" 
+      "destination": "/index.html",
+      "statusCode": 308
     }
   ]
 }
