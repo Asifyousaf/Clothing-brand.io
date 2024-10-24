@@ -1,3 +1,13 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/yu-gi-oh-long-sleeve",
+      "destination": "/Product.html"
+    },
+    {
+      "source": "/cybertronic-socks",
+      "destination": "/Product1.html"
+    }
+  ]
 }
