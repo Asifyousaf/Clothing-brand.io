@@ -44,5 +44,12 @@
       "source": "/",
       "destination": "/index.html"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/:path(.*).html",
+      "destination": "/:path",
+      "permanent": true
+    }
   ]
 }
