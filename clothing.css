@@ -191,11 +191,10 @@ select::-ms-expand {
 /* Ensure text is above the fade effect */
 .item p,
 .item span {
-    margin: 5px 0 0 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
     font-family: 'PixelFont', sans-serif;
-    font-size: 1.1em;
-    color: rgb(255, 255, 255);
+    font-size: 1em;
+    color: #333;
+    margin: 10px 0;
     z-index: 1;
     position: relative;
 }
