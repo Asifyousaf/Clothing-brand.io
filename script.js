@@ -131,7 +131,8 @@ function updatePriceAndStockDisplay(product) {
 
     // Update price
     const price = product.prices[selectedSize][selectedColor];
-    document.getElementById('product-price').innerText = `AED${price.toFixed(2)}`;
+    document.getElementById('product-price').innerText = `AED ${price.toFixed(2)}`;
+
 
     // Update stock info
     const stock = product.stock[selectedSize][selectedColor];
