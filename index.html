@@ -58,7 +58,7 @@
     </div>
 </div>
 <body>
-
+    <main>
     <div id="cart-popup-wrapper" class="cart-popup-wrapper" onclick="closeCartOnClickOutside(event)">
     <div id="cart-popup" class="cart-popup">
         <div class="cart-popup-content">
@@ -254,12 +254,7 @@
                 </div>
                 <button class="slider-arrow right-arrow" onclick="slideRight()">&#10095;</button>
             </div>
-            
         </div>
-        
-        
-        
-        
         
         
         
@@ -395,7 +390,7 @@
 </div>
 
     <!-- Footer Section -->
-
+</main>
     <footer class="footer">
         <div class="containerf">
           <div class="row">
@@ -403,10 +398,11 @@
                 <h4>Cybertronic</h4>
                 <h3 id="txt1">Subscribe to Our Newsletter</h3>
                 <form id="footerEmailForm" onsubmit="submitEmail(event)">
-                    <input type="email" id="footerEmail" name="email" required>
-                    <button type="submit" id="subs">Subscribe</button>
+                  <input type="email" id="footerEmail" name="footerEmail" placeholder="Enter your email" aria-label="Subscribe to our newsletter" required />
+                  <button type="submit" id="subs">Subscribe</button>
                 </form>
-            </div>
+              </div>
+              
             <div class="footer-col">
               <h4>Quick Links</h4>
               <ul>
