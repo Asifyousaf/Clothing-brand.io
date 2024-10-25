@@ -123,7 +123,7 @@ async function addToCart(productId) {
             productId: productId,
             name: product.name,
             price: product.prices[size][color],
-            quantity: 1,
+            quantity: 1,    
             size: size,
             color: color,
             image: selectedImage
