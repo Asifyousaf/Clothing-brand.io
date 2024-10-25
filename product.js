@@ -90,7 +90,7 @@ function updatePrice(product) {
         addToCartBtn.innerText = stock > 0 ? 'Add to Cart' : 'Sold Out';
         addToCartBtn.disabled = stock <= 0; // Disable button if out of stock
     } else {
-        priceDisplay.innerText = "$0.00";
+        priceDisplay.innerText = "AED 0.00";
         stockInfo.innerText = "N/A";
         addToCartBtn.innerText = 'Sold Out';
         addToCartBtn.disabled = true;
