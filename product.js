@@ -84,7 +84,8 @@ function updatePrice(product) {
         const price = sizePrices[selectedColor];
         const stock = sizeStock[selectedColor];
 
-        priceDisplay.innerText = `$${price.toFixed(2)}`;
+        priceDisplay.innerText = `AED ${price.toFixed(2)}`;
+
         stockInfo.innerText = stock;
 
         addToCartBtn.innerText = stock > 0 ? 'Add to Cart' : 'Sold Out';
