@@ -1,10 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    setTimeout(() => {
-        window.location.href = href; // Navigate to the link after delay
-    }, 2000); // Adjust this time to match your preference
-    
-
     document.addEventListener('DOMContentLoaded', function () {
         const loadingScreen = document.getElementById('loadingScreen');
         
@@ -143,4 +138,34 @@ function closeModal() {
 // Add event listener for image click (on desktop and mobile)
 document.getElementById('main-product-image').addEventListener('click', function() {
     openModal(this.src); // Open the clicked image in modal
+});
+function openSizeChart() {
+    document.getElementById("sizeChartModal").style.display = "flex";
+}
+
+function closeSizeChart() {
+    document.getElementById("sizeChartModal").style.display = "none";
+}
+
+// Close the modal if the user clicks outside the table container
+window.onclick = function(event) {
+    const modal = document.getElementById("sizeChartModal");
+    const tableContainer = document.querySelector(".table-container");
+    if (event.target === modal && !tableContainer.contains(event.target)) {
+        modal.style.display = "none";
+    }
+};
+
+
+document.querySelectorAll('.collapsible').forEach(button => {
+    button.addEventListener('click', () => {
+        const content = button.nextElementSibling;
+
+        // Toggle the max height to create a smooth dropdown effect
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null; // Collapse
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px"; // Expand
+        }
+    });
 });

@@ -129,9 +129,80 @@
         </div>
         <button id="add-to-cart-btn" onclick="addToCart('33')">Add to Cart</button>
     </div>
-    
-
 </div>
+  <!-- Button for size chart guide -->
+    <!-- Modal for Fullscreen Size Chart -->
+    <div id="sizeChartModal" class="modal">
+        <span class="close-size-chart" onclick="closeSizeChart()">&times;</span>
+        <div class="table-container">
+            <table class="size-chart-table">
+                <thead>
+                    <tr>
+                        <th>Size</th>
+                        <th>Length (in)</th>
+                        <th>Chest Circumference (in)</th>
+                        <th>Shoulder Width (in)</th>
+                        <th>Sleeve Length (in)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>S</td>
+                        <td>27</td>
+                        <td>42</td>
+                        <td>20</td>
+                        <td>7.8</td>
+                    </tr>
+                    <tr>
+                        <td>M</td>
+                        <td>28</td>
+                        <td>44</td>
+                        <td>21</td>
+                        <td>8.5</td>
+                    </tr>
+                    <tr>
+                        <td>L</td>
+                        <td>29</td>
+                        <td>46</td>
+                        <td>23</td>
+                        <td>9</td>
+                    </tr>
+                    <tr>
+                        <td>XL</td>
+                        <td>30</td>
+                        <td>48</td>
+                        <td>24</td>
+                        <td>9.6</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</div>
+<!-- Button for Size Chart -->
+ <!-- Place this under the "Add to Cart" button -->
+<div class="collapsible-section">
+    <button id="size-chart-btn" onclick="openSizeChart()">Size Chart</button>
+    <button class="collapsible">Product Care</button>
+    <div class="content">
+        <p>Details about the product...</p>
+    </div>
+</div>
+<div class="collapsible-section">
+    <button class="collapsible">Size & Fit</button>
+    <div class="content">
+        <p>Size and fit information...</p>
+    </div>
+</div>
+
+<div class="collapsible-section">
+    <button class="collapsible">Material Information</button>
+    <div class="content">
+        <p>Care instructions and material composition...</p>
+    </div>
+</div>
+
  <!-- Announcement Bar -->
  <div class="textscroll">
     <div class="toptext" id="scrollingText">

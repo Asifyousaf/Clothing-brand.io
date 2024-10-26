@@ -223,7 +223,7 @@ html, body {
 .product-page-container {
     display: flex;
     gap: 20px;
-    padding: 120px;
+    padding: 90px;
     justify-content: center;
 }
 
