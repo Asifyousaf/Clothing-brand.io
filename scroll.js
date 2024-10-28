@@ -61,17 +61,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const handleScroll = () => {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
-            if (!logoText) {
-                logoText = document.createElement('span');
+            if (!document.querySelector('.logo-text')) {
                 logoText.classList.add('logo-text');
                 logoText.innerText = 'CyberTronic';
                 logoContainer.appendChild(logoText);
             }
-            logoText.style.opacity = '1'; // Fade in the logo text
         } else {
             navbar.classList.remove('scrolled');
-            if (logoText) {
-                logoText.style.opacity = '0'; // Fade out the logo text
+            if (document.querySelector('.logo-text')) {
+                document.querySelector('.logo-text').remove();
             }
         }
     };
