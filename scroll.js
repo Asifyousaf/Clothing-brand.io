@@ -27,38 +27,24 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Add this so that the loading screen disappears after a fixed time (if still showing)
+    // Loading screen timeout
     setTimeout(() => {
         loadingScreen.classList.add('hidden');
-    }, 2000); // This ensures the loading screen hides after 2 seconds if the page hasn't fully loaded yet
+    }, 2000); // Hides loading screen after 2 seconds
 
-    // Throttle function for scroll event
-    function throttle(func, limit) {
-        let lastFunc;
-        let lastRan;
-        return function () {
-            const context = this;
-            const args = arguments;
-            if (!lastRan) {
-                func.apply(context, args);
-                lastRan = Date.now();
-            } else {
-                clearTimeout(lastFunc);
-                lastFunc = setTimeout(function () {
-                    if ((Date.now() - lastRan) >= limit) {
-                        func.apply(context, args);
-                        lastRan = Date.now();
-                    }
-                }, limit - (Date.now() - lastRan));
-            }
+    function debounce(func, wait) {
+        let timeout;
+        return function (...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
         };
     }
 
-    const navbar = document.querySelector('.navbar');
-    const logoContainer = document.querySelector('.logo-center');
-    let logoText = document.querySelector('.logo-text');
+    const handleScroll = debounce(function () {
+        const navbar = document.querySelector('.navbar');
+        const logoContainer = document.querySelector('.logo-center');
+        const logoText = document.createElement('span');
 
-    const handleScroll = () => {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
             if (!document.querySelector('.logo-text')) {
@@ -72,10 +58,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.querySelector('.logo-text').remove();
             }
         }
-    };
-    
+    }, 10); // Adjust debounce delay as needed for smoother results
 
-    window.addEventListener('scroll', throttle(handleScroll, 100)); // Throttle to 100ms
+    window.addEventListener('scroll', handleScroll);
+
 });
 
 // Async function for email submission

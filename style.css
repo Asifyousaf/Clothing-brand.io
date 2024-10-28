@@ -13,7 +13,7 @@
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
-    background: url('img/peakpx.jpg') no-repeat center center fixed;
+    background: url('img/peakpx.webp') no-repeat center center fixed;
     background-size: cover;
 }
     /* -- splash screen -- */
@@ -1124,7 +1124,7 @@ img.full-sleeve {
         height: 60vh;
         background-size: cover;
         background-position: center;
-        background-image: url('img/cyberbanner.jpg');
+        background-image: url('img/cyberbanner.webp');
         display: flex;
         justify-content: center;
         align-items: center;
@@ -1380,7 +1380,7 @@ img.full-sleeve {
     .clothing-container1 {
         text-align: center;
         padding: 40px 20px;
-        background: url('img/peakpx.jpg') center/cover no-repeat; /* Add your background image here */
+        background: url('img/peakpx.webp') center/cover no-repeat; /* Add your background image here */
     }
 
     .clothing-container1 h1 {
