@@ -1,66 +1,86 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    const loadingScreen = document.getElementById('loadingScreen');
+    loadingScreen.style.display = 'none';  // Hidden by default
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const loadingScreen = document.getElementById('loadingScreen');
-        
-        // Initially hide the loading screen (will be shown when needed)
-        loadingScreen.style.display = 'none';  // Hidden by default
-        
-        // Exclude certain buttons from showing the loading screen
-        const excludeButtons = ['#cart-button', '.close-btn'];  // Customize exclusions
-    
-        // Function to show the loading screen (hourglass)
-        function showLoadingScreen() {
-            loadingScreen.classList.remove('hidden');
-            loadingScreen.style.display = 'flex';  // Show loading screen
-        }
-    
-        // Event listener for navigation links
-        document.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                const isExcluded = excludeButtons.some(selector => e.target.closest(selector));
-                if (!isExcluded) {
-                    e.preventDefault();  // Prevent instant navigation
-                    showLoadingScreen();  // Show loading screen (hourglass)
-                    const href = this.href;
-    
-                    // Simulate loading delay before navigating
-                    setTimeout(() => {
-                        window.location.href = href;
-                    }, 500);  // Adjust this time as necessary
-                }
-            });
+    const excludeButtons = ['#cart-button', '.close-btn'];  // Customize exclusions
+
+    // Function to show the loading screen (hourglass)
+    function showLoadingScreen() {
+        loadingScreen.classList.remove('hidden');
+        loadingScreen.style.display = 'flex';  // Show loading screen
+    }
+
+    // Event listener for navigation links
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function (e) {
+            const isExcluded = excludeButtons.some(selector => e.target.closest(selector));
+            if (!isExcluded) {
+                e.preventDefault();  // Prevent instant navigation
+                showLoadingScreen();  // Show loading screen (hourglass)
+                const href = this.href;
+
+                // Simulate loading delay before navigating
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 500);  // Adjust this time as necessary
+            }
         });
     });
-    
 
     // Add this so that the loading screen disappears after a fixed time (if still showing)
     setTimeout(() => {
-        document.getElementById('loadingScreen').classList.add('hidden');
+        loadingScreen.classList.add('hidden');
     }, 2000); // This ensures the loading screen hides after 2 seconds if the page hasn't fully loaded yet
 
-    window.addEventListener('scroll', function() {
-        const navbar = document.querySelector('.navbar');
-        const logoContainer = document.querySelector('.logo-center');
-        const logoText = document.createElement('span');
+    // Throttle function for scroll event
+    function throttle(func, limit) {
+        let lastFunc;
+        let lastRan;
+        return function () {
+            const context = this;
+            const args = arguments;
+            if (!lastRan) {
+                func.apply(context, args);
+                lastRan = Date.now();
+            } else {
+                clearTimeout(lastFunc);
+                lastFunc = setTimeout(function () {
+                    if ((Date.now() - lastRan) >= limit) {
+                        func.apply(context, args);
+                        lastRan = Date.now();
+                    }
+                }, limit - (Date.now() - lastRan));
+            }
+        };
+    }
+
+    const navbar = document.querySelector('.navbar');
+    const logoContainer = document.querySelector('.logo-center');
+    let logoText = document.querySelector('.logo-text');
+
+    const handleScroll = () => {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
-            if (!document.querySelector('.logo-text')) {
+            if (!logoText) {
+                logoText = document.createElement('span');
                 logoText.classList.add('logo-text');
                 logoText.innerText = 'CyberTronic';
                 logoContainer.appendChild(logoText);
+            } else {
+                logoText.style.display = 'inline'; // Show the logo text
             }
         } else {
             navbar.classList.remove('scrolled');
-            if (document.querySelector('.logo-text')) {
-                document.querySelector('.logo-text').remove();
+            if (logoText) {
+                logoText.style.display = 'none'; // Hide the logo text instead of removing
             }
         }
-    });
+    };
 
-
-
+    window.addEventListener('scroll', throttle(handleScroll, 100)); // Throttle to 100ms
 });
+
+// Async function for email submission
 async function submitEmail(event) {
     event.preventDefault();
 
@@ -100,6 +120,7 @@ async function submitEmail(event) {
     }
 }
 
+// Function to show custom alert
 function showAlert(message) {
     const alertBox = document.getElementById('customAlert');
     const alertMessage = document.getElementById('alertMessage');
@@ -108,6 +129,7 @@ function showAlert(message) {
     alertBox.classList.remove('hidden'); // Show the alert box
 }
 
+// Function to close the alert
 function closeAlert() {
     document.getElementById('customAlert').classList.add('hidden'); // Hide the alert box
 }
@@ -129,16 +151,18 @@ function openModal(imageSrc) {
 function closeModal() {
     var modal = document.getElementById("imageModal");
     modal.style.display = "none";
-    
+
     // Remove the click event to avoid closing immediately on desktop
     var modalImage = document.getElementById("modalImage");
     modalImage.removeEventListener('click', closeModal);  // Remove listener after closing
 }
 
 // Add event listener for image click (on desktop and mobile)
-document.getElementById('main-product-image').addEventListener('click', function() {
+document.getElementById('main-product-image').addEventListener('click', function () {
     openModal(this.src); // Open the clicked image in modal
 });
+
+// Functions for size chart modal
 function openSizeChart() {
     document.getElementById("sizeChartModal").style.display = "flex";
 }
@@ -148,7 +172,7 @@ function closeSizeChart() {
 }
 
 // Close the modal if the user clicks outside the table container
-window.onclick = function(event) {
+window.onclick = function (event) {
     const modal = document.getElementById("sizeChartModal");
     const tableContainer = document.querySelector(".table-container");
     if (event.target === modal && !tableContainer.contains(event.target)) {
@@ -156,7 +180,7 @@ window.onclick = function(event) {
     }
 };
 
-
+// Collapsible content functionality
 document.querySelectorAll('.collapsible').forEach(button => {
     button.addEventListener('click', () => {
         const content = button.nextElementSibling;
