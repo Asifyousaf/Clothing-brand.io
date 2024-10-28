@@ -1048,6 +1048,15 @@ body {
 .clothing-grid-slider::-webkit-scrollbar {
     display: none;  /* Chrome, Safari, and Opera */
 }
+img.full-sleeve {
+    width: 100% !important; /* Adjust width to make it smaller but maintain proportions */
+    max-height: 120% !important; /* Ensures it doesn't exceed container height */
+    object-fit: contain !important; /* Keeps the entire image visible */
+    transform: translateY(-10%) !important; /* Keeps the position unchanged */
+    height: 300px !important;
+}
+
+
 /* Responsive styles */
 @media (max-width: 1000px) {
     .item {
@@ -2195,14 +2204,14 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    color: darkblue; /* Text color */
+    color: darkblue; 
     border: 2px solid darkblue;
     padding: 20px;
     width: 300px;
     text-align: center;
     font-family: 'PixelFont';
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000; /* Make sure it's above everything */
+    z-index: 1000; 
     border-radius: 10px;
 }
 
@@ -2222,5 +2231,5 @@ body {
 }
 
 .alert-button:hover {
-    background-color: #000066; /* Darker blue on hover */
+    background-color: #000066; 
 }
