@@ -66,16 +66,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 logoText.classList.add('logo-text');
                 logoText.innerText = 'CyberTronic';
                 logoContainer.appendChild(logoText);
-            } else {
-                logoText.style.display = 'inline'; // Show the logo text
             }
+            logoText.style.opacity = '1'; // Fade in the logo text
         } else {
             navbar.classList.remove('scrolled');
             if (logoText) {
-                logoText.style.display = 'none'; // Hide the logo text instead of removing
+                logoText.style.opacity = '0'; // Fade out the logo text
             }
         }
     };
+    
 
     window.addEventListener('scroll', throttle(handleScroll, 100)); // Throttle to 100ms
 });
