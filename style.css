@@ -904,7 +904,7 @@ body {
 
     /* section 2  */
     .second-landing{
-        background-image: url('img/bg2.png'); /* BG1 Image */
+        background-image: url('img/bg2.webp'); /* BG1 Image */
         background-size: cover;
         background-position:center;
         padding-bottom: 20px;
