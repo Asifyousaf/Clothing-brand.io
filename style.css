@@ -235,6 +235,12 @@ body {
         position: relative;
         background-color: #0000A8; 
     }
+    .textscroll h4,
+    .textscroll2 h4 {
+        font-size: 2em; /* Adjust this size as needed */
+        font-weight: bold; /* Optional: matches typical h1 weight */
+    }
+    
     @font-face {
         font-family: 'PixelFont';
         src: url('Font/w95fa.woff') format('woff');
@@ -1093,7 +1099,7 @@ img.full-sleeve {
 .featured-products {
     text-align: center;
     background-position: center;
-    background-image: url('img/baannerart2.png');
+    background-image: url('img/baannerart2.webp');
     background-size: cover; /* Ensures the image covers the entire background */
     background-repeat: no-repeat; /* Prevents the image from repeating */
     width: 100vw; /* Full width of the viewport */
@@ -1151,7 +1157,7 @@ img.full-sleeve {
     }
 
     /* Text Styling */
-    .banner-text h1 {
+    .banner-text h2 {
         font-size: 3vw; /* Responsive text size based on viewport width */
         font-family: 'PixelFont', sans-serif;
         text-shadow: 2px 2px black; /* Text shadow for contrast */
@@ -1159,7 +1165,7 @@ img.full-sleeve {
         line-height: 1.2;
     }
     @media (max-width: 768px) {
-        .banner-text h1{
+        .banner-text h2{
             font-size: 40px;
         }
     }

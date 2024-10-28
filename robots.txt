@@ -1,0 +1,19 @@
+# Apply rules to all crawlers
+User-agent: *
+
+# Disallow indexing of product and policy pages
+Disallow: /Product.html
+Disallow: /Product2.html
+Disallow: /Product3.html
+Disallow: /Product4.html
+Disallow: /Product5.html
+Disallow: /policy.html
+
+# Allow important pages
+Allow: /index.html
+Allow: /clothing.html
+Allow: /collection.html
+Allow: /about.html
+
+# Sitemap location
+Sitemap: https://cybertronicbot.com/sitemap.xml
