@@ -1495,6 +1495,7 @@ img.full-sleeve {
 }
 
 .main-title {
+    text-transform: uppercase; 
     font-size: 2rem;
     font-weight: bold;
     text-transform: uppercase;
@@ -1518,6 +1519,7 @@ img.full-sleeve {
 }
 
 .description {
+    text-transform: uppercase;
     color: #fff;
     font-size: 15px;
     line-height: 1.6;
