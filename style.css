@@ -1251,18 +1251,19 @@ img.full-sleeve {
 /* Text and button in overlay */
 .overlay h2 {
     font-family:'PixelFont', sans-serif; ;
-    font-size: 2rem;
+    font-size: 30px;
     margin-bottom: 10px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .overlay button {
+    font-family:'PixelFont', sans-serif; ;
     padding: 10px 20px;
     border: none;
-    background-color: white;
-    color: black;
+    background-color: #0000A8;
+    color: white;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 20px;
     transition: background-color 0.3s ease;
 }
 
@@ -1291,7 +1292,11 @@ img.full-sleeve {
         max-width: 100%;
         height: 200px; /* Adjust height for mobile */
     }
-
+    .overlay button {
+        padding: 6px 6px; /* Adjust padding for button */
+        font-size: 17px; /* Adjust font size for button */
+        border-radius: 4px; /* Optional: Add rounded corners */
+    }
     .category-item:first-child {
         height: 250px; /* Adjust height for mobile */
     }
@@ -1304,13 +1309,13 @@ img.full-sleeve {
     /* Resize the button */
     .overlay button {
         padding: 6px 6px; /* Adjust padding for button */
-        font-size: 1.2rem; /* Adjust font size for button */
+        font-size: 15px; /* Adjust font size for button */
         border-radius: 4px; /* Optional: Add rounded corners */
     }
 
     /* Resize the overlay text */
     .overlay h2 {
-        font-size: 1.5rem; /* Adjust font size for the text */
+        font-size: 20px; /* Adjust font size for the text */
         margin-bottom: 8px; /* Adjust margin as needed */
     }
 }
