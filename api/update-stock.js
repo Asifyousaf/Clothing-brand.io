@@ -1,12 +1,9 @@
 const http = require('http');
-require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
 const stripe = require('stripe')('sk_test_51Q6qZ8Rxk79NacxxJgyYInUBdiJ2Pcqm8otxx0l4TBywHa9BM2clTwi9Siiilxzh7dIcmqMOiG5f0IlJsfOMauIQ00ZgqTu36r');
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
-console.log('Supabase URL:', supabaseUrl);
-console.log('Supabase Key:', supabaseKey);
 
+const supabaseUrl = process.env.DATABASE_URL; 
+const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const endpointSecret = 'whsec_jpk9R320UxDDfTM28wFdxpAIHkEo3pJ4'; // Your webhook signing secret

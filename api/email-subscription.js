@@ -1,12 +1,10 @@
 const http = require('http');
 const { createClient } = require('@supabase/supabase-js');
-require('dotenv').config();
-// Supabase configuration
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
-console.log('Supabase URL:', supabaseUrl);
-console.log('Supabase Key:', supabaseKey);
 
+// Supabase configuration
+
+const supabaseUrl = process.env.DATABASE_URL; 
+const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Simple email validation
