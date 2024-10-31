@@ -1,12 +1,12 @@
 const http = require('http');
 const { createClient } = require('@supabase/supabase-js');
-const stripe = require('stripe')('sk_test_51Q6qZ8Rxk79NacxxJgyYInUBdiJ2Pcqm8otxx0l4TBywHa9BM2clTwi9Siiilxzh7dIcmqMOiG5f0IlJsfOMauIQ00ZgqTu36r');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const supabaseUrl = process.env.DATABASE_URL; 
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const endpointSecret = 'whsec_jpk9R320UxDDfTM28wFdxpAIHkEo3pJ4'; // Your webhook signing secret
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET; // Your webhook signing secret
 
 const server = http.createServer((req, res) => {
     if (req.method === 'POST' && req.url === '/api/update-stock') {

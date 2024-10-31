@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const stripe = require('stripe')('sk_test_51Q6qZ8Rxk79NacxxJgyYInUBdiJ2Pcqm8otxx0l4TBywHa9BM2clTwi9Siiilxzh7dIcmqMOiG5f0IlJsfOMauIQ00ZgqTu36r'); // Your Stripe Secret Key
-
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 
 // Enable CORS and JSON parsing
