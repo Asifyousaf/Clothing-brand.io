@@ -1,5 +1,5 @@
 // inventory.js
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = process.env.SUPABASE_URL;
