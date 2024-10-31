@@ -1,4 +1,5 @@
 const http = require('http');
+require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
 const stripe = require('stripe')('sk_test_51Q6qZ8Rxk79NacxxJgyYInUBdiJ2Pcqm8otxx0l4TBywHa9BM2clTwi9Siiilxzh7dIcmqMOiG5f0IlJsfOMauIQ00ZgqTu36r');
 const supabaseUrl = process.env.SUPABASE_URL;
