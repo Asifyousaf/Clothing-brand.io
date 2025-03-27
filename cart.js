@@ -1,4 +1,3 @@
-const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 document.getElementById('hamburger').addEventListener('click', function() {
     const navLeft = document.getElementById('nav-left');
@@ -13,6 +12,7 @@ hamMenu.addEventListener("click", () => {
   hamMenu.classList.toggle("active");
   offScreenMenu.classList.toggle("active");
 });
+
 
 
 // Helper function to calculate the total cart price
@@ -63,10 +63,8 @@ async function checkoutWithStripe() {
         const session = responseBody;
 
         // Initialize Stripe and redirect to checkout
-        const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+        const stripe = Stripe('pk_test_51Q6qZ8Rxk79NacxxmxK6wWgu9j4c9S6s8P65w0usB7WISHIEKMGyr2bfgo0EDdsXD23D7LjtIz7jt7fvlfyc72v600ZMyI8pef');
         await stripe.redirectToCheckout({ sessionId: session.id });
-
-
 
         // Clear the cart after successful checkout (this code will not execute until after the redirect)
         cart = []; // Clear the cart array
