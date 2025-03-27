@@ -34,32 +34,44 @@ async function sendReceiptEmail(session, items) {
         `${address.line1}\n${address.line2 || ''}\n${address.city}, ${address.state}\n${address.postal_code}\n${address.country}` 
         : 'No address provided';
 
-    const emailContent = `
-        <h1>Thank you for your purchase!</h1>
-        <p>Order ID: ${session.id}</p>
-        <h2>Order Details:</h2>
-        <p><strong>Items:</strong></p>
-        <pre>${itemsList}</pre>
-        <p><strong>Total Amount:</strong> ${(amount_total / 100).toFixed(2)} AED</p>
-        
-        <h2>Shipping Details:</h2>
-        <pre>${formattedAddress}</pre>
-        
-        <h2>Frequently Asked Questions:</h2>
-        <h3>When will my order ship?</h3>
-        <p>Orders typically ship within 3-5 business days.</p>
-        
-        <h3>How can I track my order?</h3>
-        <p>You'll receive a tracking number via email once your order ships.</p>
-        
-        <h3>What's your return policy?</h3>
-        <p>We accept returns within 7 days of delivery. Please see our policy page for details.</p>
-        
-        <h3>Need help?</h3>
-        <p>Contact us at support@cybertronicbot.com</p>
-        
-        <p>Thank you for shopping with Cybertronic!</p>
+        const emailContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;">
+            <h1 style="color: #333; text-align: center;">Thank You for Your Purchase!</h1>
+            <p style="font-size: 16px; color: #555;">Order ID: <strong>${session.id}</strong></p>
+            
+            <h2 style="color: #444;">Order Details:</h2>
+            <p><strong>Items:</strong></p>
+            <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+                <pre style="white-space: pre-wrap; font-size: 14px; color: #333;">${itemsList}</pre>
+            </div>
+            <p><strong>Total Amount:</strong> <span style="color: #27ae60;">${(amount_total / 100).toFixed(2)} AED</span></p>
+            
+            <h2 style="color: #444;">Shipping Details:</h2>
+            <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+                <pre style="white-space: pre-wrap; font-size: 14px; color: #333;">${formattedAddress}</pre>
+            </div>
+            
+            <h2 style="color: #444;">Frequently Asked Questions:</h2>
+            <h3 style="color: #222;">When will my order ship?</h3>
+            <p>Orders typically ship within <strong>3-5 business days.</strong></p>
+            
+            <h3 style="color: #222;">How can I track my order?</h3>
+            <p>You'll receive a tracking number via email once your order ships.</p>
+            
+            <h3 style="color: #222;">What's your return policy?</h3>
+            <p>We accept returns within <strong>7 days</strong> of delivery. Please see our <a href="https://cybertronicbot.com/policy" style="color: #3498db; text-decoration: none;">policy page</a> for details.</p>
+            
+            <h3 style="color: #222;">Need help?</h3>
+            <p>Contact us at <a href="mailto:cybertronicbot@gmail.com" style="color: #3498db; text-decoration: none;">support@cybertronicbot.com</a></p>
+            
+            <p style="text-align: center; font-size: 16px; margin-top: 20px;">Thank you for shopping with <strong>Cybertronic</strong>!</p>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <img src="https://cybertronicbot.com/img/company.webp" alt="Cybertronic Logo" style="width: 100px; height: auto;">
+            </div>
+        </div>
     `;
+    
 
     const mailOptions = {
         from: process.env.EMAIL_USER,
