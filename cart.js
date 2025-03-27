@@ -13,6 +13,7 @@ hamMenu.addEventListener("click", () => {
   offScreenMenu.classList.toggle("active");
 });
 
+console.log('Stripe Public Key:', process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 
 // Helper function to calculate the total cart price
