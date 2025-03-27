@@ -63,7 +63,7 @@ async function checkoutWithStripe() {
         const session = responseBody;
 
         // Initialize Stripe and redirect to checkout
-        const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+        const stripe = Stripe(process.env.STRIPE_PUBLIC_KEY);
         await stripe.redirectToCheckout({ sessionId: session.id });
 
 
