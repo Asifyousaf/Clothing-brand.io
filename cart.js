@@ -1,3 +1,4 @@
+const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 document.getElementById('hamburger').addEventListener('click', function() {
     const navLeft = document.getElementById('nav-left');
@@ -12,8 +13,6 @@ hamMenu.addEventListener("click", () => {
   hamMenu.classList.toggle("active");
   offScreenMenu.classList.toggle("active");
 });
-
-console.log('Stripe Public Key:', process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 
 // Helper function to calculate the total cart price
