@@ -47,7 +47,7 @@ async function sendReceiptEmail(session, items) {
         
         <h2>Frequently Asked Questions:</h2>
         <h3>When will my order ship?</h3>
-        <p>Orders typically ship within 1-2 business days.</p>
+        <p>Orders typically ship within 3-5 business days.</p>
         
         <h3>How can I track my order?</h3>
         <p>You'll receive a tracking number via email once your order ships.</p>
