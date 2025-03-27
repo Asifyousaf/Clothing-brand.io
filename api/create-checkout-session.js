@@ -62,6 +62,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
         res.status(500).send({ error: error.message });
     }
 });
+
 app.get('/api/create-checkout-session', async (req, res) => {
     const sessionId = req.query.session_id;  // Extract session ID from the query string
     console.log('Fetching session for ID:', sessionId); 
@@ -78,13 +79,19 @@ app.get('/api/create-checkout-session', async (req, res) => {
     }
 });
 
-
 app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     console.log('Webhook received:', req.body); // Log incoming request
     let event;
 
     const signature = req.headers['stripe-signature'];
-    const endpointSecret = 'whsec_jpk9R320UxDDfTM28wFdxpAIHkEo3pJ4'; // Replace with your webhook signing secret
+    
+    // Use the environment variable for the webhook secret
+    const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+    
+    if (!endpointSecret) {
+        console.error('Webhook secret is not configured');
+        return res.status(500).send('Webhook secret is not configured');
+    }
 
     try {
         event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
