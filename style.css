@@ -1,271 +1,277 @@
-    *{
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-    html,body {
-        margin:0;
-        padding:0;
-        overflow-x: hidden;
-        
-    }
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html,body {
+    margin:0;
+    padding:0;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+/* Optimize animations */
+* {
+backface-visibility: hidden;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
 
 body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background: url('img/peakpx.webp') no-repeat center center fixed;
-    background-size: cover;
+margin: 0;
+font-family: 'Arial', sans-serif;
+background: url('img/peakpx.webp') no-repeat center center fixed;
+background-size: cover;
 }
-    /* -- splash screen -- */
-    /* Fullscreen splash with a white background */
-    .windows-splash {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: white; /* White background */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999; /* Ensure it stays on top */
-        opacity: 1; /* Initial opacity */
-        transition: opacity 1s ease; /* Smooth transition effect */
-    }
-    
-    /* Centered content within the splash screen */
-    .splash-content {
-        text-align: center;
-        color: #0000A8; /* Use the specified blue color */
-        font-family: 'PixelFont', sans-serif; /* Use a pixelated font for a retro feel */
-    }
-    
-    /* Splash screen title */
-    .splash-content h1 {
-        font-size: 3em; /* Title size */
-        margin: 0;
-        animation: fadeIn 1s forwards; /* Faster fade-in effect */
-    }
-    
-    /* Loading bar container */
-    .loading-bar-container {
-        width: 80%; /* Width of the loading bar container */
-        background-color: #ffffff; /* White background for the bar */
-        border: 1px solid #000; /* Black border for the loading bar */
-        margin: 20px auto; /* Center the bar */
-        border-radius: 5px; /* Rounded corners */
-        overflow: hidden; /* Hide overflow for the loading bar */
-    }
-    
-    /* Loading bar */
-    .loading-bar {
-        width: 0; /* Initial width */
-        height: 20px; /* Height of the loading bar */
-        background-color: #0000A8; /* Use the specified blue color for the loading bar */
-        animation: loadingAnimation 2s linear forwards; /* Animate the loading bar for a quicker duration */
-    }
-    
-    /* Loading Animation */
-    @keyframes loadingAnimation {
-        to {
-            width: 100%; /* Expand to full width */
-        }
-    }
-    
-    /* Fade In animation */
-    @keyframes fadeIn {
-        0% {
-            opacity: 0; /* Start hidden */
-            transform: translateY(-50px); /* Start slightly above */
-        }
-        100% {
-            opacity: 1; /* Fully visible */
-            transform: translateY(0); /* Move to original position */
-        }
-    }
-    
-    /* Fade Out animation */
-    @keyframes fadeOut {
-        0% {
-            opacity: 1; /* Fully visible */
-        }
-        100% {
-            opacity: 0; /* Fade out */
-        }
-    }
-    
-    /* -- LOADING  -- */
-    /* Loading screen styles */
-/* Add this CSS for the loading screen */
-.loading-screen {
-    display: none; /* Hide loading screen by default */
-    position: fixed; /* Ensure it covers the entire screen */
+/* -- splash screen -- */
+/* Fullscreen splash with a white background */
+.windows-splash {
+    display: none;
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: white; /* Use your primary color */
-    display: flex; /* Center the hourglass */
+    width: 100%;
+    height: 100%;
+    background-color: white; /* White background */
+    display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999; /* Ensure it's on top of everything */
-    opacity: 1; /* Fully visible initially */
-    transition: opacity 0.5s ease; /* Smooth transition for fade-out */
+    z-index: 9999; /* Ensure it stays on top */
+    opacity: 1; /* Initial opacity */
+    transition: opacity 1s ease; /* Smooth transition effect */
+}
+
+/* Centered content within the splash screen */
+.splash-content {
+    text-align: center;
+    color: #0000A8; /* Use the specified blue color */
+    font-family: 'PixelFont', sans-serif; /* Use a pixelated font for a retro feel */
+}
+
+/* Splash screen title */
+.splash-content h1 {
+    font-size: 3em; /* Title size */
+    margin: 0;
+    animation: fadeIn 1s forwards; /* Faster fade-in effect */
+}
+
+/* Loading bar container */
+.loading-bar-container {
+    width: 80%; /* Width of the loading bar container */
+    background-color: #ffffff; /* White background for the bar */
+    border: 1px solid #000; /* Black border for the loading bar */
+    margin: 20px auto; /* Center the bar */
+    border-radius: 5px; /* Rounded corners */
+    overflow: hidden; /* Hide overflow for the loading bar */
+}
+
+/* Loading bar */
+.loading-bar {
+    width: 0; /* Initial width */
+    height: 20px; /* Height of the loading bar */
+    background-color: #0000A8; /* Use the specified blue color for the loading bar */
+    animation: loadingAnimation 2s linear forwards; /* Animate the loading bar for a quicker duration */
+}
+
+/* Loading Animation */
+@keyframes loadingAnimation {
+    to {
+        width: 100%; /* Expand to full width */
+    }
+}
+
+/* Fade In animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0; /* Start hidden */
+        transform: translateY(-50px); /* Start slightly above */
+    }
+    100% {
+        opacity: 1; /* Fully visible */
+        transform: translateY(0); /* Move to original position */
+    }
+}
+
+/* Fade Out animation */
+@keyframes fadeOut {
+    0% {
+        opacity: 1; /* Fully visible */
+    }
+    100% {
+        opacity: 0; /* Fade out */
+    }
+}
+
+/* -- LOADING  -- */
+/* Loading screen styles */
+/* Add this CSS for the loading screen */
+.loading-screen {
+display: none; /* Hide loading screen by default */
+position: fixed; /* Ensure it covers the entire screen */
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: white; /* Use your primary color */
+display: flex; /* Center the hourglass */
+justify-content: center;
+align-items: center;
+z-index: 9999; /* Ensure it's on top of everything */
+opacity: 1; /* Fully visible initially */
+transition: opacity 0.5s ease; /* Smooth transition for fade-out */
 }
 
 /* Add hidden class to handle the fade-out */
 .hidden {
-    display: none !important;
-    opacity: 0; /* Fully transparent when hidden */
-    pointer-events: none; /* Disable interactions */
+display: none !important;
+opacity: 0; /* Fully transparent when hidden */
+pointer-events: none; /* Disable interactions */
 }
 :root {
-    --fg: #0000A8; /* Sand color */
-    --primary: #255ff4;
-    font-size: calc(14px + (20 - 14) * (100vw - 320px) / (1280 - 320)); /* Adjusted font-size for smaller view */
-  }
-  
-  .hourglass, .hourglass:before, .hourglass:after {
-    animation-duration: 1s; /* Fast animation */
-    animation-iteration-count: infinite;
-  }
-  
-  .hourglass {
-    --polygonH: polygon(0% 0%, 100% 0%, 100% 5.55%, 95% 5.55%, 95% 28%, 60% 46%, 60% 54%, 95% 72%, 95% 94.45%, 100% 94.45%, 100% 100%, 0% 100%, 0% 94.45%, 5% 94.45%, 5% 72%, 40% 54%, 40% 46%, 5% 28%, 5% 5.55%, 0% 5.55%);
-    animation-name: flip;
-    animation-timing-function: ease-in-out;
-    background-image: linear-gradient(var(--primary) 0.3em, #01030955 0.3em 6em, var(--primary) 6em);
-    clip-path: var(--polygonH);
-    -webkit-clip-path: var(--polygonH);
+--fg: #0000A8; /* Sand color */
+--primary: #255ff4;
+font-size: calc(14px + (20 - 14) * (100vw - 320px) / (1280 - 320)); /* Adjusted font-size for smaller view */
+}
+
+.hourglass, .hourglass:before, .hourglass:after {
+animation-duration: 1s; /* Fast animation */
+animation-iteration-count: infinite;
+}
+
+.hourglass {
+--polygonH: polygon(0% 0%, 100% 0%, 100% 5.55%, 95% 5.55%, 95% 28%, 60% 46%, 60% 54%, 95% 72%, 95% 94.45%, 100% 94.45%, 100% 100%, 0% 100%, 0% 94.45%, 5% 94.45%, 5% 72%, 40% 54%, 40% 46%, 5% 28%, 5% 5.55%, 0% 5.55%);
+animation-name: flip;
+animation-timing-function: ease-in-out;
+background-image: linear-gradient(var(--primary) 0.3em, #01030955 0.3em 6em, var(--primary) 6em);
+clip-path: var(--polygonH);
+-webkit-clip-path: var(--polygonH);
+overflow: hidden;
+position: relative;
+width: 2em;  /* Smaller width */
+height: 3em; /* Smaller height */
+z-index: 0;
+}
+
+.hourglass:before, .hourglass:after {
+animation-timing-function: linear;
+content: "";
+display: block;
+position: absolute;
+}
+
+.hourglass:before {
+--polygonB1: polygon(0% 0%, 100% 0%, 100% 24%, 50% 47%, 50% 47%, 50% 47%, 50% 47%, 50% 47%, 50% 47%, 0% 24%);
+--polygonB2: polygon(0% 4%, 100% 4%, 100% 24%, 55% 45%, 55% 100%, 55% 100%, 55% 100%, 45% 100%, 45% 100%, 45% 100%, 45% 45%, 0% 24%);
+--polygonB3: polygon(0% 24%, 100% 24%, 100% 24%, 55% 45%, 55% 80%, 100% 100%, 100% 100%, 0% 100%, 0% 100%, 45% 80%, 45% 45%, 0% 24%);
+--polygonB4: polygon(45% 45%, 55% 45%, 55% 45%, 55% 45%, 55% 58%, 100% 76%, 100% 100%, 0% 100%, 0% 76%, 45% 58%, 45% 45%, 45% 45%);
+--polygonB5: polygon(50% 53%, 50% 53%, 50% 53%, 50% 53%, 50% 53%, 100% 76%, 100% 100%, 0% 100%, 0% 76%, 50% 53%, 50% 53%, 50% 53%);
+animation-name: fill;
+background: var(--fg); /* Sand color */
+background-size: 100% 2.5em; /* Smaller size for sand */
+clip-path: var(--polygonB1);
+top: 0.3em;
+left: 0.3em;
+width: 1.4em;  /* Smaller width */
+height: 2.4em; /* Smaller height */
+z-index: 1;
+}
+
+.hourglass:after {
+animation-name: glare;
+background:
+  linear-gradient(90deg, #0000 0.3em, #0003 0.3em 1em, #0000 1em 2em, #fff3 2em 3em, #fff0 3em 4em, #0003 4em 5em, #0000 5em) 0 0 / 100% 0.3em,
+  linear-gradient(90deg, #0000 0.5em, #0003 0.5em 1em, #0000 1em 2.5em, #fff3 2.5em 3em, #fff0 3em 4em, #0003 4em 4.5em, #0000 4.5em) 0 0.4em / 100% 6em,
+  linear-gradient(90deg, #0000 0.3em, #0003 0.3em 1em, #0000 1em 2em, #fff3 2em 3em, #fff0 3em 4em, #0003 4em 5em, #0000 5em) 0 100% / 100% 0.3em;
+background-repeat: repeat-x;
+top: 0;
+left: -1.5em;
+width: 200%;
+height: 100%;
+z-index: 2;
+}
+
+/* Keyframes for the sand filling */
+@keyframes fill {
+from {
+  clip-path: var(--polygonB1);
+  -webkit-clip-path: var(--polygonB1);
+}
+10% {
+  clip-path: var(--polygonB2);
+  -webkit-clip-path: var(--polygonB2);
+}
+45% {
+  clip-path: var(--polygonB3);
+  -webkit-clip-path: var(--polygonB3);
+}
+80% {
+  clip-path: var(--polygonB4);
+  -webkit-clip-path: var(--polygonB4);
+}
+85%, to {
+  clip-path: var(--polygonB5);
+  -webkit-clip-path: var(--polygonB5);
+}
+}
+
+/* Keyframes for glare movement */
+@keyframes glare {
+from, 90% {
+  transform: translateX(0);
+}
+to {
+  transform: translateX(1.5em);
+}
+}
+
+/* Keyframes for the hourglass flipping */
+@keyframes flip {
+from, 90% {
+  transform: rotate(0);
+}
+to {
+  transform: rotate(180deg);
+}
+}
+
+/* -- Annoncement bar -- */
+
+.textscroll {
+    width: 100%;
     overflow: hidden;
     position: relative;
-    width: 2em;  /* Smaller width */
-    height: 3em; /* Smaller height */
-    z-index: 0;
-  }
-  
-  .hourglass:before, .hourglass:after {
-    animation-timing-function: linear;
-    content: "";
-    display: block;
-    position: absolute;
-  }
-  
-  .hourglass:before {
-    --polygonB1: polygon(0% 0%, 100% 0%, 100% 24%, 50% 47%, 50% 47%, 50% 47%, 50% 47%, 50% 47%, 50% 47%, 0% 24%);
-    --polygonB2: polygon(0% 4%, 100% 4%, 100% 24%, 55% 45%, 55% 100%, 55% 100%, 55% 100%, 45% 100%, 45% 100%, 45% 100%, 45% 45%, 0% 24%);
-    --polygonB3: polygon(0% 24%, 100% 24%, 100% 24%, 55% 45%, 55% 80%, 100% 100%, 100% 100%, 0% 100%, 0% 100%, 45% 80%, 45% 45%, 0% 24%);
-    --polygonB4: polygon(45% 45%, 55% 45%, 55% 45%, 55% 45%, 55% 58%, 100% 76%, 100% 100%, 0% 100%, 0% 76%, 45% 58%, 45% 45%, 45% 45%);
-    --polygonB5: polygon(50% 53%, 50% 53%, 50% 53%, 50% 53%, 50% 53%, 100% 76%, 100% 100%, 0% 100%, 0% 76%, 50% 53%, 50% 53%, 50% 53%);
-    animation-name: fill;
-    background: var(--fg); /* Sand color */
-    background-size: 100% 2.5em; /* Smaller size for sand */
-    clip-path: var(--polygonB1);
-    top: 0.3em;
-    left: 0.3em;
-    width: 1.4em;  /* Smaller width */
-    height: 2.4em; /* Smaller height */
-    z-index: 1;
-  }
-  
-  .hourglass:after {
-    animation-name: glare;
-    background:
-      linear-gradient(90deg, #0000 0.3em, #0003 0.3em 1em, #0000 1em 2em, #fff3 2em 3em, #fff0 3em 4em, #0003 4em 5em, #0000 5em) 0 0 / 100% 0.3em,
-      linear-gradient(90deg, #0000 0.5em, #0003 0.5em 1em, #0000 1em 2.5em, #fff3 2.5em 3em, #fff0 3em 4em, #0003 4em 4.5em, #0000 4.5em) 0 0.4em / 100% 6em,
-      linear-gradient(90deg, #0000 0.3em, #0003 0.3em 1em, #0000 1em 2em, #fff3 2em 3em, #fff0 3em 4em, #0003 4em 5em, #0000 5em) 0 100% / 100% 0.3em;
-    background-repeat: repeat-x;
-    top: 0;
-    left: -1.5em;
-    width: 200%;
-    height: 100%;
-    z-index: 2;
-  }
-  
-  /* Keyframes for the sand filling */
-  @keyframes fill {
-    from {
-      clip-path: var(--polygonB1);
-      -webkit-clip-path: var(--polygonB1);
-    }
-    10% {
-      clip-path: var(--polygonB2);
-      -webkit-clip-path: var(--polygonB2);
-    }
-    45% {
-      clip-path: var(--polygonB3);
-      -webkit-clip-path: var(--polygonB3);
-    }
-    80% {
-      clip-path: var(--polygonB4);
-      -webkit-clip-path: var(--polygonB4);
-    }
-    85%, to {
-      clip-path: var(--polygonB5);
-      -webkit-clip-path: var(--polygonB5);
-    }
-  }
-  
-  /* Keyframes for glare movement */
-  @keyframes glare {
-    from, 90% {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(1.5em);
-    }
-  }
-  
-  /* Keyframes for the hourglass flipping */
-  @keyframes flip {
-    from, 90% {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(180deg);
-    }
-  }
-  
-    /* -- Annoncement bar -- */
+    background-color: #0000A8; 
+}
+.textscroll h4,
+.textscroll2 h4 {
+    font-size: 2em; /* Adjust this size as needed */
+    font-weight: bold; /* Optional: matches typical h1 weight */
+}
 
-    .textscroll {
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-        background-color: #0000A8; 
-    }
-    .textscroll h4,
-    .textscroll2 h4 {
-        font-size: 2em; /* Adjust this size as needed */
-        font-weight: bold; /* Optional: matches typical h1 weight */
-    }
-    
-    @font-face {
-        font-family: 'PixelFont';
-        src: url('Font/w95fa.woff') format('woff');
-    }
+@font-face {
+    font-family: 'PixelFont';
+    src: url('Font/w95fa.woff') format('woff');
+}
 
-    .toptext {
-        display: flex;
-        font-weight: 100;
-        font-family: 'PixelFont', sans-serif;
-        font-size: 10px;
-        color: white;
-        gap: 80px; /* Adjust the gap as needed */
-        white-space: nowrap;
-        animation: marquee 20s linear  infinite; /* Continuous scrolling effect */
-    }
+.toptext {
+    display: flex;
+    font-weight: 100;
+    font-family: 'PixelFont', sans-serif;
+    font-size: 10px;
+    color: white;
+    gap: 80px; /* Adjust the gap as needed */
+    white-space: nowrap;
+    animation: marquee 20s linear  infinite; /* Continuous scrolling effect */
+}
 
-    /* Animation for scrolling */
-    @keyframes marquee {
-        100% {
-            transform: translateX(10%); /* Start just outside the right of the container */
-        }
-        100% {
-            transform: translateX(-100%); /* End just outside the left of the container */
-        }
+/* Animation for scrolling */
+@keyframes marquee {
+    100% {
+        transform: translateX(10%); /* Start just outside the right of the container */
     }
+    100% {
+        transform: translateX(-100%); /* End just outside the left of the container */
+    }
+}
 
 
 /* -- Navigation Bar -- */
@@ -273,114 +279,114 @@ body {
 /* Add a spacer to prevent the layout from jumping */
 /* The spacer to maintain layout space */
 .navbar-spacer {
-    height: 30px; /* Same height as the navbar */
-    display: none; /* Hide the spacer by default */
+height: 30px; /* Same height as the navbar */
+display: none; /* Hide the spacer by default */
 }/* Show the spacer when the navbar is fixed */
 .navbar.scrolled + .navbar-spacer {
-    display: block; /* Display the spacer when scrolled */
+display: block; /* Display the spacer when scrolled */
 }
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    position: relative;
-    height: 60px;
-    background-color: transparent;
-    transition: background-color 0.5s, height 0.3s; /* Smooth transition */
-    z-index: 1000; /* Keep navbar on top */
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 10px 20px;
+position: relative;
+height: 60px;
+background-color: transparent;
+transition: background-color 0.5s, height 0.3s; /* Smooth transition */
+z-index: 1000; /* Keep navbar on top */
 }
 /* When the navbar is scrolled */
 .navbar.scrolled {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: #0000A8; /* Change background color after scrolling */
-    height: 70px; /* Adjust height after scrolling */
-    transition: background-color 0.5s, height 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow effect */
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+background-color: #0000A8; /* Change background color after scrolling */
+height: 70px; /* Adjust height after scrolling */
+transition: background-color 0.5s, height 0.3s;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow effect */
 }
 /* Navigation links - left and right */
 .nav-left, .nav-right {
-    display: flex;
-    list-style: none;
+display: flex;
+list-style: none;
 }
 
 .nav-left li, .nav-right li {
-    cursor: pointer;
-    padding-top: 10px;
-    margin: 0 15px;
+cursor: pointer;
+padding-top: 10px;
+margin: 0 15px;
 }
 
 .nav-left li a, .nav-right li a {
-    font-family: 'PixelFont', sans-serif;
-    background-color: #0000A8;
-    padding: 10px;
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
+font-family: 'PixelFont', sans-serif;
+background-color: #0000A8;
+padding: 10px;
+color: #fff;
+text-decoration: none;
+font-size: 18px;
 }
 
 /* Center the logo */
 /* Logo styles */
 .logo-center {
-    left: 0%;
-    transform: translateX(-54%);
-    margin-top: 51px;
-    transition: all 0.3s ease; /* Smooth transition */
+left: 0%;
+transform: translateX(-54%);
+margin-top: 51px;
+transition: all 0.3s ease; /* Smooth transition */
 }
 
 .logo-center img {
-    height: 160px;
-    width: auto;
-    display: block;
+height: 160px;
+width: auto;
+display: block;
 }
 .logo-text {
-    display: none; /* Initially hidden */
-    font-family: 'PixelFont', sans-serif;
-    font-size: 34px;
-    color: white;
-    text-transform: uppercase;
-    text-align: center;
-    position: relative;
-    top: 45%; /* Move up from the center */
-    left: 65%; /* Move left from the center */
-    transform: translate(-50%, -50%); /* Adjust for the element's own size */
+display: none; /* Initially hidden */
+font-family: 'PixelFont', sans-serif;
+font-size: 34px;
+color: white;
+text-transform: uppercase;
+text-align: center;
+position: relative;
+top: 45%; /* Move up from the center */
+left: 65%; /* Move left from the center */
+transform: translate(-50%, -50%); /* Adjust for the element's own size */
 }
 
 
 
 /* When you want the text to fade away */
 .logo-text.hidden {
-    opacity: 0; /* Make it fade out */
+opacity: 0; /* Make it fade out */
 }
 .navbar.scrolled .logo-center img {
-    display: none; /* Hide the image when scrolled */
+display: none; /* Hide the image when scrolled */
 }
 
 .navbar.scrolled .logo-text {
-    display: block; /* Show the text when scrolled */
+display: block; /* Show the text when scrolled */
 }
 
 @media (max-width: 768px) {
-    .navbar-spacer {
-        height: 130px; /* Same height as the navbar */
-        display: none; /* Hide the spacer by default */
-    }/* Show the spacer when the navbar is fixed */
-   .logo-center {
-    left: 0%;
-    transform: translateX(-54%);
-    margin-top: 51px;
-    transition: all 0.3s ease; /* Smooth transition */
+.navbar-spacer {
+    height: 130px; /* Same height as the navbar */
+    display: none; /* Hide the spacer by default */
+}/* Show the spacer when the navbar is fixed */
+.logo-center {
+left: 0%;
+transform: translateX(-54%);
+margin-top: 51px;
+transition: all 0.3s ease; /* Smooth transition */
 }
 
-    .logo-center img {
-        height: 120px;
-        width: auto;
-        display: block;
-        
-    }
+.logo-center img {
+    height: 120px;
+    width: auto;
+    display: block;
+    
+}
 }
 
 
@@ -391,1167 +397,1167 @@ body {
 /* Hamburger Menu */
 /* Hamburger Menu */
 .ham-menu {
-    display: none;
-    height: 50px;
-    width: 40px;
-    position: absolute;
-    top: 20px; /* Adjusts distance from the top */
-    right: 22px; /* Adjusts distance from the right */
-    z-index: 1100; /* Keeps it on top */
-    cursor: pointer;
+display: none;
+height: 50px;
+width: 40px;
+position: absolute;
+top: 20px; /* Adjusts distance from the top */
+right: 22px; /* Adjusts distance from the right */
+z-index: 1100; /* Keeps it on top */
+cursor: pointer;
 }
 
 .ham-menu span {
-    height: 5px;
-    width: 100%;
+height: 5px;
+width: 100%;
+background-color: rgb(255, 255, 255); /* Change to black lines */
+border-radius: 25px;
+position: absolute;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+transition: .3s ease;
+}
+.ham-menu span:nth-child(1) {
+top: 25%;
+}
+.ham-menu span:nth-child(3) {
+top: 75%;
+}
+.ham-menu.active span {
+background-color: black; /* Keep black color when active */
+}
+.ham-menu.active span:nth-child(1) {
+top: 50%;
+transform: translate(-50%, -50%) rotate(45deg);
+}
+.ham-menu.active span:nth-child(2) {
+opacity: 0;
+}
+.ham-menu.active span:nth-child(3) {
+top: 50%;
+transform: translate(-50%, -50%) rotate(-45deg);
+}
+/* Cart Button for Small Screens */
+.cart-button-small-screen {
+display: none; /* Hide it by default */
+position: absolute;
+top: 40px;
+left: 10px; /* Adjust this to place it next to the hamburger */
+z-index: 1100; /* Keep it on top */
+}
+
+.cart-button-small-screen button {
+font-family: 'PixelFont', sans-serif;
+background-color: #0000A8;
+color: white;
+padding: 10px;
+text-decoration: none;
+font-size: 18px;
+border-radius: 5px;
+}
+/* Off-screen menu */
+/* Off-screen Menu Styles */
+.off-screen-menu {
+background-color: white; /* Set the background to white */
+color: black; /* Set text color to black */
+height: 100vh;
+width: 100%;
+max-width: 450px;
+position: fixed;
+top: 0;
+right: -450px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+font-size: 3rem;
+font-family: 'PixelFont', sans-serif;
+transition: .3s ease;
+z-index: 1000; /* Slightly lower than hamburger */
+}
+
+.off-screen-menu a {
+color: black; /* Black text links */
+text-decoration: none;
+padding: 15px 0;
+font-size: 2rem; /* Adjust font size as needed */
+}
+
+.off-screen-menu a:hover {
+color: #6F86FF; /* Add hover effect for links */
+}
+
+.off-screen-menu.active {
+right: 0;
+}
+@media (max-width: 500px) {
+.ham-menu span:nth-child(1) {
+    top: 30%;
+}
+.ham-menu span:nth-child(3) {
+    top: 70%;
+}
+.ham-menu span{
+    height: 3px;
+    width: 85%;
     background-color: rgb(255, 255, 255); /* Change to black lines */
     border-radius: 25px;
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-20%, -10%);
     transition: .3s ease;
 }
-.ham-menu span:nth-child(1) {
-    top: 25%;
+.logo-text{
+    transform: translate(-60%, -5%);
+    font-size: 27px; /* Negative values move it up */
 }
-.ham-menu span:nth-child(3) {
-    top: 75%;
-}
-.ham-menu.active span {
-    background-color: black; /* Keep black color when active */
-}
-.ham-menu.active span:nth-child(1) {
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(45deg);
-}
-.ham-menu.active span:nth-child(2) {
-    opacity: 0;
-}
-.ham-menu.active span:nth-child(3) {
-    top: 50%;
-    transform: translate(-50%, -50%) rotate(-45deg);
-}
-/* Cart Button for Small Screens */
-.cart-button-small-screen {
-    display: none; /* Hide it by default */
-    position: absolute;
-    top: 40px;
-    left: 10px; /* Adjust this to place it next to the hamburger */
-    z-index: 1100; /* Keep it on top */
-}
-
-.cart-button-small-screen a {
-    font-family: 'PixelFont', sans-serif;
-    background-color: #0000A8;
-    color: white;
-    padding: 10px;
-    text-decoration: none;
-    font-size: 18px;
-    border-radius: 5px;
-}
-/* Off-screen menu */
-/* Off-screen Menu Styles */
-.off-screen-menu {
-    background-color: white; /* Set the background to white */
-    color: black; /* Set text color to black */
-    height: 100vh;
-    width: 100%;
-    max-width: 450px;
-    position: fixed;
-    top: 0;
-    right: -450px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 3rem;
-    font-family: 'PixelFont', sans-serif;
-    transition: .3s ease;
-    z-index: 1000; /* Slightly lower than hamburger */
-}
-
-.off-screen-menu a {
-    color: black; /* Black text links */
-    text-decoration: none;
-    padding: 15px 0;
-    font-size: 2rem; /* Adjust font size as needed */
-}
-
-.off-screen-menu a:hover {
-    color: #6F86FF; /* Add hover effect for links */
-}
-
-.off-screen-menu.active {
-    right: 0;
-}
-@media (max-width: 500px) {
-    .ham-menu span:nth-child(1) {
-        top: 30%;
-    }
-    .ham-menu span:nth-child(3) {
-        top: 70%;
-    }
-    .ham-menu span{
-        height: 3px;
-        width: 85%;
-        background-color: rgb(255, 255, 255); /* Change to black lines */
-        border-radius: 25px;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-20%, -10%);
-        transition: .3s ease;
-    }
-    .logo-text{
-        transform: translate(-60%, -5%);
-        font-size: 27px; /* Negative values move it up */
-    }
 }
 /* Media Queries for Responsiveness */
 @media only screen and (max-width: 991px) and (min-width: 768px) {
-    .logo-center {
-        left: 0%;
-        transform: translateX(-10%);
-      
-    }
-    
-    .logo-center img {
-        height: 120px;
-        width: auto;
-    }
+.logo-center {
+    left: 0%;
+    transform: translateX(-10%);
+  
+}
+
+.logo-center img {
+    height: 120px;
+    width: auto;
+}
 }
 
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
-    .nav-left, .nav-right {
-        display: none;
-    }
-    .logo-text{
-        transform: translate(-60%, -5%);
-        font-size: 27px; /* Negative values move it up */
-    }
+.nav-left, .nav-right {
+    display: none;
+}
+.logo-text{
+    transform: translate(-60%, -5%);
+    font-size: 27px; /* Negative values move it up */
+}
 
-    .ham-menu {
-        transform: translateY( -10%);
-        display: block;
-    }
-    .cart-button-small-screen {
-        transform: translate(-10%,-30%);
-        display: block;
-    }
+.ham-menu {
+    transform: translateY( -10%);
+    display: block;
+}
+.cart-button-small-screen {
+    transform: translate(-10%,-30%);
+    display: block;
+}
 }
 
 
-    /* -- landing page -- */
-    .section-landing {
-        
-        height: 100vh; /* Full viewport height */
-        color: #fff;
-        position: relative;
-        text-align: center; /* Center the text horizontally */
-    }
-    .bg-img {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -60%);
-        height: auto;
-    }
+/* -- landing page -- */
+.section-landing {
     
-    /* Landing Content Styling */
-    .landing-content h1 {
-        font-family: 'PixelFont', sans-serif;
-        position: absolute;
-        text-shadow: 2px 2px black;
-        top: 35%; /* Adjusts the position above the button */
-        left: 50%; /* Center horizontally */
-        font-family: sans-serif;
-        transform: translate(-50%, 520%);
-        text-align: left; /* Center text */
-        font-size: 64px; /* Default font size */
-        margin: 0;
-       
-    }
-    
-  .landing-content #btn1 {
-    color: white;
+    height: 100vh; /* Full viewport height */
+    color: #fff;
+    position: relative;
+    text-align: center; /* Center the text horizontally */
+}
+.bg-img {
     position: absolute;
-    background-color: #0000A8; /* Initial background color */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    height: auto;
+}
+
+/* Landing Content Styling */
+.landing-content h1 {
     font-family: 'PixelFont', sans-serif;
-    top: 50%; /* Position button vertically */
-    left: 50%; /* Center button horizontally */
-    transform: translate(-50%, 640%);
-    padding: 10px 20px;
-    font-size: 1.5em;
-    cursor: pointer;
-    border: 2px solid #808080; /* Grey border for Windows 95 look */
-    border-right-color: #000000; /* Dark inset shadow */
-    border-bottom-color: #000000;
-    border-left-color: #FFFFFF; /* Light outer bevel */
-    border-top-color: #FFFFFF;
-    box-shadow: none; /* Inset state initially */
-    transition: box-shadow 0.1s ease, border 0.1s ease, background-color 0.1s ease;
+    position: absolute;
+    text-shadow: 2px 2px black;
+    top: 35%; /* Adjusts the position above the button */
+    left: 50%; /* Center horizontally */
+    font-family: sans-serif;
+    transform: translate(-50%, 520%);
+    text-align: left; /* Center text */
+    font-size: 64px; /* Default font size */
+    margin: 0;
+   
+}
+
+.landing-content #btn1 {
+color: white;
+position: absolute;
+background-color: #0000A8; /* Initial background color */
+font-family: 'PixelFont', sans-serif;
+top: 50%; /* Position button vertically */
+left: 50%; /* Center button horizontally */
+transform: translate(-50%, 640%);
+padding: 10px 20px;
+font-size: 1.5em;
+cursor: pointer;
+border: 2px solid #808080; /* Grey border for Windows 95 look */
+border-right-color: #000000; /* Dark inset shadow */
+border-bottom-color: #000000;
+border-left-color: #FFFFFF; /* Light outer bevel */
+border-top-color: #FFFFFF;
+box-shadow: none; /* Inset state initially */
+transition: box-shadow 0.1s ease, border 0.1s ease, background-color 0.1s ease;
 }
 .bg-img2{
-    display: none;
+display: none;
 }
 /* Hover effect for raised button */
 .landing-content #btn1:hover {
-    box-shadow: 2px 2px 0px #000000; /* Raised button effect */
-    border-right-color: #FFFFFF; /* Light bevel on hover */
-    border-bottom-color: #FFFFFF;
-    border-left-color: #000000; /* Dark shadow on the left */
-    border-top-color: #000000;
-    background-color: #000088; /* Darker background on hover */
+box-shadow: 2px 2px 0px #000000; /* Raised button effect */
+border-right-color: #FFFFFF; /* Light bevel on hover */
+border-bottom-color: #FFFFFF;
+border-left-color: #000000; /* Dark shadow on the left */
+border-top-color: #000000;
+background-color: #000088; /* Darker background on hover */
 }
 
-    
-    /* Media Query for Responsive Design */
-    @media (max-width: 768px) {
-        .bg-img2{
-            position: absolute;
-            top: 50%;
-            display: block;
-            left: 50%;
-            transform: translate(-50%, -60%);
-            height: 400px;
-        }
-        .bg-img{
-            display: none;
-        }
-        .section-landing {
-        
-            background-size: cover;
-            background-position: center;
-     
-        }
-    
-        .landing-content h1 {
-            width: 260px;
-            font-family: 'PixelFont', sans-serif;
-            top: 70%; /* Move text a bit higher */
-            font-size: 48px; /* Reduce font size for smaller screens */
-            transform: translate(-50%, -20%);
-            flex-direction: column;
-            align-items: center; /* Center-align content horizontally */
-            text-align: center; /* Center-align the text */
-        }
-    
-        .landing-content #btn1 {
-            transform: translate(-50%, 60%);
-            top: 79%; /* Adjust button position */
-            padding: 8px 16px; /* Slightly smaller padding */
-            font-size: 1.2em; /* Reduce font size for smaller screens */
-        }
+
+/* Media Query for Responsive Design */
+@media (max-width: 768px) {
+    .bg-img2{
+        position: absolute;
+        top: 50%;
+        display: block;
+        left: 50%;
+        transform: translate(-50%, -60%);
+        height: 400px;
     }
-    
-    @media (max-width: 480px) {
-       .landing-content h1 {
-            top: 70%; /* Move text a bit higher */
-            font-size: 48px; /* Reduce font size for smaller screens */
-            transform: translate(-50%, -10%);
-            flex-direction: column;
-            align-items: center; /* Center-align content horizontally */
-            text-align: center; /* Center-align the text */
-        }
-    
-        .landing-content #btn1 {
-            transform: translate(-50%, 60%);
-            top: 79%; /* Adjust button position */
-            padding: 8px 16px; /* Slightly smaller padding */
-            font-size: 1.2em; /* Reduce font size for smaller screens */
-        }
+    .bg-img{
+        display: none;
     }
+    .section-landing {
     
-
-
-
-    /* Announcement Bar 2  */
-
-    .textscroll2 {
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-        background-color: #0000A8; 
+        background-size: cover;
+        background-position: center;
+ 
     }
 
-
-    .toptext2 {
-        display: flex;
-        font-weight: 100;
+    .landing-content h1 {
+        width: 260px;
         font-family: 'PixelFont', sans-serif;
-        font-size: 20px;
-        color: white;
-        gap: 70px; /* Adjust the gap as needed */
-        white-space: nowrap;
-        animation: marquee2 20s linear  infinite; /* Continuous scrolling effect */
+        top: 70%; /* Move text a bit higher */
+        font-size: 48px; /* Reduce font size for smaller screens */
+        transform: translate(-50%, -20%);
+        flex-direction: column;
+        align-items: center; /* Center-align content horizontally */
+        text-align: center; /* Center-align the text */
     }
 
-    /* Animation for scrolling */
-    @keyframes marquee2 {
-        100% {
-            transform: translateX(10%); /* Start just outside the right of the container */
-        }
-        100% {
-            transform: translateX(-100%); /* End just outside the left of the container */
-        }
+    .landing-content #btn1 {
+        transform: translate(-50%, 60%);
+        top: 79%; /* Adjust button position */
+        padding: 8px 16px; /* Slightly smaller padding */
+        font-size: 1.2em; /* Reduce font size for smaller screens */
     }
+}
+
+@media (max-width: 480px) {
+   .landing-content h1 {
+        top: 70%; /* Move text a bit higher */
+        font-size: 48px; /* Reduce font size for smaller screens */
+        transform: translate(-50%, -10%);
+        flex-direction: column;
+        align-items: center; /* Center-align content horizontally */
+        text-align: center; /* Center-align the text */
+    }
+
+    .landing-content #btn1 {
+        transform: translate(-50%, 60%);
+        top: 79%; /* Adjust button position */
+        padding: 8px 16px; /* Slightly smaller padding */
+        font-size: 1.2em; /* Reduce font size for smaller screens */
+    }
+}
+
+
+
+
+/* Announcement Bar 2  */
+
+.textscroll2 {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #0000A8; 
+}
+
+
+.toptext2 {
+    display: flex;
+    font-weight: 100;
+    font-family: 'PixelFont', sans-serif;
+    font-size: 20px;
+    color: white;
+    gap: 70px; /* Adjust the gap as needed */
+    white-space: nowrap;
+    animation: marquee2 20s linear  infinite; /* Continuous scrolling effect */
+}
+
+/* Animation for scrolling */
+@keyframes marquee2 {
+    100% {
+        transform: translateX(10%); /* Start just outside the right of the container */
+    }
+    100% {
+        transform: translateX(-100%); /* End just outside the left of the container */
+    }
+}
 
 /* Size Chart Modal Styling */
 .size-chart-modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.9);
+display: none; /* Hidden by default */
+position: fixed;
+z-index: 1000;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background-color: rgba(0, 0, 0, 0.9);
 }
 
 .size-chart-image {
-    display: block;
-    margin: auto;
-    width: 80%;
-    max-width: 800px;
-    transition: transform 0.25s ease;
-    cursor: zoom-in;
+display: block;
+margin: auto;
+width: 80%;
+max-width: 800px;
+transition: transform 0.25s ease;
+cursor: zoom-in;
 }
 
 .size-chart-image:active {
-    transform: scale(1.5);
-    cursor: zoom-out;
+transform: scale(1.5);
+cursor: zoom-out;
 }
 #size-chart-btn {
-    font-family: 'PixelFont', sans-serif; /* Use your font */
-    background-color: transparent; /* No background */
-    color: rgb(255, 255, 255); /* Blue text color */
-    border: none; /* Remove border */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 18px; /* Font size */
+font-family: 'PixelFont', sans-serif; /* Use your font */
+background-color: transparent; /* No background */
+color: rgb(255, 255, 255); /* Blue text color */
+border: none; /* Remove border */
+cursor: pointer; /* Pointer cursor on hover */
+font-size: 18px; /* Font size */
 
-    text-decoration: underline; /* Underline text for emphasis */
-    transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition for hover effects */
-    margin-bottom: 15px; /* Space below the button */
-    display: block; /* Ensures it takes full width for better alignment */
-    text-align: left; /* Align text to the left */
-    position: relative; /* Allows positioning within parent */
+text-decoration: underline; /* Underline text for emphasis */
+transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition for hover effects */
+margin-bottom: 15px; /* Space below the button */
+display: block; /* Ensures it takes full width for better alignment */
+text-align: left; /* Align text to the left */
+position: relative; /* Allows positioning within parent */
 }
 
 /* Hover effect */
 #size-chart-btn:hover {
-    background-color: rgba(0, 122, 255, 0.2); /* Light blue background on hover */
-    color: rgb(0, 102, 204); /* Darker blue on hover */
+background-color: rgba(0, 122, 255, 0.2); /* Light blue background on hover */
+color: rgb(0, 102, 204); /* Darker blue on hover */
 }
 
 /* Modal container */
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    overflow: auto; /* Allows scrolling on mobile if needed */
+display: none;
+position: fixed;
+z-index: 1000;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+justify-content: center;
+align-items: center;
+padding: 20px;
+overflow: auto; /* Allows scrolling on mobile if needed */
 }
 
 /* Close button styling */
 .close-size-chart {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    color: #ffffff;
-    font-size: 30px;
-    font-weight: bold;
-    cursor: pointer;
+position: absolute;
+top: 20px;
+right: 30px;
+color: #ffffff;
+font-size: 30px;
+font-weight: bold;
+cursor: pointer;
 }
 
 /* Table container to allow responsive scaling */
 .table-container {
-    width: 100%;
-    max-width: 600px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+width: 100%;
+max-width: 600px;
+background-color: #ffffff;
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Table styling */
 .size-chart-table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: center;
-    font-size: 16px;
+width: 100%;
+border-collapse: collapse;
+text-align: center;
+font-size: 16px;
 }
 
 /* Table header styling */
 .size-chart-table th {
-    background-color: #007BFF;
-    color: #ffffff;
-    padding: 10px;
+background-color: #007BFF;
+color: #ffffff;
+padding: 10px;
 }
 
 /* Table cell styling */
 .size-chart-table td, .size-chart-table th {
-    border: 1px solid #ddd;
-    padding: 8px;
+border: 1px solid #ddd;
+padding: 8px;
 }
 
 /* Responsive font size for mobile */
 @media (max-width: 600px) {
-    .size-chart-table {
-        font-size: 10px;
-    }
+.size-chart-table {
+    font-size: 10px;
+}
 
-    .table-container {
-        padding: 10px;
-    }
+.table-container {
+    padding: 10px;
+}
 }
 
 
 /* Center the sections and add padding */
 .collapsible-section {
-    max-width: 600px;
-    margin: 15px auto;
-    padding: 0 15px;
+max-width: 600px;
+margin: 15px auto;
+padding: 0 15px;
 }
 
 /* Collapsible button styling */
 .collapsible {
-    font-family: 'PixelFont', sans-serif;
-    background-color: transparent;
-    color: rgb(255, 255, 255);
-    cursor: pointer;
-    padding: 15px;
-    width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Light border for subtle highlight */
-    text-align: left;
-    font-size: 18px;
-    outline: none;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Floating shadow effect */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+font-family: 'PixelFont', sans-serif;
+background-color: transparent;
+color: rgb(255, 255, 255);
+cursor: pointer;
+padding: 15px;
+width: 100%;
+border: 1px solid rgba(255, 255, 255, 0.2); /* Light border for subtle highlight */
+text-align: left;
+font-size: 18px;
+outline: none;
+border-radius: 8px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Floating shadow effect */
+transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .collapsible:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
+box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow on hover */
 }
 
 .collapsible:after {
-    content: '\25BC'; /* Down arrow icon */
-    font-size: 12px;
-    float: right;
-    transform: rotate(0deg);
-    transition: transform 0.3s ease;
+content: '\25BC'; /* Down arrow icon */
+font-size: 12px;
+float: right;
+transform: rotate(0deg);
+transition: transform 0.3s ease;
 }
 
 .collapsible.active:after {
-    transform: rotate(180deg); /* Rotate arrow */
+transform: rotate(180deg); /* Rotate arrow */
 }
 
 /* Content section styling */
 .content {
-    line-height: 1.2; /* Adjusts the gap between lines */
-    font-family: 'PixelFont', sans-serif;
-    color: white;
-    padding: 0 15px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease; /* Smooth open/close animation */
-    background-color: transparent;
+line-height: 1.2; /* Adjusts the gap between lines */
+font-family: 'PixelFont', sans-serif;
+color: white;
+padding: 0 15px;
+max-height: 0;
+overflow: hidden;
+transition: max-height 0.5s ease; /* Smooth open/close animation */
+background-color: transparent;
 
 }
 .content p{
- padding-top: 10px;
+padding-top: 10px;
 }
 
 
 /* Expanded content styling */
 .collapsible.active + .content {
-    max-height: 500px; /* Adjust this max height to accommodate content */
-    opacity: 1; /* Fade in effect for content */
-    padding: 20px 15px; /* Maintain padding when active */
+max-height: 500px; /* Adjust this max height to accommodate content */
+opacity: 1; /* Fade in effect for content */
+padding: 20px 15px; /* Maintain padding when active */
 }
 
-    /* Media Query for smaller screens */
-    @media (max-width: 768px) {
-        .navbar {
-            flex-direction: column;
-            height: auto;
-        }
-
-        .nav-left, .nav-right {
-            justify-content: center;
-            margin-top: 10px;
-        }
-
-        .logo-center {
-            position: relative;
-            left: auto;
-            transform: none;
-            margin-top: 10px;
-        }
+/* Media Query for smaller screens */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        height: auto;
     }
 
-
-    /* section 2  */
-    .second-landing{
-        background-image: url('img/bg2.webp'); /* BG1 Image */
-        background-size: cover;
-        background-position:center;
-        padding-bottom: 20px;
-        color: #fff;
+    .nav-left, .nav-right {
+        justify-content: center;
+        margin-top: 10px;
     }
+
+    .logo-center {
+        position: relative;
+        left: auto;
+        transform: none;
+        margin-top: 10px;
+    }
+}
+
+
+/* section 2  */
+.second-landing{
+    background-image: url('img/bg2.webp'); /* BG1 Image */
+    background-size: cover;
+    background-position:center;
+    padding-bottom: 20px;
+    color: #fff;
+}
 /* Container styling */
 .clothing-container {
-    text-align: center;
-    padding: 40px 20px;
+text-align: center;
+padding: 40px 20px;
 }
 
 .clothing-container h1 {
-    font-family: 'PixelFont', sans-serif;
-    font-size: 3em;
-    margin-bottom: 30px;
-    color: #ffffff;
+font-family: 'PixelFont', sans-serif;
+font-size: 3em;
+margin-bottom: 30px;
+color: #ffffff;
 }
 
 /* Grid layout for larger screens */
 .clothing-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 25px;
-    padding: 20px;
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 25px;
+padding: 20px;
 }
 
 .item {
-    position: relative;
-    width: calc(33.333% - 25px);
-    max-width: 380px;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    overflow: hidden;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+position: relative;
+width: calc(33.333% - 25px);
+max-width: 380px;
+padding: 20px;
+border-radius: 10px;
+text-align: center;
+overflow: hidden;
+background-color: #fff;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+transform: translateY(-5px);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .image-container {
-    position: relative;
-    width: 100%;
-    height: 400px;
-    display: block;
+position: relative;
+width: 100%;
+height: 400px;
+display: block;
 }
 
 /* Image styles */
 .image-container img {
-    width: 100%;
-    height: 390px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    transition: opacity 0.5s ease;
+width: 100%;
+height: 390px;
+position: absolute;
+top: 0;
+left: 0;
+transition: opacity 0.5s ease;
 }
 
 /* Initially show the front image and hide the back */
 .image-container .back {
-    opacity: 0;
+opacity: 0;
 }
 
 /* Hover effect */
 .item:hover .front {
-    opacity: 0; /* Hide front on hover */
+opacity: 0; /* Hide front on hover */
 }
 
 .item:hover .back {
-    opacity: 1; /* Show back on hover */
+opacity: 1; /* Show back on hover */
 }
 
 
 .product-name,
 .product-price {
-    font-family: 'PixelFont', sans-serif;
-    font-size: 1.2em;
-    color: #333;
-    margin: 10px 0;
+font-family: 'PixelFont', sans-serif;
+font-size: 1.2em;
+color: #333;
+margin: 10px 0;
 }
 
 .product-price {
-    color: #666;
-    font-size: 1em;
+color: #666;
+font-size: 1em;
 }
 
 /* Mobile Slider Layout for smaller screens */
 .clothing-slider-wrapper {
-    display: none; /* Hidden by default for larger screens */
-    position: relative;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    padding: 20px;
-    width: 100%;
+display: none; /* Hidden by default for larger screens */
+position: relative;
+display: flex;
+align-items: center;
+overflow: hidden;
+padding: 20px;
+width: 100%;
 }
 
 .clothing-grid-slider {
-    display: flex;
-    gap: 15px;
-    overflow-x: scroll;
-    scroll-behavior: smooth;
-    width: 100%;
+display: flex;
+gap: 15px;
+overflow-x: scroll;
+scroll-behavior: smooth;
+width: 100%;
 }
 .clothing-slider-wrapper .image-container {
-    width: 100%; /* Example: Make the image-container take full width */
-    height: 88%; /* Example: Ensure it fills the parent item */
-    position: relative;
-    overflow: hidden; /* Ensure no overflow */
+width: 100%; /* Example: Make the image-container take full width */
+height: 88%; /* Example: Ensure it fills the parent item */
+position: relative;
+overflow: hidden; /* Ensure no overflow */
 }
 .clothing-grid-slider .item {
-    flex-shrink: 0;
-    width: 300px; /* Adjust the width for a more square shape */
-    max-width: 300px;
-    height: 440px; /* Set height equal to width for a square shape */
+flex-shrink: 0;
+width: 300px; /* Adjust the width for a more square shape */
+max-width: 300px;
+height: 440px; /* Set height equal to width for a square shape */
 }
 
 .slider-arrow {
-    position: absolute;
-    top: 50%;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 1;
-    transform: translateY(-50%);
+position: absolute;
+top: 50%;
+background-color: rgba(0, 0, 0, 0.5);
+color: white;
+border: none;
+padding: 10px;
+cursor: pointer;
+z-index: 1;
+transform: translateY(-50%);
 }
 
 .left-arrow {
-    left: 0;
+left: 0;
 }
 
 .right-arrow {
-    right: 0;
+right: 0;
 }
 
 /* Hide scrollbar on clothing slider */
 .clothing-grid-slider {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
 }
 .clothing-grid-slider::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari, and Opera */
+display: none;  /* Chrome, Safari, and Opera */
 }
 img.full-sleeve {
-    width: 100% !important; /* Adjust width to make it smaller but maintain proportions */
-    max-height: 120% !important; /* Ensures it doesn't exceed container height */
-    object-fit: contain !important; /* Keeps the entire image visible */
-    transform: translateY(-10%) !important; /* Keeps the position unchanged */
-    height: 300px !important;
+width: 100% !important; /* Adjust width to make it smaller but maintain proportions */
+max-height: 120% !important; /* Ensures it doesn't exceed container height */
+object-fit: contain !important; /* Keeps the entire image visible */
+transform: translateY(-10%) !important; /* Keeps the position unchanged */
+height: 300px !important;
 }
 
 
 /* Responsive styles */
 @media (max-width: 1000px) {
-    .item {
-    position: relative;
-    width: calc(43.333% - 25px);
-    max-width: 380px;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    overflow: hidden;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.item {
+position: relative;
+width: calc(43.333% - 25px);
+max-width: 380px;
+padding: 20px;
+border-radius: 10px;
+text-align: center;
+overflow: hidden;
+background-color: #fff;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 }
 /* Responsive styles */
 @media (max-width: 768px) {
-    .clothing-grid {
-        display: none; /* Hide grid on mobile */
-    }
-    .clothing-slider-wrapper {
-        display: flex; /* Show slider on mobile */
-    }
-    
+.clothing-grid {
+    display: none; /* Hide grid on mobile */
+}
+.clothing-slider-wrapper {
+    display: flex; /* Show slider on mobile */
+}
+
 }
 
 @media (min-width: 769px) {
-    .clothing-slider-wrapper {
-        display: none; /* Hide slider on larger screens */
-    }
+.clothing-slider-wrapper {
+    display: none; /* Hide slider on larger screens */
+}
 }
 
 
 .featured-products {
-    text-align: center;
-    background-position: center;
-    background-image: url('img/baannerart2.webp');
-    background-size: cover; /* Ensures the image covers the entire background */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
-    width: 100vw; /* Full width of the viewport */
-    height: 100vh; /* Full height of the viewport */
-    display: flex;
-    padding: 20px;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+text-align: center;
+background-position: center;
+background-image: url('img/baannerart2.webp');
+background-size: cover; /* Ensures the image covers the entire background */
+background-repeat: no-repeat; /* Prevents the image from repeating */
+width: 100vw; /* Full width of the viewport */
+height: 100vh; /* Full height of the viewport */
+display: flex;
+padding: 20px;
+justify-content: center;
+align-items: center;
+overflow: hidden;
 }
 /* Media query for screens 600px or smaller */
 @media (max-width: 1077px) {
-    .featured-products {
-        width: 100vw;
-        height: 30vh;
-    }
+.featured-products {
+    width: 100vw;
+    height: 30vh;
+}
 }
 
-    /* ----------------banner ------------------ */
-    .banner {
-        position: relative;
-        height: 60vh;
-        background-size: cover;
-        background-position: center;
-        background-image: url('img/cyberbanner.webp');
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        overflow: hidden;
-    }
-
-    /* Brightness filter only on the background */
-    .banner::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: inherit;
-        background-size: cover;
-        background-position: center;
-        filter: brightness(30%);
-        z-index: 0; /* Makes sure the text appears above */
-    }
-
-    /* Text Styling */
-    .banner-text {
-        position: relative;
-        z-index: 1; /* Puts the text above the background */
-        color: white;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-
-    /* Text Styling */
-    .banner-text h2 {
-        font-size: 3vw; /* Responsive text size based on viewport width */
-        font-family: 'PixelFont', sans-serif;
-        text-shadow: 2px 2px black; /* Text shadow for contrast */
-        max-width: 90%; /* Ensures text does not overflow */
-        line-height: 1.2;
-    }
-    @media (max-width: 768px) {
-        .banner-text h2{
-            font-size: 40px;
-        }
-    }
-
-/* ----------------category ------------------ */
-/* Flexbox Container */
-.category-container {
-    display: flex;
-    flex-wrap: wrap; /* Allow items to wrap */
-    justify-content: center; /* Center items for better alignment */
-    padding: 10px;
-    gap: 10px; /* Space between items */
-}
-
-/* Flex Items - Each Category */
-.category-item {
+/* ----------------banner ------------------ */
+.banner {
     position: relative;
-    flex: 1 1 calc(33.333% - 20px); /* 3 columns layout */
-    max-width: calc(33.333% - 20px); /* Ensures items don't exceed 3 per row */
-    height: 400px; /* Default height for square items */
+    height: 60vh;
+    background-size: cover;
+    background-position: center;
+    background-image: url('img/cyberbanner.webp');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     overflow: hidden;
-    transition: transform 0.3s ease;
-    background-color: whitesmoke;
-    box-shadow: 0 2px 0 rgba(255, 255, 255, 0.8); /* Create a thin line effect */
 }
 
-/* Make the first item larger */
-.category-item:first-child {
-    flex: 2 1 calc(66.666% - 20px); /* Makes it span two columns */
-    max-width: calc(66.666% - 20px);
-    height: 400px; /* Keep the rectangular height */
-}
-
-/* Hover effect for scaling */
-.category-item:hover {
-    transform: scale(1.02); /* Slightly larger on hover */
-}
-
-/* Product image on top of the background */
-.category-item .product-img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 30%; /* Adjust the size of the product image */
-    height: auto;
-    z-index: 1; /* Ensure the product image is on top */
-}
-
-/* Overlay content (Button and text) */
-.overlay {
+/* Brightness filter only on the background */
+.banner::before {
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.4); /* Semi-transparent dark overlay */
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(30%);
+    z-index: 0; /* Makes sure the text appears above */
+}
+
+/* Text Styling */
+.banner-text {
+    position: relative;
+    z-index: 1; /* Puts the text above the background */
     color: white;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 2; /* Overlay on top of everything */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Text Styling */
+.banner-text h2 {
+    font-size: 3vw; /* Responsive text size based on viewport width */
+    font-family: 'PixelFont', sans-serif;
+    text-shadow: 2px 2px black; /* Text shadow for contrast */
+    max-width: 90%; /* Ensures text does not overflow */
+    line-height: 1.2;
+}
+@media (max-width: 768px) {
+    .banner-text h2{
+        font-size: 40px;
+    }
+}
+
+/* ----------------category ------------------ */
+/* Flexbox Container */
+.category-container {
+display: flex;
+flex-wrap: wrap; /* Allow items to wrap */
+justify-content: center; /* Center items for better alignment */
+padding: 10px;
+gap: 10px; /* Space between items */
+}
+
+/* Flex Items - Each Category */
+.category-item {
+position: relative;
+flex: 1 1 calc(33.333% - 20px); /* 3 columns layout */
+max-width: calc(33.333% - 20px); /* Ensures items don't exceed 3 per row */
+height: 400px; /* Default height for square items */
+overflow: hidden;
+transition: transform 0.3s ease;
+background-color: whitesmoke;
+box-shadow: 0 2px 0 rgba(255, 255, 255, 0.8); /* Create a thin line effect */
+}
+
+/* Make the first item larger */
+.category-item:first-child {
+flex: 2 1 calc(66.666% - 20px); /* Makes it span two columns */
+max-width: calc(66.666% - 20px);
+height: 400px; /* Keep the rectangular height */
+}
+
+/* Hover effect for scaling */
+.category-item:hover {
+transform: scale(1.02); /* Slightly larger on hover */
+}
+
+/* Product image on top of the background */
+.category-item .product-img {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 30%; /* Adjust the size of the product image */
+height: auto;
+z-index: 1; /* Ensure the product image is on top */
+}
+
+/* Overlay content (Button and text) */
+.overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+background: rgba(0, 0, 0, 0.4); /* Semi-transparent dark overlay */
+color: white;
+opacity: 0;
+transition: opacity 0.3s ease;
+z-index: 2; /* Overlay on top of everything */
 }
 /* Back image styles */
 .back {
-    display: block; /* Ensures the image is displayed */
-    width: 100%; /* Adjust to fill the container */
-    height: 150px; /* Set a specific height for the back image */
-    object-fit: cover; /* Maintain aspect ratio, cropping if necessary */
-    position: absolute; /* Overlap the front image */
-    top: 0; /* Position at the top of the container */
-    left: 0; /* Position at the left of the container */
-    opacity: 0; /* Start hidden */
-    transition: opacity 0.3s ease; /* Smooth transition */
+display: block; /* Ensures the image is displayed */
+width: 100%; /* Adjust to fill the container */
+height: 150px; /* Set a specific height for the back image */
+object-fit: cover; /* Maintain aspect ratio, cropping if necessary */
+position: absolute; /* Overlap the front image */
+top: 0; /* Position at the top of the container */
+left: 0; /* Position at the left of the container */
+opacity: 0; /* Start hidden */
+transition: opacity 0.3s ease; /* Smooth transition */
 }
 .category-item:hover .overlay {
-    opacity: 1; /* Show overlay on hover */
+opacity: 1; /* Show overlay on hover */
 }
 
 /* Text and button in overlay */
 .overlay h2 {
-    font-family:'PixelFont', sans-serif; ;
-    font-size: 30px;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+font-family:'PixelFont', sans-serif; ;
+font-size: 30px;
+margin-bottom: 10px;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 .overlay button {
-    font-family:'PixelFont', sans-serif; ;
-    padding: 10px 20px;
-    border: none;
-    background-color: #0000A8;
-    color: white;
-    cursor: pointer;
-    font-size: 20px;
-    transition: background-color 0.3s ease;
+font-family:'PixelFont', sans-serif; ;
+padding: 10px 20px;
+border: none;
+background-color: #0000A8;
+color: white;
+cursor: pointer;
+font-size: 20px;
+transition: background-color 0.3s ease;
 }
 
 .overlay button:hover {
-    background-color: #ddd;
+background-color: #ddd;
 }
 
 /* Responsive Layout */
 @media (max-width: 768px) {
-    .category-item {
-        flex: 1 1 calc(50% - 20px); /* 2 columns on tablets */
-        max-width: calc(50% - 20px);
-        height: 200px; /* Adjust height */
+.category-item {
+    flex: 1 1 calc(50% - 20px); /* 2 columns on tablets */
+    max-width: calc(50% - 20px);
+    height: 200px; /* Adjust height */
+}
+
+.category-item:first-child {
+    flex: 1 1 100%; /* Full-width on tablets for the first item */
+    max-width: 100%;
+    height: 300px; /* Adjust height */
+}
+}
+
+@media (max-width: 480px) {
+.category-item {
+    flex: 1 1 100%; /* Full-width on mobile */
+    max-width: 100%;
+    height: 200px; /* Adjust height for mobile */
+}
+.overlay button {
+    padding: 6px 6px; /* Adjust padding for button */
+    font-size: 17px; /* Adjust font size for button */
+    border-radius: 4px; /* Optional: Add rounded corners */
+}
+.category-item:first-child {
+    height: 250px; /* Adjust height for mobile */
+}
+}
+/* For screen sizes below 600px, always show the overlay */
+@media (max-width: 600px) {
+.category-item .overlay {
+    opacity: 1; /* Always show the overlay */
+}
+/* Resize the button */
+.overlay button {
+    padding: 6px 6px; /* Adjust padding for button */
+    font-size: 15px; /* Adjust font size for button */
+    border-radius: 4px; /* Optional: Add rounded corners */
+}
+
+/* Resize the overlay text */
+.overlay h2 {
+    font-size: 20px; /* Adjust font size for the text */
+    margin-bottom: 8px; /* Adjust margin as needed */
+}
+}
+
+/* ----------------FEATURED PRODUCTS------------------ */
+/* Styling for the header text */
+.featured-products h1 {
+    font-family: 'PixelFont', sans-serif;
+    font-size: 3em;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px black;
+}
+
+/* Container holding both shirts */
+.shirt-group {
+    position: relative;
+    width: 700px; /* Set the container width */
+    margin: 0 auto; /* Center horizontally */
+    z-index: 1; /* Keep shirts above the background */
+}
+
+
+/* Slightly offset the second shirt */
+.shirt-group .shirt-bottom {
+    position: absolute;
+    top: 20px; /* Adjust this to control the overlap */
+    left: 10px;
+}
+ /* Responsive styles for smaller devices */
+ @media (max-width: 768px) {
+    .shirt-group {
+        width: 300px; /* Adjust width for medium devices */
     }
 
-    .category-item:first-child {
-        flex: 1 1 100%; /* Full-width on tablets for the first item */
-        max-width: 100%;
-        height: 300px; /* Adjust height */
+    .shirt-group .shirt-bottom {
+        top: 15px; /* Adjust position for smaller screens */
+        left: 8px;
+    }
+    .shirt-top{
+        width: 200px;
+    }
+    .shirt-bottom{
+        width: 200px;
     }
 }
 
 @media (max-width: 480px) {
-    .category-item {
-        flex: 1 1 100%; /* Full-width on mobile */
-        max-width: 100%;
-        height: 200px; /* Adjust height for mobile */
-    }
-    .overlay button {
-        padding: 6px 6px; /* Adjust padding for button */
-        font-size: 17px; /* Adjust font size for button */
-        border-radius: 4px; /* Optional: Add rounded corners */
-    }
-    .category-item:first-child {
-        height: 250px; /* Adjust height for mobile */
-    }
-}
-/* For screen sizes below 600px, always show the overlay */
-@media (max-width: 600px) {
-    .category-item .overlay {
-        opacity: 1; /* Always show the overlay */
-    }
-    /* Resize the button */
-    .overlay button {
-        padding: 6px 6px; /* Adjust padding for button */
-        font-size: 15px; /* Adjust font size for button */
-        border-radius: 4px; /* Optional: Add rounded corners */
-    }
-
-    /* Resize the overlay text */
-    .overlay h2 {
-        font-size: 20px; /* Adjust font size for the text */
-        margin-bottom: 8px; /* Adjust margin as needed */
-    }
-}
-    
-    /* ----------------FEATURED PRODUCTS------------------ */
-    /* Styling for the header text */
-    .featured-products h1 {
-        font-family: 'PixelFont', sans-serif;
-        font-size: 3em;
-        color: white;
-        margin-bottom: 20px;
-        text-shadow: 2px 2px black;
-    }
-
-    /* Container holding both shirts */
     .shirt-group {
-        position: relative;
-        width: 700px; /* Set the container width */
-        margin: 0 auto; /* Center horizontally */
-        z-index: 1; /* Keep shirts above the background */
+        width: 200px; /* Adjust width for small devices */
     }
 
-
-    /* Slightly offset the second shirt */
+    .shirt-top{
+        width: 200px;
+    }
+    .shirt-bottom{
+        width: 200px;
+    }
     .shirt-group .shirt-bottom {
-        position: absolute;
-        top: 20px; /* Adjust this to control the overlap */
-        left: 10px;
+        top: 10px; /* Adjust position for smaller screens */
+        left: 5px;
     }
-     /* Responsive styles for smaller devices */
-     @media (max-width: 768px) {
-        .shirt-group {
-            width: 300px; /* Adjust width for medium devices */
-        }
+}
 
-        .shirt-group .shirt-bottom {
-            top: 15px; /* Adjust position for smaller screens */
-            left: 8px;
-        }
-        .shirt-top{
-            width: 200px;
-        }
-        .shirt-bottom{
-            width: 200px;
-        }
-    }
+/* ----------------FEATURED PRODUCTS shirts------------------ */
+/* Clothing container styling */
+.clothing-container1 {
+    text-align: center;
+    padding: 40px 20px;
+    background: url('img/peakpx.webp') center/cover no-repeat; /* Add your background image here */
+}
 
-    @media (max-width: 480px) {
-        .shirt-group {
-            width: 200px; /* Adjust width for small devices */
-        }
+.clothing-container1 h1 {
+    font-family: 'PixelFont', sans-serif; /* Replace with your font */
+    font-size: 3em;
+    margin-bottom: 30px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
 
-        .shirt-top{
-            width: 200px;
-        }
-        .shirt-bottom{
-            width: 200px;
-        }
-        .shirt-group .shirt-bottom {
-            top: 10px; /* Adjust position for smaller screens */
-            left: 5px;
-        }
-    }
+/* Grid layout */
+.clothing-grid1 {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
 
-    /* ----------------FEATURED PRODUCTS shirts------------------ */
-    /* Clothing container styling */
-    .clothing-container1 {
-        text-align: center;
-        padding: 40px 20px;
-        background: url('img/peakpx.webp') center/cover no-repeat; /* Add your background image here */
-    }
+/* Individual item styles */
+.clothing-grid1 .item1 {
+    position: relative;
+    width: 280px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    overflow: hidden; /* Ensure children don't overflow */
+    z-index: 0;
+}
 
-    .clothing-container1 h1 {
-        font-family: 'PixelFont', sans-serif; /* Replace with your font */
-        font-size: 3em;
-        margin-bottom: 30px;
-        color: white;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    }
+/* White fade effect */
+.fade-bg1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    filter: blur(55px);
+    border-radius: 4px;
+    z-index: -1;
+}
 
-    /* Grid layout */
+/* Make sure the image is placed correctly */
+.item1 img {
+    width: 100%;
+    height: auto;
+    display: block; /* Ensure there's no extra space below the image */
+}
+
+/* Ensure text is above the fade effect */
+.item1 p, .item1 span {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-family: 'PixelFont', sans-serif;
+    font-size: 1.2em;   
+    color: rgb(255, 255, 255);
+    z-index: 1; /* Higher than the fade-bg */
+}
+.item1 span {
+    padding-top: 10px;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
     .clothing-grid1 {
-        display: flex;
-        justify-content: center;
-        gap: 60px;
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
     }
 
-    /* Individual item styles */
-    .clothing-grid1 .item1 {
-        position: relative;
-        width: 280px;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-        overflow: hidden; /* Ensure children don't overflow */
-        z-index: 0;
+    .item1 {
+        width: 90%;
     }
+}
 
-    /* White fade effect */
-    .fade-bg1 {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(255, 255, 255, 0.9);
-        filter: blur(55px);
-        border-radius: 4px;
-        z-index: -1;
-    }
-
-    /* Make sure the image is placed correctly */
-    .item1 img {
-        width: 100%;
-        height: auto;
-        display: block; /* Ensure there's no extra space below the image */
-    }
-
-    /* Ensure text is above the fade effect */
-    .item1 p, .item1 span {
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-        font-family: 'PixelFont', sans-serif;
-        font-size: 1.2em;   
-        color: rgb(255, 255, 255);
-        z-index: 1; /* Higher than the fade-bg */
-    }
-    .item1 span {
-        padding-top: 10px;
-    }
-
-    /* Responsive styles for smaller screens */
-    @media (max-width: 768px) {
-        .clothing-grid1 {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .item1 {
-            width: 90%;
-        }
-    }
-
-    /* ----------------about us ------------------ */
+/* ----------------about us ------------------ */
 
 /* Container */
 .container {
-    font-family: 'PixelFont', sans-serif;
-    display: flex;
-    background-color: #0000A8;
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    width: 100%;
-    padding: 50px 100px;
-    height: 100%;
-    box-sizing: border-box;
+font-family: 'PixelFont', sans-serif;
+display: flex;
+background-color: #0000A8;
+justify-content: center; /* Center content horizontally */
+align-items: center; /* Center content vertically */
+width: 100%;
+padding: 50px 100px;
+height: 100%;
+box-sizing: border-box;
 }
 
 /* Left Side */
 .left-side {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center text vertically */
-    align-items: center; /* Center text horizontally */
-    padding-left: 0; /* Remove left padding */
-    text-align: center; /* Center-align the text */
+flex: 1;
+display: flex;
+flex-direction: column;
+justify-content: center; /* Center text vertically */
+align-items: center; /* Center text horizontally */
+padding-left: 0; /* Remove left padding */
+text-align: center; /* Center-align the text */
 }
 
 .title {
-    color: white;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px #000000;
+color: white;
+font-size: 1.2rem;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+margin-bottom: 1rem;
+text-shadow: 2px 2px #000000;
 }
 
 .main-title {
-    text-transform: uppercase; 
-    font-size: 2rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 2rem;
-    color: #fff;
-    text-shadow: 2px 2px #000000;
+text-transform: uppercase; 
+font-size: 2rem;
+font-weight: bold;
+text-transform: uppercase;
+letter-spacing: 0.1em;
+margin-bottom: 2rem;
+color: #fff;
+text-shadow: 2px 2px #000000;
 }
 
 /* Right Side */
 .right-side {
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; /* Center-align content horizontally */
-    text-align: center; /* Center-align the text */
-    max-width: 800px;
-    padding-left: 0; /* Remove left padding */
-    box-sizing: border-box;
+flex: 2;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center; /* Center-align content horizontally */
+text-align: center; /* Center-align the text */
+max-width: 800px;
+padding-left: 0; /* Remove left padding */
+box-sizing: border-box;
 }
 
 .description {
-    text-transform: uppercase;
-    color: #fff;
-    font-size: 15px;
-    line-height: 1.6;
-    max-width: 600px;
-    margin: 0;
-    margin-bottom: 20px; /* Add space between the description and the button */
+text-transform: uppercase;
+color: #fff;
+font-size: 15px;
+line-height: 1.6;
+max-width: 600px;
+margin: 0;
+margin-bottom: 20px; /* Add space between the description and the button */
 }
 
 .learn-more {
-    padding: 10px 20px;
-    font-size: 1.5em;
-    background-color: #0000A8; /* Initial background color */
-    color: white;
-    border: 2px solid #808080; /* Grey border */
-    border-right-color: #FFFFFF; /* Light bevel effect */
-    border-bottom-color: #FFFFFF;
-    border-left-color: #000000; /* Darker inner shadow effect */
-    border-top-color: #000000;
-    font-family: 'PixelFont', sans-serif;
-    cursor: pointer;
-    box-shadow: 2px 2px 0px #000000; /* Gives the effect of a raised button */
-    transition: box-shadow 0.1s ease, border 0.1s ease, background-color 0.1s ease;
+padding: 10px 20px;
+font-size: 1.5em;
+background-color: #0000A8; /* Initial background color */
+color: white;
+border: 2px solid #808080; /* Grey border */
+border-right-color: #FFFFFF; /* Light bevel effect */
+border-bottom-color: #FFFFFF;
+border-left-color: #000000; /* Darker inner shadow effect */
+border-top-color: #000000;
+font-family: 'PixelFont', sans-serif;
+cursor: pointer;
+box-shadow: 2px 2px 0px #000000; /* Gives the effect of a raised button */
+transition: box-shadow 0.1s ease, border 0.1s ease, background-color 0.1s ease;
 }
 
 /* Hover effect to mimic button press */
 .learn-more:hover {
-    box-shadow: none;
-    border-right-color: #000000; /* Inset shadow effect */
-    border-bottom-color: #000000;
-    border-left-color: #FFFFFF;
-    border-top-color: #FFFFFF;
-    background-color: #000088; /* Slightly darker background on hover */
+box-shadow: none;
+border-right-color: #000000; /* Inset shadow effect */
+border-bottom-color: #000000;
+border-left-color: #FFFFFF;
+border-top-color: #FFFFFF;
+background-color: #000088; /* Slightly darker background on hover */
 }
 
 
@@ -1560,87 +1566,87 @@ img.full-sleeve {
 
 /* For Tablets and Small Desktops */
 @media (max-width: 1024px) {
-    .container {
-        padding: 20px;
-    }
+.container {
+    padding: 20px;
+}
 
-    .left-side, .right-side {
-        width: 100%;
-        text-align: center; /* Ensure text stays centered */
-    }
+.left-side, .right-side {
+    width: 100%;
+    text-align: center; /* Ensure text stays centered */
+}
 
-    .main-title {
-        font-size: 1.8rem;
-    }
+.main-title {
+    font-size: 1.8rem;
+}
 
-    .description {
-        font-size: 0.95rem;
-    }
+.description {
+    font-size: 0.95rem;
+}
 }
 
 /* For Large Phones and Small Tablets */
 @media (max-width: 768px) {
-    .container {
-        display: block;
-        padding: 20px;
-    }
+.container {
+    display: block;
+    padding: 20px;
+}
 
-    .left-side, .right-side {
-        padding: 0;
-        width: 100%;
-        text-align: center; /* Keep text center-aligned */
-    }
+.left-side, .right-side {
+    padding: 0;
+    width: 100%;
+    text-align: center; /* Keep text center-aligned */
+}
 
-    .main-title {
-        font-size: 1.6rem;
-    }
+.main-title {
+    font-size: 1.6rem;
+}
 
-    .description {
-        font-size: 0.9rem;
-    }
+.description {
+    font-size: 0.9rem;
+}
 
-    .learn-more {
-        font-size: 0.9rem;
-    }
+.learn-more {
+    font-size: 0.9rem;
+}
 }
 
 /* For Mobile Phones */
 @media (max-width: 480px) {
-    .container {
-        padding: 10px;
-    }
+.container {
+    padding: 10px;
+}
 
-    .left-side, .right-side {
-        width: 100%;
-        text-align: center; /* Center-align text on smaller screens */
-    }
+.left-side, .right-side {
+    width: 100%;
+    text-align: center; /* Center-align text on smaller screens */
+}
 
-    .main-title {
-        font-size: 1.4rem;
-    }
+.main-title {
+    font-size: 1.4rem;
+}
 
-    .description {
-        font-size: 0.85rem;
-    }
+.description {
+    font-size: 0.85rem;
+}
 
-    .learn-more {
-        font-size: 0.85rem;
-    }
+.learn-more {
+    font-size: 0.85rem;
+}
 }
 
 /* For Smallest Phones */
 @media (max-width: 360px) {
-    .main-title {
-        font-size: 1.3rem;
-    }
+.main-title {
+    font-size: 1.3rem;
+}
 
-    .description {
-        font-size: 0.75rem;
-    }
+.description {
+    font-size: 0.75rem;
+}
 
-    .learn-more {
-        font-size: 0.8rem;
-    }
+.learn-more {
+    font-size: 0.8rem;
+}
 }
 
 
@@ -1648,601 +1654,601 @@ img.full-sleeve {
 
 /* For Tablets and Small Desktops */
 @media (max-width: 1024px) {
-    .container {
-        padding: 20px;
-    }
+.container {
+    padding: 20px;
+}
 
-    .left-side, .right-side {
-        padding-left: 20px;
-        width: 100%;
-    }
+.left-side, .right-side {
+    padding-left: 20px;
+    width: 100%;
+}
 
-    .main-title {
-        font-size: 1.8rem;
-    }
+.main-title {
+    font-size: 1.8rem;
+}
 
-    .description {
-        font-size: 0.95rem;
-    }
+.description {
+    font-size: 0.95rem;
+}
 }
 
 /* For Large Phones and Small Tablets */
 @media (max-width: 768px) {
-    .container {
-        padding: 20px;
-    }
+.container {
+    padding: 20px;
+}
 
-    .left-side, .right-side {
-        padding: 0 20px;
-        width: 100%;
-        justify-content: center; /* Keep vertical alignment */
-    }
+.left-side, .right-side {
+    padding: 0 20px;
+    width: 100%;
+    justify-content: center; /* Keep vertical alignment */
+}
 
-    .left-side {
-        align-items: center; /* Center-align the text */
-        text-align: center; /* Center-align the text */
-    }
+.left-side {
+    align-items: center; /* Center-align the text */
+    text-align: center; /* Center-align the text */
+}
 
-    .right-side {
-        align-items: center; /* Center-align the text */
-        text-align: center; /* Center-align the text */
-    }
+.right-side {
+    align-items: center; /* Center-align the text */
+    text-align: center; /* Center-align the text */
+}
 
-    .main-title {
-        font-size: 1.6rem;
-    }
+.main-title {
+    font-size: 1.6rem;
+}
 
-    .description {
-        font-size: 0.9rem;
-    }
+.description {
+    font-size: 0.9rem;
+}
 }
 
 /* For Mobile Phones */
 @media (max-width: 480px) {
-    .container {
-        padding: 10px;
-    }
+.container {
+    padding: 10px;
+}
 
-    .left-side, .right-side {
-        width: 100%;
-        padding: 0 10px;
-    }
+.left-side, .right-side {
+    width: 100%;
+    padding: 0 10px;
+}
 
-    .main-title {
-        font-size: 1.4rem;
-    }
+.main-title {
+    font-size: 1.4rem;
+}
 
-    .description {
-        font-size: 0.85rem;
-    }
+.description {
+    font-size: 0.85rem;
+}
 
-    .learn-more {
-        font-size: 0.9rem;
-    }
+.learn-more {
+    font-size: 0.9rem;
+}
 }
 
 /* For Smallest Phones */
 @media (max-width: 360px) {
-    .main-title {
-        font-size: 1.3rem;
-    }
+.main-title {
+    font-size: 1.3rem;
+}
 
-    .description {
-        font-size: 0.75rem;
-    }
+.description {
+    font-size: 0.75rem;
+}
 
-    .learn-more {
-        font-size: 0.85rem;
-    }
+.learn-more {
+    font-size: 0.85rem;
+}
 }
 
 
- /* ----------------fOOTER ------------------ */
+/* ----------------fOOTER ------------------ */
 #txt1{
-    font-size: 28px;
-    color: #ffffff;
-    text-transform: capitalize;
-    margin-bottom: 15px;
-    font-weight: 500;
-    position: relative;
+font-size: 28px;
+color: #ffffff;
+text-transform: capitalize;
+margin-bottom: 15px;
+font-weight: 500;
+position: relative;
 }
 #subs{
-    display: block;
-    width: 170px;
-    background-color: #0000A8;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    font-size:15px;
-    margin-top: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+display: block;
+width: 170px;
+background-color: #0000A8;
+color: white;
+padding: 10px;
+text-align: center;
+font-size:15px;
+margin-top: 20px;
+border: none;
+cursor: pointer;
+border-radius: 5px;
+transition: background-color 0.3s;
 }
- /* Container */
+/* Container */
 .containerf {
-    font-family: 'PixelFont', sans-serif;
-    display: flex;
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    width: 100%;
-    padding: 50px 100px;
-    height: 100%;
-    box-sizing: border-box;
+font-family: 'PixelFont', sans-serif;
+display: flex;
+justify-content: center; /* Center content horizontally */
+align-items: center; /* Center content vertically */
+width: 100%;
+padding: 50px 100px;
+height: 100%;
+box-sizing: border-box;
 
-    /* Transparent black background */
-    background: rgba(0, 0, 0, 0.5); /* 50% transparent black */
+/* Transparent black background */
+background: rgba(0, 0, 0, 0.5); /* 50% transparent black */
 }
- .row {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  ul {
-    list-style: none;
-  }
-  
-  .footer-col {
-    width: 250px;
-    padding: 20px 15px;
-  }
-  
-  .footer-col h4 {
-    font-size: 38px;
-    color: #ffffff;
-    text-transform: capitalize;
-    margin-bottom: 35px;
-    font-weight: 500;
-    position: relative;
-  }
-  
-  .footer-col h4::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -10px;
-    background-color: #ff0000;
-    height: 2px;
-    box-sizing: border-box;
-    width: 50px;
-  }
-  
-  .footer-col ul li:not(:last-child) {
-    margin-bottom: 10px;
-  }
-  
-  .footer-col ul li a {
-    font-size: 20px;
-    text-transform: capitalize;
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 300;
-    color: #bbbbbb;
-    display: block;
-    transition: all 0.3s ease;
-  }
-  
-  .footer-col ul li a:hover {
-    color: #ffffff;
-    padding-left: 8px;
-  }
-  
-  .footer-col .social-links a {
-    display: inline-block;
-    height: 40px;
-    width: 40px;
-    background-color: rgba(255, 255, 255, 0.2);
-    margin: 0 10px 10px 0;
-    text-align: center;
-    line-height: 40px;
-    border-radius: 50%;
-    color: #ffffff;
-    transition: all 0.5s ease;
-  }
-  
-  .footer-col .social-links a:hover {
-    color: #24262b;
-    background-color: #ffffff;
-  }
-  
-  /* Payment icons now positioned under Follow Us section */
-  .payment-icons {
-    display: flex;
-    justify-content: flex-start;
-    padding-top: 20px;
-  }
-  
-  .payment-icons img {
-    height: 40px; /* Set the size of the icons */
-    margin-right: 15px; /* Space between icons */
-    transition: transform 0.3s ease; /* Optional hover effect */
-  }
-  
-  .payment-icons img:hover {
-    transform: scale(1.1); /* Slightly enlarge on hover */
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 767px) {
-    .footer-col {
-      width: 50%;
-      margin-bottom: 30px;
-    }
-  }
-  
-  @media (max-width: 574px) {
-    .footer-col {
-      width: 100%;
-    }
-  }
-  .social-links a img {
-    height: 40px; /* Set the height of the icons */
-    width: 40px; /* Set the width of the icons */
-    margin-right: 10px; /* Add space between the icons */
-    transition: transform 0.3s ease; /* Optional hover effect */
-  }
-  
-  .social-links a img:hover {
-    transform: scale(1.1); /* Slightly enlarge on hover */
-  }
+.row {
+display: flex;
+flex-wrap: wrap;
+}
 
-  
+ul {
+list-style: none;
+}
+
+.footer-col {
+width: 250px;
+padding: 20px 15px;
+}
+
+.footer-col h4 {
+font-size: 38px;
+color: #ffffff;
+text-transform: capitalize;
+margin-bottom: 35px;
+font-weight: 500;
+position: relative;
+}
+
+.footer-col h4::before {
+content: '';
+position: absolute;
+left: 0;
+bottom: -10px;
+background-color: #ff0000;
+height: 2px;
+box-sizing: border-box;
+width: 50px;
+}
+
+.footer-col ul li:not(:last-child) {
+margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+font-size: 20px;
+text-transform: capitalize;
+color: #ffffff;
+text-decoration: none;
+font-weight: 300;
+color: #bbbbbb;
+display: block;
+transition: all 0.3s ease;
+}
+
+.footer-col ul li a:hover {
+color: #ffffff;
+padding-left: 8px;
+}
+
+.footer-col .social-links a {
+display: inline-block;
+height: 40px;
+width: 40px;
+background-color: rgba(255, 255, 255, 0.2);
+margin: 0 10px 10px 0;
+text-align: center;
+line-height: 40px;
+border-radius: 50%;
+color: #ffffff;
+transition: all 0.5s ease;
+}
+
+.footer-col .social-links a:hover {
+color: #24262b;
+background-color: #ffffff;
+}
+
+/* Payment icons now positioned under Follow Us section */
+.payment-icons {
+display: flex;
+justify-content: flex-start;
+padding-top: 20px;
+}
+
+.payment-icons img {
+height: 40px; /* Set the size of the icons */
+margin-right: 15px; /* Space between icons */
+transition: transform 0.3s ease; /* Optional hover effect */
+}
+
+.payment-icons img:hover {
+transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+.footer-col {
+  width: 50%;
+  margin-bottom: 30px;
+}
+}
+
+@media (max-width: 574px) {
+.footer-col {
+  width: 100%;
+}
+}
+.social-links a img {
+height: 40px; /* Set the height of the icons */
+width: 40px; /* Set the width of the icons */
+margin-right: 10px; /* Add space between the icons */
+transition: transform 0.3s ease; /* Optional hover effect */
+}
+
+.social-links a img:hover {
+transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+
 
 
 
 /* Updated Cart Popup CSS for smooth sliding */
 .cart-popup {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 30%; /* Cart popup width */
-    height: 100%;
-    background-color: #ffffff;
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
-    z-index: 1200;
-    transform: translateX(100%); /* Start off-screen */
-    transition: transform 0.4s ease-in-out; /* Smooth slide-in and slide-out effect */
-    overflow-y: auto;
+position: fixed;
+top: 0;
+right: 0;
+width: 30%; /* Cart popup width */
+height: 100%;
+background-color: #ffffff;
+box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+z-index: 1200;
+transform: translateX(100%); /* Start off-screen */
+transition: transform 0.4s ease-in-out; /* Smooth slide-in and slide-out effect */
+overflow-y: auto;
 }
 /* Responsive Cart Popup for smaller screens */
 @media (max-width: 1224px) {
-    .cart-popup {
-        width: 45%;
-        
-    }
+.cart-popup {
+    width: 45%;
+    
+}
 }
 @media (max-width: 768px) {
-    .cart-popup {
-        width: 90%;
-        top: 20px;
-    }
+.cart-popup {
+    width: 90%;
+    top: 20px;
+}
 }
 
 
 .quantity-control {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+display: flex;
+align-items: center;
+gap: 5px;
 }
 
 .quantity-control button {
-    background-color: #000;
-    color: white;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    border-radius: 3px;
+background-color: #000;
+color: white;
+border: none;
+padding: 5px;
+cursor: pointer;
+border-radius: 3px;
 }
 
 .quantity-control button:hover {
-    background-color: #555;
+background-color: #555;
 }
 
 .quantity-control span {
-    font-size: 1rem;
-    padding: 0 10px;
+font-size: 1rem;
+padding: 0 10px;
 }
 
 .cart-popup.show {
-    transform: translateX(0); /* Slide in */
+transform: translateX(0); /* Slide in */
 }
 
 .cart-popup-content {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+padding: 20px;
+font-family: Arial, sans-serif;
+display: flex;
+flex-direction: column;
+height: 100%;
 }
 
 
 .cart-header {
-    text-align: left;
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 20px;
+text-align: left;
+font-size: 2rem;
+font-weight: bold;
+margin-bottom: 20px;
 }
 
 .cart-item {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 15px 0;
+display: flex;
+align-items: center;
+border-bottom: 1px solid #e0e0e0;
+padding: 15px 0;
 }
 
 .cart-item img {
-    width: 80px; /* Smaller image size */
-    height: 80px;
-    margin-right: 15px;
-    object-fit: cover;
-    border-radius: 5px;
-    border: 1px solid #ccc; /* Solid box around the image */
+width: 80px; /* Smaller image size */
+height: 80px;
+margin-right: 15px;
+object-fit: cover;
+border-radius: 5px;
+border: 1px solid #ccc; /* Solid box around the image */
 }
 
 .cart-item-details {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    font-size: 1rem;
-    color: #333;
+flex: 1;
+display: flex;
+flex-direction: column;
+font-size: 1rem;
+color: #333;
 }
 
 .cart-item-details .item-name {
-    font-weight: bold;
-    margin-bottom: 5px;
+font-weight: bold;
+margin-bottom: 5px;
 }
 
 .cart-item-details .item-price {
-    color: #777;
+color: #777;
 }
 
 .cart-item .remove-btn {
-    cursor: pointer;
-    font-size: 20px;
-    color: #ff4d4d;
-    margin-left: 15px;
+cursor: pointer;
+font-size: 20px;
+color: #ff4d4d;
+margin-left: 15px;
 }
 
 .cart-item .remove-btn:hover {
-    color: #ff0000;
+color: #ff0000;
 }
 
 .cart-total {
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: right;
-    margin-top: 20px;
+font-size: 1.5rem;
+font-weight: bold;
+text-align: right;
+margin-top: 20px;
 }
 
 .checkout-btn {
-    display: block;
-    width: 100%;
-    background-color: #0000A8;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    font-size: 1.2rem;
-    margin-top: 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+display: block;
+width: 100%;
+background-color: #0000A8;
+color: white;
+padding: 15px;
+text-align: center;
+font-size: 1.2rem;
+margin-top: 20px;
+border: none;
+cursor: pointer;
+border-radius: 5px;
+transition: background-color 0.3s;
 }
 
 .checkout-btn:hover {
-    background-color: #4F50FF;
+background-color: #4F50FF;
 }
 /* Styling for cart popup close button, buttons, etc. */
 .close-btn {
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 44px;
-    color: #333;
+cursor: pointer;
+position: absolute;
+top: 10px;
+right: 10px;
+font-size: 44px;
+color: #333;
 }
 .add-to-cart-button:hover {
-    background-color: #4F50FF;
+background-color: #4F50FF;
 }
 .preview-images {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
+display: flex;
+gap: 10px;
+justify-content: center;
 }
 
 .preview {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;  /* Ensures previews are uniform in size */
-    cursor: pointer;
-    border: 1px solid #ccc;
+width: 60px;
+height: 60px;
+object-fit: cover;  /* Ensures previews are uniform in size */
+cursor: pointer;
+border: 1px solid #ccc;
 }
 
 .product-details-section {
-    width: 300px;
+width: 300px;
 }
 
 .preview:hover {
-    border-color: #007bff;
+border-color: #007bff;
 }
 /* Ensure the product list takes most of the space */
 #cart-items {
-    flex-grow: 1;
+flex-grow: 1;
 }
 /* Terms and Conditions */
 .terms-and-conditions {
-    font-size: 12px;
-    color: #666;
-    margin-top: 10px;
+font-size: 12px;
+color: #666;
+margin-top: 10px;
 }
 
 .terms-and-conditions-link {
-    color: #000000;
-    cursor: pointer;
-    font-size: 12px;
-    display: inline-block;
-    margin-top: 10px;
+color: #000000;
+cursor: pointer;
+font-size: 12px;
+display: inline-block;
+margin-top: 10px;
 }
 
 .terms-and-conditions-link:hover {
-    text-decoration: underline;
+text-decoration: underline;
 }
 /* Modal container for the zoomed image */
 .image-modal {
-    display: none;
-    position: fixed;
-    z-index: 1000; /* High z-index to make sure it's above everything else */
-    padding-top: 100px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9); /* Dark background */
-    overflow: hidden; /* Prevent the modal from expanding beyond the screen */
+display: none;
+position: fixed;
+z-index: 1000; /* High z-index to make sure it's above everything else */
+padding-top: 100px;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.9); /* Dark background */
+overflow: hidden; /* Prevent the modal from expanding beyond the screen */
 }
 
 /* Modal image */
 .modal-content {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-    transition: transform 0.3s ease;
+margin: auto;
+display: block;
+width: 80%;
+max-width: 700px;
+transition: transform 0.3s ease;
 }
 
 /* Zoom on hover in the modal */
 .modal-content.zoomable:hover {
-    transform: scale(1.5); /* Zoom on hover */
-    transition: transform 0.5s ease;
-    cursor: zoom-in;
+transform: scale(1.5); /* Zoom on hover */
+transition: transform 0.5s ease;
+cursor: zoom-in;
 }
 
 /* Close button for the modal */
 .close-modal {
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    color: white;
-    font-size: 40px;
-    cursor: pointer;
-    font-weight: bold;
-    z-index: 2000; /* Ensures it's always on top, even during zoom */
-    background-color: rgba(0, 0, 0, 0.5); /* Slight background to improve visibility */
-    padding: 10px;
-    border-radius: 50%; /* Makes it a circle button */
+position: absolute;
+top: 30px;
+right: 30px;
+color: white;
+font-size: 40px;
+cursor: pointer;
+font-weight: bold;
+z-index: 2000; /* Ensures it's always on top, even during zoom */
+background-color: rgba(0, 0, 0, 0.5); /* Slight background to improve visibility */
+padding: 10px;
+border-radius: 50%; /* Makes it a circle button */
 }
 
 /* Ensure zoom works on mobile pinch gestures */
 @media (max-width: 768px) {
-    .modal-content {
-        width: 100%;
-        height: auto;
-        touch-action: pinch-zoom;
-    }
+.modal-content {
+    width: 100%;
+    height: auto;
+    touch-action: pinch-zoom;
+}
 
-    /* Adjust the close button for smaller screens */
-    .close-modal {
-        font-size: 30px;
-        top: 10px;
-        right: 10px;
-    }
+/* Adjust the close button for smaller screens */
+.close-modal {
+    font-size: 30px;
+    top: 10px;
+    right: 10px;
+}
 }
 
 /* Cart popup wrapper covers the entire screen */
 .cart-popup-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1100;
-    visibility: hidden;
-    background-color: rgba(0, 0, 0, 0.5); /* Optional: a slight overlay for better UX */
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 1100;
+visibility: hidden;
+background-color: rgba(0, 0, 0, 0.5); /* Optional: a slight overlay for better UX */
 }
 
 /* Show the wrapper when the cart is opened */
 .cart-popup-wrapper.show {
-    visibility: visible;
+visibility: visible;
 }
 
 
 
 .cursor {
-    z-index: 100;
-    position: absolute;
-    top: 0;
-    left: 0;
-    /* border: 2px solid white; */
-    /* background-color: rgba(255, 255, 255, 0.356); */
-    height: 30px;
-    width: 30px;
-    border-radius: 50px;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-  }
-  .cursor::after,
-  .cursor::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    height: 10px;
-    width: 10px;
-    border-radius: 50px;
-  }
-  .cursor::before {
-    background-color: rgb(255, 255, 255);
-  }
-  .cursor.click::before {
-    animation: click 1s ease forwards;
-    background-color: rgb(255, 255, 255);
-  }
-  @keyframes click {
-    0% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-    100% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(7);
-    }
-  }
-  /* Custom Alert Styling */
+z-index: 100;
+position: absolute;
+top: 0;
+left: 0;
+/* border: 2px solid white; */
+/* background-color: rgba(255, 255, 255, 0.356); */
+height: 30px;
+width: 30px;
+border-radius: 50px;
+transform: translate(-50%, -50%);
+pointer-events: none;
+}
+.cursor::after,
+.cursor::before {
+content: "";
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background-color: white;
+height: 10px;
+width: 10px;
+border-radius: 50px;
+}
+.cursor::before {
+background-color: rgb(255, 255, 255);
+}
+.cursor.click::before {
+animation: click 1s ease forwards;
+background-color: rgb(255, 255, 255);
+}
+@keyframes click {
+0% {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+100% {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(7);
+}
+}
+/* Custom Alert Styling */
 .custom-alert {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    color: darkblue; 
-    border: 2px solid darkblue;
-    padding: 20px;
-    width: 300px;
-    text-align: center;
-    font-family: 'PixelFont';
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000; 
-    border-radius: 10px;
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background-color: white;
+color: darkblue; 
+border: 2px solid darkblue;
+padding: 20px;
+width: 300px;
+text-align: center;
+font-family: 'PixelFont';
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+z-index: 1000; 
+border-radius: 10px;
 }
 
 .hidden {
-    display: none; /* Hide the alert */
+display: none; /* Hide the alert */
 }
 
 .alert-button {
-    margin-top: 20px;
-    background-color: darkblue;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
+margin-top: 20px;
+background-color: darkblue;
+color: white;
+border: none;
+padding: 10px 20px;
+border-radius: 5px;
+cursor: pointer;
+font-size: 14px;
 }
 
 .alert-button:hover {
-    background-color: #000066; 
+background-color: #000066; 
 }
