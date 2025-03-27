@@ -63,8 +63,9 @@ async function checkoutWithStripe() {
         const session = responseBody;
 
         // Initialize Stripe and redirect to checkout
-        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+        const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
         await stripe.redirectToCheckout({ sessionId: session.id });
+
 
         // Clear the cart after successful checkout (this code will not execute until after the redirect)
         cart = []; // Clear the cart array
