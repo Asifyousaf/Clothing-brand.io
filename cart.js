@@ -13,7 +13,16 @@ hamMenu.addEventListener("click", () => {
   offScreenMenu.classList.toggle("active");
 });
 
-
+async function getStripeKey() {
+    try {
+        const response = await fetch('/api/get-stripe-key');
+        const data = await response.json();
+        return data.stripeKey;
+    } catch (error) {
+        console.error('Error fetching Stripe key:', error);
+        return null; // Fallback in case of failure
+    }
+}
 
 // Helper function to calculate the total cart price
 function calculateTotalCartPrice() {
@@ -62,9 +71,20 @@ async function checkoutWithStripe() {
         // Get the session object from the response
         const session = responseBody;
 
-        // Initialize Stripe and redirect to checkout
-        const stripe = Stripe('pk_test_51Q6qZ8Rxk79NacxxmxK6wWgu9j4c9S6s8P65w0usB7WISHIEKMGyr2bfgo0EDdsXD23D7LjtIz7jt7fvlfyc72v600ZMyI8pef');
-        await stripe.redirectToCheckout({ sessionId: session.id });
+        try {
+            const stripeKey = await getStripeKey();
+            if (!stripeKey) {
+                alert('Stripe key could not be loaded.');
+                return;
+            }
+    
+            const stripe = Stripe(stripeKey);
+            await stripe.redirectToCheckout({ sessionId: session.id });
+    
+        } catch (error) {
+            console.error('Error during checkout:', error);
+            alert('An error occurred. Please try again.');
+        }
 
         // Clear the cart after successful checkout (this code will not execute until after the redirect)
         cart = []; // Clear the cart array
@@ -77,27 +97,7 @@ async function checkoutWithStripe() {
     }
 }
 
-async function sendInvoice() {
-    const response = await fetch("https://cybertronicbot.com/send-invoice", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            customerId: "cus_xxxxxxxx", // Replace with real Stripe customer ID
-            amount: 100, // Amount in AED (e.g., 100 AED)
-            description: "Purchase of clothing",
-        }),
-    });
 
-    const data = await response.json();
-    if (data.success) {
-        alert("Invoice sent successfully!");
-        console.log("Invoice ID:", data.invoiceId);
-    } else {
-        alert("Error sending invoice: " + data.error);
-    }
-}
 
 
 
