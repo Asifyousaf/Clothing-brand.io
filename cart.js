@@ -1,4 +1,3 @@
-
 document.getElementById('hamburger').addEventListener('click', function() {
     const navLeft = document.getElementById('nav-left');
     const navRight = document.getElementById('nav-right');
@@ -16,11 +15,17 @@ hamMenu.addEventListener("click", () => {
 async function getStripeKey() {
     try {
         const response = await fetch('/api/get-stripe-key');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
+        if (!data.stripeKey) {
+            throw new Error('No Stripe key in response');
+        }
         return data.stripeKey;
     } catch (error) {
         console.error('Error fetching Stripe key:', error);
-        return null; // Fallback in case of failure
+        throw error; // Re-throw to be handled by the calling function
     }
 }
 
@@ -28,72 +33,64 @@ async function getStripeKey() {
 function calculateTotalCartPrice() {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
 }
+
 async function checkoutWithStripe() {
     try {
         // Log the entire cart for inspection
         console.log('Cart items to send:', cart);
 
         // Map cart items to a structure that Stripe expects
-        const cartItems = cart.map(item => {
-            console.log(`Item: ${item.name}, Price: ${item.price}, Quantity: ${item.quantity}`); // Log each item
-            return {
-                productId: item.productId, // Make sure productId is included
-                name: item.name,
-                image: item.image,
-                price: item.price,
-                size: item.size,
-                color: item.color,
-                quantity: item.quantity
-            };
-        });
+        const cartItems = cart.map(item => ({
+            productId: item.productId,
+            name: item.name,
+            image: item.image,
+            price: item.price,
+            size: item.size,
+            color: item.color,
+            quantity: item.quantity
+        }));
 
-        // Log formatted cart items to see if they are correct
-        console.log('Formatted cart items for Stripe:', cartItems);
-
-        // Send cart data to your backend for session creation
-        const response = await fetch('/api/create-checkout-session', {
+        // First create the checkout session
+        const sessionResponse = await fetch('/api/create-checkout-session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                cartItems // Directly send structured cartItems
-            })
+            body: JSON.stringify({ cartItems })
         });
 
-        // Log the response status and body
-        console.log('Response status:', response.status);
-        const responseBody = await response.json();
-        console.log('Response body:', responseBody);
-
-        if (!response.ok) {
-            throw new Error(`Failed to create checkout session: ${responseBody.error || responseBody}`);
+        if (!sessionResponse.ok) {
+            const errorText = await sessionResponse.text();
+            throw new Error(`Failed to create checkout session: ${errorText}`);
         }
 
-        // Get the session object from the response
-        const session = responseBody;
-
-        try {
-            const stripeKey = await getStripeKey();
-            if (!stripeKey) {
-                alert('Stripe key could not be loaded.');
-                return;
-            }
-    
-            const stripe = Stripe(stripeKey);
-            await stripe.redirectToCheckout({ sessionId: session.id });
-    
-        } catch (error) {
-            console.error('Error during checkout:', error);
-            alert('An error occurred. Please try again.');
+        const session = await sessionResponse.json();
+        
+        if (!session.id) {
+            throw new Error('No session ID returned from server');
         }
 
-        // Clear the cart after successful checkout (this code will not execute until after the redirect)
-        cart = []; // Clear the cart array
-        localStorage.setItem('cart', JSON.stringify(cart)); // Update local storage
-        updateCart(); // Optionally update the cart display if you are still on the page (or on next visit)
+        // Then get the Stripe key and initialize Stripe
+        const stripeKey = await getStripeKey();
+        if (!stripeKey) {
+            throw new Error('Failed to load Stripe key');
+        }
+
+        const stripe = Stripe(stripeKey);
+        const { error } = await stripe.redirectToCheckout({
+            sessionId: session.id
+        });
+
+        if (error) {
+            throw error;
+        }
+
+        // Clear cart (this won't execute until after redirect returns)
+        cart = [];
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCart();
 
     } catch (error) {
         console.error('Error during checkout:', error);
-        alert('An error occurred. Please try again.');
+        alert('An error occurred during checkout. Please try again.');
     }
 }
 
@@ -119,9 +116,6 @@ async function sendInvoice() {
     }
 }
 
-
-
-
 document.getElementById('checkout-button').addEventListener('click', function() {
     checkoutWithStripe(); // Trigger the checkout process
 });
@@ -136,14 +130,11 @@ function closeCart() {
     document.getElementById('cart-popup').classList.remove('show');
 }
 
-
-
 // Ensure PayPal is initialized when the page loads
 window.onload = function() {
     updateCart(); // Update cart and initialize PayPal button
    
 };
-
 
 // Function to open the cart
 function openCart() {
