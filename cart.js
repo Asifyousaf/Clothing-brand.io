@@ -13,32 +13,11 @@ hamMenu.addEventListener("click", () => {
   offScreenMenu.classList.toggle("active");
 });
 
-async function getStripeKey() {
-    try {
-        const response = await fetch('/api/get-stripe-key');
-        const data = await response.json();
-        return data.stripeKey;
-    } catch (error) {
-        console.error('Error fetching Stripe key:', error);
-        return null; // Fallback in case of failure
-    }
-}
+
 
 // Helper function to calculate the total cart price
 function calculateTotalCartPrice() {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
-}
-
-async function getStripeKey() {
-    try {
-        const response = await fetch('/api/get-stripe-key'); // API route to fetch the Stripe public key
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || 'Failed to fetch Stripe key');
-        return data.publishableKey; // Ensure your backend sends `{ publishableKey: "your-stripe-key" }`
-    } catch (error) {
-        console.error('Error fetching Stripe key:', error);
-        return null;
-    }
 }
 async function checkoutWithStripe() {
     try {
@@ -83,20 +62,9 @@ async function checkoutWithStripe() {
         // Get the session object from the response
         const session = responseBody;
 
-        try {
-            const stripeKey = await getStripeKey();
-            if (!stripeKey) {
-                alert('Stripe key could not be loaded.');
-                return;
-            }
-    
-            const stripe = Stripe(stripeKey);
-            await stripe.redirectToCheckout({ sessionId: session.id });
-    
-        } catch (error) {
-            console.error('Error during checkout:', error);
-            alert('An error occurred. Please try again.');
-        }
+        // Initialize Stripe and redirect to checkout
+        const stripe = Stripe('pk_test_51Q6qZ8Rxk79NacxxmxK6wWgu9j4c9S6s8P65w0usB7WISHIEKMGyr2bfgo0EDdsXD23D7LjtIz7jt7fvlfyc72v600ZMyI8pef');
+        await stripe.redirectToCheckout({ sessionId: session.id });
 
         // Clear the cart after successful checkout (this code will not execute until after the redirect)
         cart = []; // Clear the cart array
