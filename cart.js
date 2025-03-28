@@ -97,6 +97,27 @@ async function checkoutWithStripe() {
     }
 }
 
+async function sendInvoice() {
+    const response = await fetch("https://cybertronicbot.com/send-invoice", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            customerId: "cus_xxxxxxxx", // Replace with real Stripe customer ID
+            amount: 100, // Amount in AED (e.g., 100 AED)
+            description: "Purchase of clothing",
+        }),
+    });
+
+    const data = await response.json();
+    if (data.success) {
+        alert("Invoice sent successfully!");
+        console.log("Invoice ID:", data.invoiceId);
+    } else {
+        alert("Error sending invoice: " + data.error);
+    }
+}
 
 
 
