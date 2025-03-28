@@ -3,41 +3,6 @@ const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const nodemailer = require('nodemailer');
 
-const router = express.Router();
-
-router.post("/send-invoice", async (req, res) => {
-    try {
-        const { customerId, amount, description } = req.body; 
-
-        if (!customerId || !amount || !description) {
-            return res.status(400).json({ error: "Missing required fields" });
-        }
-
-        // Create invoice line item
-        await stripe.invoiceItems.create({
-            customer: customerId,
-            amount: amount * 100, // Convert to cents
-            currency: "aed", // Change currency if needed
-            description: description,
-        });
-
-        // Create invoice
-        const invoice = await stripe.invoices.create({
-            customer: customerId,
-            auto_advance: true, // Automatically finalize the invoice
-        });
-
-        // Finalize & send the invoice
-        await stripe.invoices.finalizeInvoice(invoice.id);
-        await stripe.invoices.sendInvoice(invoice.id);
-
-        res.json({ success: true, invoiceId: invoice.id });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
-
-module.exports = router;
 const app = express();
 app.use(cors({
     origin: 'https://cybertronicbot.com', 
@@ -150,7 +115,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
             cancel_url: 'https://cybertronicbot.com/cancel',
             billing_address_collection: 'required',
             shipping_address_collection: {
-                allowed_countries: ['AE'],
+                allowed_countries: ['AE', 'SA', 'EG'],
             },
             phone_number_collection: {
                 enabled: true,
