@@ -29,112 +29,93 @@ const transporter = nodemailer.createTransport({
 // Function to send receipt email
 async function sendReceiptEmail(session, items) {
     const { customer_details, amount_total } = session;
-    const { email, name, address, phone } = customer_details;  // Capture phone number
-
-    // Format items for email
-    const itemsList = JSON.parse(session.metadata.cartItems).map(item => 
-        `Product: ${item.productId} <br> Size: ${item.size} <br> Color: ${item.color} <br> Quantity: ${item.quantity}`
-    ).join('<hr>');
-    
-    
+    const { email, name, address, phone } = customer_details;
 
     // Format address
-    const formattedAddress = address ? 
-        `${address.line1}\n${address.line2 || ''}\n${address.city}, ${address.state}\n${address.postal_code}\n${address.country}` 
+    const formattedAddress = address
+        ? `${address.line1}\n${address.line2 || ''}\n${address.city}, ${address.state}\n${address.postal_code}\n${address.country}`
         : 'No address provided';
 
     const orderDate = new Date(session.created * 1000).toLocaleString('en-GB', { timeZone: 'Asia/Dubai' });
-     
-    
-    async function sendReceiptEmail(session, items) {
-        const { customer_details, amount_total } = session;
-        const { email, name, address, phone } = customer_details;
-    
-        // Format address
-        const formattedAddress = address
-            ? `${address.line1}\n${address.line2 || ''}\n${address.city}, ${address.state}\n${address.postal_code}\n${address.country}`
-            : 'No address provided';
-    
-        const orderDate = new Date(session.created * 1000).toLocaleString('en-GB', { timeZone: 'Asia/Dubai' });
-    
-        // Format items for email with product names and spacing
-        const itemsList = JSON.parse(session.metadata.cartItems)
-            .map(item => 
-                `<p style="margin-bottom: 10px;">
-                    <strong>Product:</strong> ${item.name} <br>
-                    <strong>Size:</strong> ${item.size} <br>
-                    <strong>Color:</strong> ${item.color} <br>
-                    <strong>Quantity:</strong> ${item.quantity}
-                </p>`
-            )
-            .join('<hr>'); // Adds space between products
-    
-        const emailContent = `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;">
-            <h1 style="color: #333; text-align: center;">Thank You for Your Purchase!</h1>
-            <p style="font-size: 16px; color: #555;">Order ID: <strong>${session.id}</strong></p>
-            
-            <h2 style="color: #444;">Order Details:</h2>
-            <p><strong>Order Date:</strong> ${orderDate}</p>
-            <p><strong>Items:</strong></p>
-            <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
-                ${itemsList}
-            </div>
-            
-            <p><strong>Total Amount:</strong> <span style="color: #27ae60;">${(amount_total / 100).toFixed(2)} AED</span></p>
-            
-            <h2 style="color: #444;">Shipping Details:</h2>
-            <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
-                <pre style="white-space: pre-wrap; font-size: 14px; color: #333;">${formattedAddress}</pre>
-            </div>
-    
-            <p><strong>Phone Number:</strong> ${phone || 'No phone number provided'}</p>  
-            
-            <h2 style="color: #444;">Frequently Asked Questions:</h2>
-            <h3 style="color: #222;">When will my order ship?</h3>
-            <p>Orders typically ship within <strong>3-5 business days.</strong></p>
-            
-            <h3 style="color: #222;">How can I track my order?</h3>
-            <p>You'll receive a tracking number via email once your order ships.</p>
-            
-            <h3 style="color: #222;">What's your return policy?</h3>
-            <p>We accept returns within <strong>7 days</strong> of delivery. Please see our <a href="https://cybertronicbot.com/policy" style="color: #3498db; text-decoration: none;">policy page</a> for details.</p>
-            
-            <h3 style="color: #222;">Need help?</h3>
-            <p>Contact us at <a href="mailto:cybertronicbot@gmail.com" style="color: #3498db; text-decoration: none;">support@cybertronicbot.com</a></p>
-            
-            <p style="text-align: center; font-size: 16px; margin-top: 20px;">Thank you for shopping with <strong>Cybertronic</strong>!</p>
-            
-            <div style="text-align: center; margin-top: 20px;">
-                <img src="https://cybertronicbot.com/img/company.webp" alt="Cybertronic Logo" style="width: 100px; height: auto;">
-            </div>
+
+    // Format items for email with product names and spacing
+    const itemsList = JSON.parse(session.metadata.cartItems)
+        .map(item => 
+            `<p style="margin-bottom: 10px;">
+                <strong>Product:</strong> ${item.name} <br>
+                <strong>Size:</strong> ${item.size} <br>
+                <strong>Color:</strong> ${item.color} <br>
+                <strong>Quantity:</strong> ${item.quantity}
+            </p>`
+        )
+        .join('<hr>'); // Adds space between products
+
+    const emailContent = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;">
+        <h1 style="color: #333; text-align: center;">Thank You for Your Purchase!</h1>
+        <p style="font-size: 16px; color: #555;">Order ID: <strong>${session.id}</strong></p>
+        
+        <h2 style="color: #444;">Order Details:</h2>
+        <p><strong>Order Date:</strong> ${orderDate}</p>
+        <p><strong>Items:</strong></p>
+        <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+            ${itemsList}
         </div>
-        `;
-    
-        try {
-            // Send to customer
-            await transporter.sendMail({
-                from: process.env.EMAIL_USER,
-                to: email,
-                subject: 'Your Cybertronic Order Receipt',
-                html: emailContent
-            });
-    
-            // Send to Store Owner
-            await transporter.sendMail({
-                from: process.env.EMAIL_USER,
-                to: 'Cybertronicbot@gmail.com',
-                subject: 'New Order Received',
-                html: emailContent
-            });
-    
-            return true;
-        } catch (error) {
-            console.error('Error sending email:', error);
-            return false;
-        }
+        
+        <p><strong>Total Amount:</strong> <span style="color: #27ae60;">${(amount_total / 100).toFixed(2)} AED</span></p>
+        
+        <h2 style="color: #444;">Shipping Details:</h2>
+        <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+            <pre style="white-space: pre-wrap; font-size: 14px; color: #333;">${formattedAddress}</pre>
+        </div>
+
+        <p><strong>Phone Number:</strong> ${phone || 'No phone number provided'}</p>  
+        
+        <h2 style="color: #444;">Frequently Asked Questions:</h2>
+        <h3 style="color: #222;">When will my order ship?</h3>
+        <p>Orders typically ship within <strong>3-5 business days.</strong></p>
+        
+        <h3 style="color: #222;">How can I track my order?</h3>
+        <p>You'll receive a tracking number via email once your order ships.</p>
+        
+        <h3 style="color: #222;">What's your return policy?</h3>
+        <p>We accept returns within <strong>7 days</strong> of delivery. Please see our <a href="https://cybertronicbot.com/policy" style="color: #3498db; text-decoration: none;">policy page</a> for details.</p>
+        
+        <h3 style="color: #222;">Need help?</h3>
+        <p>Contact us at <a href="mailto:cybertronicbot@gmail.com" style="color: #3498db; text-decoration: none;">support@cybertronicbot.com</a></p>
+        
+        <p style="text-align: center; font-size: 16px; margin-top: 20px;">Thank you for shopping with <strong>Cybertronic</strong>!</p>
+        
+        <div style="text-align: center; margin-top: 20px;">
+            <img src="https://cybertronicbot.com/img/company.webp" alt="Cybertronic Logo" style="width: 100px; height: auto;">
+        </div>
+    </div>
+    `;
+
+    try {
+        // Send to customer
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Your Cybertronic Order Receipt',
+            html: emailContent
+        });
+
+        // Send to Store Owner
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: 'Cybertronicbot@gmail.com',
+            subject: 'New Order Received',
+            html: emailContent
+        });
+
+        return true;
+    } catch (error) {
+        console.error('Error sending email:', error);
+        return false;
     }
-    
+}
+
 
 
 app.post('/api/create-checkout-session', async (req, res) => {
