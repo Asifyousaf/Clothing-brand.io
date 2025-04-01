@@ -133,13 +133,11 @@ app.post('/api/create-checkout-session', async (req, res) => {
             cancel_url: 'https://cybertronicbot.com/cancel',
             billing_address_collection: 'required',
             shipping_address_collection: {
-                allowed_countries: ['AE'],
+                allowed_countries: ['AE', 'SA', 'EG'],
             },
-            
             phone_number_collection: {
                 enabled: true,
             },
-            receipt_email: session.customer_details.email,  
             metadata: {
                 cartItems: JSON.stringify(cartItems.map(item => ({
                     productId: item.productId,
@@ -214,6 +212,5 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 });
-
 
 app.listen(3000, () => console.log('Server is running on port 3000'));
