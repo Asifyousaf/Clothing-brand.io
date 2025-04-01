@@ -107,7 +107,6 @@ async function sendReceiptEmail(session, items) {
 
 
 app.post('/api/create-checkout-session', async (req, res) => {
-    
     try {
         const { cartItems } = req.body;
 
@@ -139,7 +138,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
             phone_number_collection: {
                 enabled: true,
             },
-            receipt_email: email,
+            receipt_email: req.body.email,
             metadata: {
                 cartItems: JSON.stringify(cartItems.map(item => ({
                     productId: item.productId,
