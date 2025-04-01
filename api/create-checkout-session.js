@@ -29,7 +29,7 @@ const transporter = nodemailer.createTransport({
 // Function to send receipt email
 async function sendReceiptEmail(session, items) {
     const { customer_details, amount_total } = session;
-    const { email, name, address } = customer_details;
+    const { email, name, address, phone } = customer_details;  // Capture phone number
 
     // Format items for email
     const itemsList = items.data.map(item => 
@@ -57,6 +57,8 @@ async function sendReceiptEmail(session, items) {
             <div style="background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
                 <pre style="white-space: pre-wrap; font-size: 14px; color: #333;">${formattedAddress}</pre>
             </div>
+
+            <p><strong>Phone Number:</strong> ${phone || 'No phone number provided'}</p>  <!-- Added phone number -->
             
             <h2 style="color: #444;">Frequently Asked Questions:</h2>
             <h3 style="color: #222;">When will my order ship?</h3>
@@ -102,6 +104,7 @@ async function sendReceiptEmail(session, items) {
         return false;
     }
 }
+
 
 app.post('/api/create-checkout-session', async (req, res) => {
     try {
