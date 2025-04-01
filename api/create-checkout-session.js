@@ -198,30 +198,47 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
     const signature = req.headers['stripe-signature'];
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
+    let event;
+
     try {
-        const event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
+        event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
         console.log(`Received event type: ${event.type}`);
-
-        if (event.type === 'checkout.session.completed') {
-            const session = event.data.object;
-            console.log('Payment succeeded:', session);
-            // Retrieve the payment intent
-            const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent);
-
-            // Manually add receipt_email if missing
-            if (!paymentIntent.receipt_email) {
-                await stripe.paymentIntents.update(session.payment_intent, {
-                    receipt_email: session.customer_details.email,  
-                });
-                console.log('Updated payment intent with receipt email');
-            }
-        }
-
-        res.json({ received: true });
     } catch (err) {
         console.error('Webhook signature verification failed:', err);
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
+
+    if (event.type === 'payment_intent.succeeded') {
+        const paymentIntent = event.data.object;
+        console.log('Payment succeeded:', paymentIntent);
+
+        try {
+            // Retrieve the associated checkout session
+            const session = await stripe.checkout.sessions.retrieve(paymentIntent.metadata.session_id, {
+                expand: ['line_items']
+            });
+
+            // Update order status in Supabase
+            const { error: dbError } = await supabase
+                .from('orders')
+                .update({ status: 'paid' })
+                .match({ session_id: session.id });
+
+            if (dbError) {
+                console.error('Error updating order status in Supabase:', dbError);
+            } else {
+                console.log('Order status updated in Supabase.');
+            }
+
+            // Send receipt email
+            await sendReceiptEmail(session, session.line_items);
+            console.log('Receipt email sent successfully.');
+        } catch (error) {
+            console.error('Error processing payment_intent.succeeded:', error);
+        }
+    }
+
+    res.json({ received: true });
 });
 
 app.listen(3000, () => console.log('Server is running on port 3000'));
