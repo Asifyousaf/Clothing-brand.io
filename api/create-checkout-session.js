@@ -107,8 +107,7 @@ async function sendReceiptEmail(session, items) {
 
 
 app.post('/api/create-checkout-session', async (req, res) => {
-    const { customer_details, amount_total } = session;
-    const { email, name, address, phone } = customer_details;  // Capture phone number
+    
     try {
         const { cartItems } = req.body;
 
