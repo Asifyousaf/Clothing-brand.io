@@ -36,22 +36,16 @@ async function sendReceiptEmail(session, lineItems) {
         : 'No address provided';
 
     const orderDate = new Date(session.created * 1000).toLocaleString('en-GB', { timeZone: 'Asia/Dubai' });
-
     const itemsList = lineItems.data
-        .map(item => {
-            const metadata = item.description.split(', '); // Extract size & color
-            const size = metadata.find(m => m.includes('Size:'))?.split(': ')[1] || 'N/A';
-            const color = metadata.find(m => m.includes('Color:'))?.split(': ')[1] || 'N/A';
-
-            return `
-            <div style="padding: 8px; border-bottom: 1px solid #ddd;">
-                <strong>${item.description}</strong> <br>
-                <span>Size: ${size}, Color: ${color}</span> <br>
-                <span>Quantity: ${item.quantity}</span> <br>
-                <span>Price: ${(item.price.unit_amount / 100).toFixed(2)} AED</span>
-            </div>`;
-        })
-        .join('');
+    .map(item => `
+        <div style="padding: 8px; border-bottom: 1px solid #ddd;">
+            <strong>${item.description}</strong> <br>
+            Size: ${item.size}, Color: ${item.color} <br>
+            Quantity: ${item.quantity} <br>
+            Price: ${(item.price.unit_amount / 100).toFixed(2)} AED
+        </div>
+    `)
+    .join('');
 
     const emailContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background-color: #f9f9f9;">
