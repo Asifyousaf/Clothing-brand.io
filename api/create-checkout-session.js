@@ -138,6 +138,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
             phone_number_collection: {
                 enabled: true,
             },
+            receipt_email: session.customer_details.email,
             metadata: {
                 cartItems: JSON.stringify(cartItems.map(item => ({
                     productId: item.productId,
