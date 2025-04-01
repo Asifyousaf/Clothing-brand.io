@@ -184,56 +184,46 @@ app.get('/api/create-checkout-session', async (req, res) => {
     }
 });
 
-app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+app.post('/api/update-stock', express.raw({ type: 'application/json' }), async (req, res) => {
     const signature = req.headers['stripe-signature'];
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
     let event;
-
     try {
         event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
-        console.log(`Received event type: ${event.type}`);
     } catch (err) {
         console.error('Webhook signature verification failed:', err);
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    if (event.type === 'payment_intent.succeeded') {
-        const paymentIntent = event.data.object;
-        console.log('Payment succeeded:', paymentIntent);
+    if (event.type === 'checkout.session.completed') {
+        const session = event.data.object;
+        const cartItems = JSON.parse(session.metadata.cartItems); // Assuming metadata holds cart items
 
         try {
-            // Retrieve the associated checkout session
-            const session = await stripe.checkout.sessions.retrieve(paymentIntent.metadata.session_id, {
-                expand: ['line_items']
-            });
-
-            // Update order status in Supabase
-            const { error: dbError } = await supabase
-                .from('orders')
-                .update({ status: 'paid' })
-                .match({ session_id: session.id });
-
-            if (dbError) {
-                console.error('Error updating order status in Supabase:', dbError);
-            } else {
-                console.log('Order status updated in Supabase.');
+            // Loop through cart items and update stock in Supabase
+            for (let item of cartItems) {
+                const { productId, quantity } = item;
+                
+                const { error: dbError } = await supabase
+                    .from('products')
+                    .update({ stock: supabase.raw('stock - ?', [quantity]) }) // Decrease stock by quantity purchased
+                    .eq('product_id', productId);
+                
+                if (dbError) {
+                    console.error('Error updating stock:', dbError);
+                } else {
+                    console.log(`Stock updated for product ID: ${productId}`);
+                }
             }
-
-            // Update stock in Supabase based on cartItems
-            const cartItems = JSON.parse(session.metadata.cartItems);
-            await updateStockInSupabase(cartItems);
-
-            // Send receipt email
-            await sendReceiptEmail(session, session.line_items);
-            console.log('Receipt email sent successfully.');
         } catch (error) {
-            console.error('Error processing payment_intent.succeeded:', error);
+            console.error('Error processing checkout session:', error);
         }
     }
 
     res.json({ received: true });
 });
+
 
 
 app.listen(3000, () => console.log('Server is running on port 3000'));
