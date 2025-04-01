@@ -138,7 +138,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
             phone_number_collection: {
                 enabled: true,
             },
-            receipt_email: email,
+            receipt_email: email,   
             metadata: {
                 cartItems: JSON.stringify(cartItems.map(item => ({
                     productId: item.productId,
@@ -205,6 +205,16 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object;
             console.log('Payment succeeded:', session);
+            // Retrieve the payment intent
+            const paymentIntent = await stripe.paymentIntents.retrieve(session.payment_intent);
+
+            // Manually add receipt_email if missing
+            if (!paymentIntent.receipt_email) {
+                await stripe.paymentIntents.update(session.payment_intent, {
+                    receipt_email: session.customer_details.email,  
+                });
+                console.log('Updated payment intent with receipt email');
+            }
         }
 
         res.json({ received: true });
