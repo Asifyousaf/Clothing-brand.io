@@ -31,22 +31,22 @@ async function sendReceiptEmail(session, items) {
     const { customer_details, amount_total } = session;
     const { email, name, address, phone } = customer_details;
 
+    // Format address
     const formattedAddress = address
         ? `${address.line1}\n${address.line2 || ''}\n${address.city}, ${address.state}\n${address.postal_code}\n${address.country}`
         : 'No address provided';
 
     const orderDate = new Date(session.created * 1000).toLocaleString('en-GB', { timeZone: 'Asia/Dubai' });
 
-    // FIX: Use `items.data` instead of `lineItems.data`
-    const itemsList = items.data
-        .map(item => 
-            `<p style="margin-bottom: 10px;">
-                <strong>Product:</strong> ${item.description} <br>
-                <strong>Quantity:</strong> ${item.quantity} <br>
-                <strong>Price:</strong> ${(item.price.unit_amount / 100).toFixed(2)} AED
-            </p>`
-        )
-        .join('<hr>'); // Adds spacing between products
+    const itemsList = lineItems.data
+    .map(item => 
+        `<p style="margin-bottom: 10px;">
+            <strong>Product:</strong> ${item.description} <br>
+            <strong>Quantity:</strong> ${item.quantity} <br>
+            <strong>Price:</strong> ${(item.price.unit_amount / 100).toFixed(2)} AED
+        </p>`
+    )
+    .join('<hr>'); // Adds spacing between products
 
     const emailContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;">
@@ -68,7 +68,20 @@ async function sendReceiptEmail(session, items) {
         </div>
 
         <p><strong>Phone Number:</strong> ${phone || 'No phone number provided'}</p>  
-
+        
+        <h2 style="color: #444;">Frequently Asked Questions:</h2>
+        <h3 style="color: #222;">When will my order ship?</h3>
+        <p>Orders typically ship within <strong>3-5 business days.</strong></p>
+        
+        <h3 style="color: #222;">How can I track my order?</h3>
+        <p>You'll receive a tracking number via email once your order ships.</p>
+        
+        <h3 style="color: #222;">What's your return policy?</h3>
+        <p>We accept returns within <strong>7 days</strong> of delivery. Please see our <a href="https://cybertronicbot.com/policy" style="color: #3498db; text-decoration: none;">policy page</a> for details.</p>
+        
+        <h3 style="color: #222;">Need help?</h3>
+        <p>Contact us at <a href="mailto:cybertronicbot@gmail.com" style="color: #3498db; text-decoration: none;">support@cybertronicbot.com</a></p>
+        
         <p style="text-align: center; font-size: 16px; margin-top: 20px;">Thank you for shopping with <strong>Cybertronic</strong>!</p>
         
         <div style="text-align: center; margin-top: 20px;">
@@ -78,6 +91,7 @@ async function sendReceiptEmail(session, items) {
     `;
 
     try {
+        // Send to customer
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
@@ -85,6 +99,7 @@ async function sendReceiptEmail(session, items) {
             html: emailContent
         });
 
+        // Send to Store Owner
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: 'Cybertronicbot@gmail.com',
@@ -98,7 +113,6 @@ async function sendReceiptEmail(session, items) {
         return false;
     }
 }
-
 
 
 
@@ -134,7 +148,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
             phone_number_collection: {
                 enabled: true,
             },
-            receipt_email: customer_details.email,   
+            receipt_email: email,   
             metadata: {
                 cartItems: JSON.stringify(cartItems.map(item => ({
                     productId: item.productId,
