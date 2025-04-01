@@ -95,7 +95,6 @@ async function sendReceiptEmail(session, items) {
         html: emailContent
     });
 }
-
 app.post('/api/create-checkout-session', async (req, res) => {
     try {
         const { cartItems } = req.body;
@@ -129,11 +128,16 @@ app.post('/api/create-checkout-session', async (req, res) => {
                 enabled: true,
             },
             metadata: {
-                cartItems: JSON.stringify(cartItems)
+                cartItems: JSON.stringify(cartItems.map(item => ({
+                    productId: item.productId,
+                    size: item.size,
+                    color: item.color,
+                    quantity: item.quantity
+                })))
             },
             automatic_tax: { enabled: true },
             customer_email: req.body.email,
-            receipt_email: req.body.email // Enable automatic Stripe receipts
+            receipt_email: req.body.email
         });
         
         res.json({ id: session.id });
@@ -143,12 +147,14 @@ app.post('/api/create-checkout-session', async (req, res) => {
     }
 });
 
+// Webhook handler with added logging
 app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     const signature = req.headers['stripe-signature'];
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
     try {
         const event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
+        console.log('Webhook event received:', event); // Add logging here
         
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object;
@@ -171,8 +177,9 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
                 console.error('Error saving order to Supabase:', error);
             }
 
-            // Send receipt email
-            await sendReceiptEmail(session, session.line_items);
+            // Fetch the session details to get line items
+            const sessionDetails = await stripe.checkout.sessions.retrieve(session.id);
+            await sendReceiptEmail(sessionDetails, sessionDetails.line_items);
         }
 
         res.json({ received: true });
