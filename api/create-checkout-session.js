@@ -220,6 +220,10 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
                 console.log('Order status updated in Supabase.');
             }
 
+            // Update stock in Supabase based on cartItems
+            const cartItems = JSON.parse(session.metadata.cartItems);
+            await updateStockInSupabase(cartItems);
+
             // Send receipt email
             await sendReceiptEmail(session, session.line_items);
             console.log('Receipt email sent successfully.');
@@ -230,5 +234,6 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), async (req, 
 
     res.json({ received: true });
 });
+
 
 app.listen(3000, () => console.log('Server is running on port 3000'));
