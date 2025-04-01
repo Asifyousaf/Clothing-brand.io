@@ -189,6 +189,8 @@ app.post('/api/update-stock', express.raw({ type: 'application/json' }), async (
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
     let event;
+
+    // Pass raw body to stripe.webhooks.constructEvent
     try {
         event = stripe.webhooks.constructEvent(req.body, signature, endpointSecret);
     } catch (err) {
@@ -204,12 +206,12 @@ app.post('/api/update-stock', express.raw({ type: 'application/json' }), async (
             // Loop through cart items and update stock in Supabase
             for (let item of cartItems) {
                 const { productId, quantity } = item;
-                
+
                 const { error: dbError } = await supabase
                     .from('products')
                     .update({ stock: supabase.raw('stock - ?', [quantity]) }) // Decrease stock by quantity purchased
                     .eq('product_id', productId);
-                
+
                 if (dbError) {
                     console.error('Error updating stock:', dbError);
                 } else {
@@ -223,6 +225,7 @@ app.post('/api/update-stock', express.raw({ type: 'application/json' }), async (
 
     res.json({ received: true });
 });
+
 
 
 
