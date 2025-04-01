@@ -38,18 +38,16 @@ async function sendReceiptEmail(session, items) {
 
     const orderDate = new Date(session.created * 1000).toLocaleString('en-GB', { timeZone: 'Asia/Dubai' });
 
-    // Format items for email with product names and spacing
     const itemsList = JSON.parse(session.metadata.cartItems)
-        .map(item => 
-            `<p style="margin-bottom: 10px;">
-                <strong>Product:</strong> ${item.name} <br>
-                <strong>Size:</strong> ${item.size} <br>
-                <strong>Color:</strong> ${item.color} <br>
-                <strong>Quantity:</strong> ${item.quantity}
-            </p>`
-        )
-        .join('<hr>'); // Adds space between products
-
+    .map(item => 
+        `<p style="margin-bottom: 10px;">
+            <strong>Product:</strong> ${item.name || item.description || "Unknown Product"} <br>
+            <strong>Size:</strong> ${item.size || "Not specified"} <br>
+            <strong>Color:</strong> ${item.color || "Not specified"} <br>
+            <strong>Quantity:</strong> ${item.quantity || 1}
+        </p>`
+    )
+    .join('<hr>'); // Adds spacing between products
     const emailContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;">
         <h1 style="color: #333; text-align: center;">Thank You for Your Purchase!</h1>
