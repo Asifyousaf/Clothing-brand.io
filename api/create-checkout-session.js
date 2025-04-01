@@ -27,11 +27,10 @@ const transporter = nodemailer.createTransport({
 });
 
 // Function to send receipt email
-async function sendReceiptEmail(session, items) {
+async function sendReceiptEmail(session, lineItems) {
     const { customer_details, amount_total } = session;
     const { email, name, address, phone } = customer_details;
 
-    // Format address
     const formattedAddress = address
         ? `${address.line1}\n${address.line2 || ''}\n${address.city}, ${address.state}\n${address.postal_code}\n${address.country}`
         : 'No address provided';
@@ -39,14 +38,14 @@ async function sendReceiptEmail(session, items) {
     const orderDate = new Date(session.created * 1000).toLocaleString('en-GB', { timeZone: 'Asia/Dubai' });
 
     const itemsList = lineItems.data
-    .map(item => 
-        `<p style="margin-bottom: 10px;">
-            <strong>Product:</strong> ${item.description} <br>
-            <strong>Quantity:</strong> ${item.quantity} <br>
-            <strong>Price:</strong> ${(item.price.unit_amount / 100).toFixed(2)} AED
-        </p>`
-    )
-    .join('<hr>'); // Adds spacing between products
+        .map(item => 
+            `<p style="margin-bottom: 10px;">
+                <strong>Product:</strong> ${item.description} <br>
+                <strong>Quantity:</strong> ${item.quantity} <br>
+                <strong>Price:</strong> ${(item.price.unit_amount / 100).toFixed(2)} AED
+            </p>`
+        )
+        .join('<hr>');
 
     const emailContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;">
@@ -118,7 +117,7 @@ async function sendReceiptEmail(session, items) {
 
 app.post('/api/create-checkout-session', async (req, res) => {
     try {
-        const { cartItems, email } = req.body;
+        const { cartItems,email } = req.body;
 
         if (!cartItems || cartItems.length === 0) {
             return res.status(400).send({ error: 'No items in cart' });
@@ -143,12 +142,12 @@ app.post('/api/create-checkout-session', async (req, res) => {
             cancel_url: 'https://cybertronicbot.com/cancel',
             billing_address_collection: 'required',
             shipping_address_collection: {
-                allowed_countries: ['AE', 'SA', 'EG'],
+                allowed_countries: ['AE'],
             },
             phone_number_collection: {
                 enabled: true,
             },
-            receipt_email: email,   
+            receipt_email: email,  
             metadata: {
                 cartItems: JSON.stringify(cartItems.map(item => ({
                     productId: item.productId,
