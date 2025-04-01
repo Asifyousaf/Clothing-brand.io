@@ -36,16 +36,20 @@ async function sendReceiptEmail(session, lineItems) {
         : 'No address provided';
 
     const orderDate = new Date(session.created * 1000).toLocaleString('en-GB', { timeZone: 'Asia/Dubai' });
+    
+    const cartItems = JSON.parse(session.metadata.cartItems);
+
     const itemsList = lineItems.data
-    .map(item => `
-        <div style="padding: 8px; border-bottom: 1px solid #ddd;">
-            <strong>${item.description}</strong> <br>
-            Size: ${item.size}, Color: ${item.color} <br>
-            Quantity: ${item.quantity} <br>
-            Price: ${(item.price.unit_amount / 100).toFixed(2)} AED
-        </div>
-    `)
-    .join('');
+        .map((item, index) => `
+            <div style="padding: 8px; border-bottom: 1px solid #ddd;">
+                <strong>${item.description}</strong> <br>
+                Size: ${cartItems[index].size}, Color: ${cartItems[index].color} <br>
+                Quantity: ${item.quantity} <br>
+                Price: ${(item.price.unit_amount / 100).toFixed(2)} AED
+            </div>
+        `)
+        .join('');
+    
 
     const emailContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background-color: #f9f9f9;">
