@@ -108,7 +108,7 @@ async function sendReceiptEmail(session, items) {
 
 app.post('/api/create-checkout-session', async (req, res) => {
     try {
-        const { cartItems } = req.body;
+        const { cartItems, email } = req.body;
 
         if (!cartItems || cartItems.length === 0) {
             return res.status(400).send({ error: 'No items in cart' });
@@ -138,7 +138,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
             phone_number_collection: {
                 enabled: true,
             },
-            receipt_email: req.body.email,
+            receipt_email: email,
             metadata: {
                 cartItems: JSON.stringify(cartItems.map(item => ({
                     productId: item.productId,
