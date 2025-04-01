@@ -3,10 +3,15 @@ const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const nodemailer = require('nodemailer');
 
+
+
 const app = express();
 app.use(cors({
     origin: 'https://cybertronicbot.com', 
 }));
+if (process.env.MAINTENANCE_MODE === "true") {
+    app.use((req, res) => res.status(503).send("🚧 Site under maintenance. Please check back later."));
+}
 
 app.use(express.json());
 
