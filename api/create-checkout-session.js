@@ -9,11 +9,32 @@ const app = express();
 app.use(cors({
     origin: 'https://cybertronicbot.com', 
 }));
-if (process.env.MAINTENANCE_MODE === "true") {
-    app.use((req, res) => res.status(503).send("🚧 Site under maintenance. Please check back later."));
-}
-
 app.use(express.json());
+
+// Maintenance Mode Middleware
+if (process.env.MAINTENANCE_MODE === "true") {
+    app.use((req, res) => {
+        res.status(503).send(`
+            <html>
+            <head>
+                <title>🚧 Site Under Maintenance</title>
+                <style>
+                    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f8f8f8; }
+                    .container { max-width: 600px; margin: auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+                    h1 { color: #333; }
+                    p { color: #666; font-size: 18px; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h1>🚧 Site Under Maintenance</h1>
+                    <p>We’re currently making some improvements. Please check back later.</p>
+                </div>
+            </body>
+            </html>
+        `);
+    });
+}
 
 // Configure nodemailer
 const transporter = nodemailer.createTransport({
