@@ -1,7 +1,8 @@
-// Remove the fetchInventory reference
-document.addEventListener('DOMContentLoaded', function() {
-    // Your existing code...
-});
+// Retrieve cart data from localStorage or initialize an empty cart if not available
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+updateCart(); // Ensure cart is updated based on localStorage
+
+
 
 function populateProductOptions() {
     const productContainer = document.getElementById('product-container'); // Ensure you have a container in your HTML
@@ -27,6 +28,8 @@ function selectProduct(productId) {
     populateSizeColorOptions(product);
 }
 
+document.addEventListener('DOMContentLoaded', fetchInventory); // Call fetchInventory on page load
+
 document.getElementById('hamburger').addEventListener('click', function() {
     const navLeft = document.getElementById('nav-left');
     const navRight = document.getElementById('nav-right');
@@ -41,11 +44,15 @@ hamMenu.addEventListener("click", () => {
   offScreenMenu.classList.toggle("active");
 });
 
+
+
+
 // Add event listener to the cart button to open the cart popup
 document.getElementById('cart-button').addEventListener('click', function(event) {
     event.preventDefault(); // Prevent default link behavior
     openCart();
 });
+
 
 // Function to update stock in the database
 async function updateStock(productId, size, color, quantity) {
@@ -73,6 +80,7 @@ function calculateTotalCartPrice() {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
 }
 
+
 // Function to open the cart popup
 function openCart() {
     document.getElementById('cart-popup').classList.add('show');
@@ -82,6 +90,10 @@ function openCart() {
 function closeCart() {
     document.getElementById('cart-popup').classList.remove('show');
 }
+
+
+
+
 
 // Ensure PayPal is initialized when the page loads
 window.onload = function() {
@@ -121,6 +133,7 @@ function updatePriceAndStockDisplay(product) {
     const price = product.prices[selectedSize][selectedColor];
     document.getElementById('product-price').innerText = `AED ${price.toFixed(2)}`;
 
+
     // Update stock info
     const stock = product.stock[selectedSize][selectedColor];
     document.getElementById('stock-quantity').innerText = stock;
@@ -129,11 +142,15 @@ function updatePriceAndStockDisplay(product) {
     addToCartBtn.disabled = stock <= 0; // Disable button if out of stock
 }
 
+
+
+
 // Function to remove an item from the cart
 function removeFromCart(index) {
     cart.splice(index, 1);
     updateCart();
 }
+
 
 // Load the cart data from localStorage on page load
 window.onload = function() {
@@ -144,6 +161,8 @@ window.onload = function() {
 function changeImage(imageSrc) {
     document.getElementById('main-product-image').src = imageSrc;
 }
+
+
 
 // Function to close cart when clicking outside the cart area
 function closeCartOnClickOutside(event) {
@@ -168,4 +187,7 @@ const handlePurchase = async (productId, quantity) => {
     }
 };
 
-// sql
+
+
+// sql 
+
