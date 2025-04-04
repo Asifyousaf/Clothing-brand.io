@@ -98,7 +98,6 @@ async function sendReceiptEmail(session, lineItems) {
 
 app.post('/api/create-checkout-session', async (req, res) => {
     try {
-        const { email } = customer_details;
         const { cartItems,email } = req.body;
 
         if (!cartItems || cartItems.length === 0) {
@@ -145,6 +144,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
         console.error('Error creating Stripe checkout session:', error);
         res.status(500).send({ error: error.message });
     }
+    
 });
 
 app.get('/api/create-checkout-session', async (req, res) => {
@@ -156,7 +156,9 @@ app.get('/api/create-checkout-session', async (req, res) => {
             expand: ['line_items']
         });
         const lineItems = session.line_items;
-
+        console.log("✅ Stripe customer details:", session.customer_details);
+        console.log("✅ Stripe customer email:", session.customer_details?.email);
+     
         // Save order to Supabase
         const { error: dbError } = await supabase
             .from('orders')
