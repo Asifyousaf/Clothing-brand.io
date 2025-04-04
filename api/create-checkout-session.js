@@ -98,6 +98,7 @@ async function sendReceiptEmail(session, lineItems) {
 
 app.post('/api/create-checkout-session', async (req, res) => {
     try {
+        const { email } = customer_details;
         const { cartItems,email } = req.body;
 
         if (!cartItems || cartItems.length === 0) {
